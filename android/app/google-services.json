@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "560838764971",
+    "project_id": "app-agendamento-123b8",
+    "storage_bucket": "app-agendamento-123b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:560838764971:android:d6b49a050257cc78990aee",
+        "android_client_info": {
+          "package_name": "com.example.app_agendamento"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIxS9TWJgftBTy-RhOl3cFGgYdALv-hso"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
