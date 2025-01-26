@@ -10,7 +10,7 @@ class AppPreference {
   bool get shouldShowOnboarding =>
      !(_preferences.getBool(AppPreferenceKeys.onboardingDone.name) ?? false);
 
-  void serOnboardingDone() {
+  void setOnboardingDone() {
     _preferences.setBool(AppPreferenceKeys.onboardingDone.name, true);
   }
 }
