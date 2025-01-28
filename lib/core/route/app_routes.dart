@@ -19,9 +19,6 @@ final GoRouter router = GoRouter(
       path: AppRoutes.onboarding,
       builder: (BuildContext context, GoRouterState state) => const OnboardingPage(),
     ),
-    GoRoute(
-      path: AppRoutes.productDetails(':id'),
-    ),
   ],
 );
 
