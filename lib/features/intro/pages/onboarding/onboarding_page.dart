@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 
+import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/app_elevated_button.dart';
 import '../../../../core/widgets/app_text_button.dart';
 
@@ -15,8 +18,30 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   int page = 0;
 
+  final pages = [
+    OnboardingPageInfo(
+      title: 'Acesso a localização',
+      description:
+          'Para facilitar a busca de profissionais em sua região',
+      imagePath: 'assets/onboarding/onboarding_0.svg',
+    ),
+    OnboardingPageInfo(
+      title: 'Ative às notificações',
+      description:
+          'Para receber avisos importantes sobre os seus agendamentos.',
+      imagePath: 'assets/onboarding/onboarding_1.svg',
+    ),
+    OnboardingPageInfo(
+      title: 'Agende uma consulta',
+      description:
+          'Você poderá encontrar profissionais em sua região e agendar uma consulta com poucos cliques.',
+      imagePath: 'assets/onboarding/onboarding_2.svg',
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
+    final AppTheme t = context.watch();
     return Scaffold(
       body: Column(
         children: [
@@ -25,9 +50,39 @@ class _OnboardingPageState extends State<OnboardingPage> {
               controller: pageController,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                Container(color: Colors.red),
-                Container(color: Colors.blue),
-                Container(color: Colors.green),
+                for (final p in pages)
+                  Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(p.imagePath),
+                        const SizedBox(height: 60),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 32),
+                          child: Text(
+                            p.title,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 36,
+                              fontWeight: FontWeight.w700,
+                              color: t.black,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          p.description,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                            color: t.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
               ],
               onPageChanged: (p) => setState(() {
                 page = p;
@@ -71,4 +126,16 @@ class _OnboardingPageState extends State<OnboardingPage> {
       ),
     );
   }
+}
+
+class OnboardingPageInfo {
+  OnboardingPageInfo({
+    required this.title,
+    required this.description,
+    required this.imagePath,
+  });
+
+  final String title;
+  final String description;
+  final String imagePath;
 }
