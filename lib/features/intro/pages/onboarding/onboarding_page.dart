@@ -20,19 +20,18 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   final pages = [
     OnboardingPageInfo(
-      title: 'Acesso a localização',
-      description:
-          'Para facilitar a busca de profissionais em sua região',
+      title: 'Acesso à\nlocalização',
+      description: 'Para facilitar a busca de profissionais em sua região',
       imagePath: 'assets/onboarding/onboarding_0.svg',
     ),
     OnboardingPageInfo(
-      title: 'Ative às notificações',
+      title: 'Ative às\nnotificações',
       description:
           'Para receber avisos importantes sobre os seus agendamentos.',
       imagePath: 'assets/onboarding/onboarding_1.svg',
     ),
     OnboardingPageInfo(
-      title: 'Agende uma consulta',
+      title: 'Agende uma\nconsulta',
       description:
           'Você poderá encontrar profissionais em sua região e agendar uma consulta com poucos cliques.',
       imagePath: 'assets/onboarding/onboarding_2.svg',
@@ -56,28 +55,36 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset(p.imagePath),
-                        const SizedBox(height: 60),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 32),
-                          child: Text(
-                            p.title,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 36,
-                              fontWeight: FontWeight.w700,
-                              color: t.black,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Text(
-                          p.description,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
-                            color: t.black,
+                        Expanded(flex: 2, child: SvgPicture.asset(p.imagePath)),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 32),
+                                child: Text(
+                                  p.title,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.w700,
+                                    color: t.black,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              SizedBox(
+                                width: 300,
+                                child: Text(
+                                  p.description,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    color: t.black,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -90,7 +97,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(24, 0, 24, 44),
+            padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
             child: Row(
               children: [
                 if (page > 0) ...[
