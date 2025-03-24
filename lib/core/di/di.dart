@@ -1,3 +1,4 @@
+import 'package:app_agendamento/core/device/app_location.dart';
 import 'package:app_agendamento/core/device/app_preferences.dart';
 import 'package:app_agendamento/core/device/app_secure_storage.dart';
 import 'package:app_agendamento/core/firebase/messaging/app_messaging.dart';
@@ -57,4 +58,5 @@ Future<void> configureDependencies(FlavorConfig config) async {
   getIt.registerSingleton(AppRemoteConfig(getIt()));
 
   getIt.registerFactory(() => AppPackageInfo());
+  getIt.registerFactory(() => AppLocation());
 }

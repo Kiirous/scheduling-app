@@ -1,3 +1,4 @@
+import 'package:app_agendamento/features/intro/pages/onboarding/onboarding_page_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,123 +16,157 @@ class OnboardingPage extends StatefulWidget {
 
 class _OnboardingPageState extends State<OnboardingPage> {
   final PageController pageController = PageController();
+  final OnboardingPageCubit cubit = OnboardingPageCubit();
 
   int page = 0;
 
-  final pages = [
-    OnboardingPageInfo(
-      title: 'Acesso à\nlocalização',
-      description: 'Para facilitar a busca de profissionais em sua região',
-      imagePath: 'assets/onboarding/onboarding_0.svg',
-    ),
-    OnboardingPageInfo(
-      title: 'Ative às\nnotificações',
-      description:
-          'Para receber avisos importantes sobre os seus agendamentos.',
-      imagePath: 'assets/onboarding/onboarding_1.svg',
-    ),
-    OnboardingPageInfo(
-      title: 'Agende uma\nconsulta',
-      description:
-          'Você poderá encontrar profissionais em sua região e agendar uma consulta com poucos cliques.',
-      imagePath: 'assets/onboarding/onboarding_2.svg',
-    ),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    cubit.initialize();
+  }
 
   @override
   Widget build(BuildContext context) {
     final AppTheme t = context.watch();
-    return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: PageView(
-              controller: pageController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                for (final p in pages)
-                  Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(flex: 2, child: SvgPicture.asset(p.imagePath)),
-                        Expanded(
+    return BlocProvider.value(
+      value: cubit,
+      child: Scaffold(
+        body: Column(
+          children: [
+            Expanded(
+              child: BlocBuilder<OnboardingPageCubit, OnboardingPageState>(
+                builder: (context, state) {
+                  final pages = [
+                    OnboardingPageInfo(
+                      title: 'Seja bem vindo(a)!',
+                      description:
+                          'Você poderá encontrar profissionais em sua região e agendar uma consulta com poucos cliques.',
+                      imagePath: 'assets/onboarding/onboarding_2.svg',
+                    ),
+                    if (state.showLocationPage)
+                      OnboardingPageInfo(
+                        title: 'Acesso à\nlocalização',
+                        description:
+                            'Para facilitar a busca de profissionais em sua região',
+                        imagePath: 'assets/onboarding/onboarding_0.svg',
+                      ),
+
+                    if (state.showNotificationPage)
+                    OnboardingPageInfo(
+                      title: 'Ative às\nnotificações',
+                      description:
+                          'Para receber avisos importantes sobre os seus agendamentos.',
+                      imagePath: 'assets/onboarding/onboarding_1.svg',
+                    ),
+                    OnboardingPageInfo(
+                      title: 'Agende uma\nconsulta',
+                      description:
+                          'Você poderá encontrar profissionais em sua região e agendar uma consulta com poucos cliques.',
+                      imagePath: 'assets/onboarding/onboarding_2.svg',
+                    ),
+                  ];
+
+                  return PageView(
+                    controller: pageController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      for (final p in pages)
+                        Padding(
+                          padding: const EdgeInsets.all(24),
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 32),
-                                child: Text(
-                                  p.title,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 32,
-                                    fontWeight: FontWeight.w700,
-                                    color: t.black,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 12),
-                              SizedBox(
-                                width: 300,
-                                child: Text(
-                                  p.description,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400,
-                                    color: t.black,
-                                  ),
+                              Expanded(
+                                  flex: 2,
+                                  child: SvgPicture.asset(p.imagePath)),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 32),
+                                      child: Text(
+                                        p.title,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 32,
+                                          fontWeight: FontWeight.w700,
+                                          color: t.black,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    SizedBox(
+                                      width: 300,
+                                      child: Text(
+                                        p.description,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          color: t.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
                         ),
-                      ],
+                    ],
+                    onPageChanged: (p) => setState(() {
+                      page = p;
+                    }),
+                  );
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+              child: Row(
+                children: [
+                  if (page > 0) ...[
+                    AppTextButton(
+                      label: 'Voltar',
+                      onPressed: () {
+                        pageController.animateToPage(
+                          page - 1,
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.ease,
+                        );
+                      },
+                    ),
+                    const SizedBox(width: 16),
+                  ],
+                  Expanded(
+                    child: AppElevatedButton(
+                      label: 'Próximo',
+                      iconPath: 'assets/icons/arrow_right.svg',
+                      onPressed: () {
+                        pageController.animateToPage(
+                          page + 1,
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.ease,
+                        );
+                      },
                     ),
                   ),
-              ],
-              onPageChanged: (p) => setState(() {
-                page = p;
-              }),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-            child: Row(
-              children: [
-                if (page > 0) ...[
-                  AppTextButton(
-                    label: 'Voltar',
-                    onPressed: () {
-                      pageController.animateToPage(
-                        page - 1,
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.ease,
-                      );
-                    },
-                  ),
-                  const SizedBox(width: 16),
                 ],
-                Expanded(
-                  child: AppElevatedButton(
-                    label: 'Próximo',
-                    iconPath: 'assets/icons/arrow_right.svg',
-                    onPressed: () {
-                      pageController.animateToPage(
-                        page + 1,
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.ease,
-                      );
-                    },
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    cubit.close();
+    pageController.dispose();
+    super.dispose();
   }
 }
 
