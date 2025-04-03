@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/app_elevated_button.dart';
 import '../../../../core/widgets/app_text_button.dart';
+import 'onboarding_page_actions.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -14,9 +15,9 @@ class OnboardingPage extends StatefulWidget {
   State<OnboardingPage> createState() => _OnboardingPageState();
 }
 
-class _OnboardingPageState extends State<OnboardingPage> {
+class _OnboardingPageState extends State<OnboardingPage> implements OnboardingPageActions {
   final PageController pageController = PageController();
-  final OnboardingPageCubit cubit = OnboardingPageCubit();
+  late final OnboardingPageCubit cubit = OnboardingPageCubit(this);
 
   int page = 0;
 
@@ -32,42 +33,43 @@ class _OnboardingPageState extends State<OnboardingPage> {
     return BlocProvider.value(
       value: cubit,
       child: Scaffold(
-        body: Column(
-          children: [
-            Expanded(
-              child: BlocBuilder<OnboardingPageCubit, OnboardingPageState>(
-                builder: (context, state) {
-                  final pages = [
-                    OnboardingPageInfo(
-                      title: 'Seja bem vindo(a)!',
-                      description:
-                          'Você poderá encontrar profissionais em sua região e agendar uma consulta com poucos cliques.',
-                      imagePath: 'assets/onboarding/onboarding_2.svg',
-                    ),
-                    if (state.showLocationPage)
-                      OnboardingPageInfo(
-                        title: 'Acesso à\nlocalização',
-                        description:
-                            'Para facilitar a busca de profissionais em sua região',
-                        imagePath: 'assets/onboarding/onboarding_0.svg',
-                      ),
+        body: BlocBuilder<OnboardingPageCubit, OnboardingPageState>(
+          builder: (context, state) {
+            final pages = [
+              OnboardingPageInfo(
+                title: 'Seja bem vindo(a)!',
+                description:
+                    'Você poderá encontrar profissionais em sua região e agendar uma consulta com poucos cliques.',
+                imagePath: 'assets/onboarding/onboarding_2.svg',
+              ),
+              if (state.showLocationPage)
+                OnboardingPageInfo(
+                  title: 'Acesso à\nlocalização',
+                  description:
+                      'Para facilitar a busca de profissionais em sua região',
+                  imagePath: 'assets/onboarding/onboarding_0.svg',
+                  onNextPressed: cubit.requestLocationPermission,
+                ),
+              if (state.showNotificationPage)
+                OnboardingPageInfo(
+                  title: 'Ative às\nnotificações',
+                  description:
+                      'Para receber avisos importantes sobre os seus agendamentos.',
+                  imagePath: 'assets/onboarding/onboarding_1.svg',
+                  onNextPressed: cubit.requestNotificationPermission,
+                ),
+              OnboardingPageInfo(
+                title: 'Agende uma\nconsulta',
+                description:
+                    'Você poderá encontrar profissionais em sua região e agendar uma consulta com poucos cliques.',
+                imagePath: 'assets/onboarding/onboarding_2.svg',
+              ),
+            ];
 
-                    if (state.showNotificationPage)
-                    OnboardingPageInfo(
-                      title: 'Ative às\nnotificações',
-                      description:
-                          'Para receber avisos importantes sobre os seus agendamentos.',
-                      imagePath: 'assets/onboarding/onboarding_1.svg',
-                    ),
-                    OnboardingPageInfo(
-                      title: 'Agende uma\nconsulta',
-                      description:
-                          'Você poderá encontrar profissionais em sua região e agendar uma consulta com poucos cliques.',
-                      imagePath: 'assets/onboarding/onboarding_2.svg',
-                    ),
-                  ];
-
-                  return PageView(
+            return Column(
+              children: [
+                Expanded(
+                  child: PageView(
                     controller: pageController,
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
@@ -119,51 +121,57 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     onPageChanged: (p) => setState(() {
                       page = p;
                     }),
-                  );
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-              child: Row(
-                children: [
-                  if (page > 0) ...[
-                    AppTextButton(
-                      label: 'Voltar',
-                      onPressed: () {
-                        pageController.animateToPage(
-                          page - 1,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.ease,
-                        );
-                      },
-                    ),
-                    const SizedBox(width: 16),
-                  ],
-                  Expanded(
-                    child: AppElevatedButton(
-                      label: 'Próximo',
-                      iconPath: 'assets/icons/arrow_right.svg',
-                      onPressed: () {
-                        pageController.animateToPage(
-                          page + 1,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.ease,
-                        );
-                      },
-                    ),
                   ),
-                ],
-              ),
-            ),
-          ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+                  child: Row(
+                    children: [
+                      if (page > 0) ...[
+                        AppTextButton(
+                          label: 'Voltar',
+                          onPressed: () {
+                            pageController.animateToPage(
+                              page - 1,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.ease,
+                            );
+                          },
+                        ),
+                        const SizedBox(width: 16),
+                      ],
+                      Expanded(
+                        child: AppElevatedButton(
+                          label: 'Próximo',
+                          iconPath: 'assets/icons/arrow_right.svg',
+                          onPressed: () async {
+                            await pages[page].onNextPressed?.call();
+                            pageController.animateToPage(
+                              page + 1,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.ease,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
   }
+  @override
+  Future<void> showDeniedForeverDialog() {
+    return showDialog(context: context, builder: (_) => const Dialog());
+  }
 
   @override
   void dispose() {
+    cubit.dispose();
     cubit.close();
     pageController.dispose();
     super.dispose();
@@ -175,9 +183,11 @@ class OnboardingPageInfo {
     required this.title,
     required this.description,
     required this.imagePath,
+    this.onNextPressed,
   });
 
   final String title;
   final String description;
   final String imagePath;
+  final Function? onNextPressed;
 }

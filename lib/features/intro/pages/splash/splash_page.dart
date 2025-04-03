@@ -84,6 +84,7 @@ class _SplashPageState extends State<SplashPage> implements SplashPageActions {
   @override
   void dispose() {
     cubit.dispose();
+    cubit.close();
     super.dispose();
   }
 }
