@@ -19,6 +19,10 @@ final GoRouter router = GoRouter(
       path: AppRoutes.onboarding,
       builder: (BuildContext context, GoRouterState state) => const OnboardingPage(),
     ),
+    GoRoute(
+      path: AppRoutes.auth,
+      builder: (BuildContext context, GoRouterState state) => Container(color: Colors.red),
+    ),
   ],
 );
 
@@ -26,6 +30,6 @@ class AppRoutes {
 
   static const String splash = '/';
   static const String onboarding = '/onboarding';
-  static String productDetails(String id) => '/products/$id';
+  static const String auth = '/auth';
 
 }

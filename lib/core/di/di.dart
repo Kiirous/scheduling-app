@@ -39,7 +39,7 @@ Future<void> configureDependencies(FlavorConfig config) async {
   ///PREFERENCES
   final preferences = await SharedPreferences.getInstance();
   getIt.registerSingleton(preferences);
-  getIt.registerFactory(() => AppPreference(getIt()));
+  getIt.registerFactory(() => AppPreferences(getIt()));
 
   ///SECURE STORAGE
   getIt.registerFactory(() => const FlutterSecureStorage());

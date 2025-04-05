@@ -68,7 +68,7 @@ class _SplashPageState extends State<SplashPage> implements SplashPageActions {
 
   @override
   void navToAuth() {
-    context.go('/auth');
+    context.go(AppRoutes.auth);
   }
 
   @override
@@ -78,7 +78,7 @@ class _SplashPageState extends State<SplashPage> implements SplashPageActions {
 
   @override
   void navToForceUpdate() {
-    context.go(AppRoutes.productDetails('123'));
+    //context.go(AppRoutes.productDetails('123'));
   }
 
   @override

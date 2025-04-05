@@ -15,7 +15,7 @@ class SplashPageCubit extends Cubit<SplashPageState> {
   SplashPageCubit(this._actions,
       {AppRemoteConfig? appRemoteConfig,
       AppPackageInfo? appPackageInfo,
-      AppPreference? appPreference,
+      AppPreferences? appPreference,
       AuthRepository? authRepository})
       : _appRemoteConfig = appRemoteConfig ?? getIt(),
         _appPackageInfo = appPackageInfo ?? getIt(),
@@ -27,7 +27,7 @@ class SplashPageCubit extends Cubit<SplashPageState> {
 
   final AppRemoteConfig _appRemoteConfig;
   final AppPackageInfo _appPackageInfo;
-  final AppPreference _appPreference;
+  final AppPreferences _appPreference;
   final AuthRepository _authRepository;
 
   Future<void> initialize() async {

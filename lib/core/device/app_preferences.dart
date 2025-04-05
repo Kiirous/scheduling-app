@@ -2,8 +2,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 enum AppPreferenceKeys { onboardingDone }
 
-class AppPreference {
-  AppPreference(this._preferences);
+class AppPreferences {
+  AppPreferences(this._preferences);
 
   final SharedPreferences _preferences;
 

@@ -1,7 +1,9 @@
+import 'package:app_agendamento/core/route/app_routes.dart';
 import 'package:app_agendamento/features/intro/pages/onboarding/onboarding_page_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/app_elevated_button.dart';
@@ -15,7 +17,8 @@ class OnboardingPage extends StatefulWidget {
   State<OnboardingPage> createState() => _OnboardingPageState();
 }
 
-class _OnboardingPageState extends State<OnboardingPage> implements OnboardingPageActions {
+class _OnboardingPageState extends State<OnboardingPage>
+    implements OnboardingPageActions {
   final PageController pageController = PageController();
   late final OnboardingPageCubit cubit = OnboardingPageCubit(this);
 
@@ -41,6 +44,7 @@ class _OnboardingPageState extends State<OnboardingPage> implements OnboardingPa
                 description:
                     'Você poderá encontrar profissionais em sua região e agendar uma consulta com poucos cliques.',
                 imagePath: 'assets/onboarding/onboarding_2.svg',
+                nextButtonLabel: 'Bora lá!'
               ),
               if (state.showLocationPage)
                 OnboardingPageInfo(
@@ -63,6 +67,8 @@ class _OnboardingPageState extends State<OnboardingPage> implements OnboardingPa
                 description:
                     'Você poderá encontrar profissionais em sua região e agendar uma consulta com poucos cliques.',
                 imagePath: 'assets/onboarding/onboarding_2.svg',
+                onNextPressed: cubit.finish,
+                nextButtonLabel: 'Finalizar',
               ),
             ];
 
@@ -142,7 +148,7 @@ class _OnboardingPageState extends State<OnboardingPage> implements OnboardingPa
                       ],
                       Expanded(
                         child: AppElevatedButton(
-                          label: 'Próximo',
+                          label: pages[page].nextButtonLabel ?? 'Próximo',
                           iconPath: 'assets/icons/arrow_right.svg',
                           onPressed: () async {
                             await pages[page].onNextPressed?.call();
@@ -164,9 +170,19 @@ class _OnboardingPageState extends State<OnboardingPage> implements OnboardingPa
       ),
     );
   }
+
   @override
   Future<void> showDeniedForeverDialog() {
-    return showDialog(context: context, builder: (_) => const Dialog());
+    return showDialog(
+      context: context,
+      builder: (_) => const AlertDialog(
+        content: SizedBox(
+          height: 50,
+          width: 50,
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
   }
 
   @override
@@ -176,6 +192,11 @@ class _OnboardingPageState extends State<OnboardingPage> implements OnboardingPa
     pageController.dispose();
     super.dispose();
   }
+
+  @override
+  void navToAuth() {
+    context.go(AppRoutes.auth);
+  }
 }
 
 class OnboardingPageInfo {
@@ -184,10 +205,12 @@ class OnboardingPageInfo {
     required this.description,
     required this.imagePath,
     this.onNextPressed,
+    this.nextButtonLabel,
   });
 
   final String title;
   final String description;
   final String imagePath;
   final Function? onNextPressed;
+  final String? nextButtonLabel;
 }
