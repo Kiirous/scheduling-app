@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/app_alert_dialog.dart';
 import '../../../../core/widgets/app_elevated_button.dart';
 import '../../../../core/widgets/app_text_button.dart';
 import 'onboarding_page_actions.dart';
@@ -40,12 +41,11 @@ class _OnboardingPageState extends State<OnboardingPage>
           builder: (context, state) {
             final pages = [
               OnboardingPageInfo(
-                title: 'Seja bem vindo(a)!',
-                description:
-                    'Você poderá encontrar profissionais em sua região e agendar uma consulta com poucos cliques.',
-                imagePath: 'assets/onboarding/onboarding_2.svg',
-                nextButtonLabel: 'Bora lá!'
-              ),
+                  title: 'Seja bem vindo(a)!',
+                  description:
+                      'Você poderá encontrar profissionais em sua região e agendar uma consulta com poucos cliques.',
+                  imagePath: 'assets/onboarding/onboarding_2.svg',
+                  nextButtonLabel: 'Bora lá!'),
               if (state.showLocationPage)
                 OnboardingPageInfo(
                   title: 'Acesso à\nlocalização',
@@ -175,12 +175,16 @@ class _OnboardingPageState extends State<OnboardingPage>
   Future<void> showDeniedForeverDialog() {
     return showDialog(
       context: context,
-      builder: (_) => const AlertDialog(
-        content: SizedBox(
-          height: 50,
-          width: 50,
-          child: CircularProgressIndicator(),
-        ),
+      builder: (_) => AppAlertDialog(
+        title: 'Autorização negada',
+        body:
+            'Você não autorizou esta permissão. Acesse as configurações do seu dispositivo para permitir.',
+        actions: [
+          AppElevatedButton(
+            label: 'Ir para as configurações',
+            onPressed: () {},
+          ),
+        ],
       ),
     );
   }
