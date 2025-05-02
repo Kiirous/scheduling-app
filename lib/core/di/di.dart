@@ -14,6 +14,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/auth/data/auth_datasource.dart';
 import '../../features/auth/data/auth_repository.dart';
+import '../device/app_device_settings.dart';
+import '../device/app_external_launcher.dart';
 import '../device/app_package_info.dart';
 import '../firebase/crashlytics/app_crashlytics.dart';
 import '../firebase/remote_config/app_remote_config.dart';
@@ -59,4 +61,6 @@ Future<void> configureDependencies(FlavorConfig config) async {
 
   getIt.registerFactory(() => AppPackageInfo());
   getIt.registerFactory(() => AppLocation());
+  getIt.registerFactory(() => AppDeviceSettings());
+  getIt.registerFactory(() => AppExternalLauncher());
 }

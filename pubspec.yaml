@@ -48,6 +48,8 @@ dependencies:
   package_info_plus: ^8.1.1
   pretty_dio_logger:
   shared_preferences:
+  store_redirect: ^2.0.4
+  url_launcher:
 
 dev_dependencies:
   bloc_test: ^9.1.7
@@ -76,7 +78,8 @@ flutter:
   assets:
   - assets/brand/
   - assets/icons/
-  - assets/onboarding/
+  - assets/intro/
+  - assets/social/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

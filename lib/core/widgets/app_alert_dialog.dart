@@ -24,26 +24,33 @@ class AppAlertDialog extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
               title,
-              style: const TextStyle(
+              textAlign: TextAlign.center,
+              style: TextStyle(
                 fontSize: 36,
                 fontWeight: FontWeight.w700,
+                color: t.black,
               ),
             ),
             const SizedBox(height: 10),
             Text(
               body,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w400,
                 color: t.black,
               ),
             ),
-            const SizedBox(height: 10),
-            ...actions,
+            const SizedBox(height: 16),
+            for(final item in actions) ...[
+              item,
+              if(item != actions.last) const SizedBox(height: 10),
+            ],
           ],
         ),
       ),

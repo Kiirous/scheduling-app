@@ -58,7 +58,7 @@ class _SplashPageState extends State<SplashPage> implements SplashPageActions {
 
   @override
   void navToMaintenance() {
-    context.go('/maintenance');
+    context.go(AppRoutes.maintenance);
   }
 
   @override
@@ -73,12 +73,12 @@ class _SplashPageState extends State<SplashPage> implements SplashPageActions {
 
   @override
   void navToHome() {
-    //context.go('/home');
+    context.go(AppRoutes.home);
   }
 
   @override
   void navToForceUpdate() {
-    //context.go(AppRoutes.productDetails('123'));
+    context.go(AppRoutes.forceUpdate);
   }
 
   @override

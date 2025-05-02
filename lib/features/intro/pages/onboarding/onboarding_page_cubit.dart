@@ -39,7 +39,7 @@ class OnboardingPageCubit extends Cubit<OnboardingPageState> {
 
   Future<void> requestLocationPermission() async {
     final locationStatus = await _appLocation.requestPermission();
-    if(locationStatus == AppLocationStatus.deniedForever) {
+    if(locationStatus == AppLocationStatus.denied) {
       await _actions?.showDeniedForeverDialog();
     }
   }

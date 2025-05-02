@@ -2,13 +2,15 @@ import 'package:app_agendamento/core/route/app_routes.dart';
 import 'package:app_agendamento/features/intro/pages/onboarding/onboarding_page_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/theme/app_theme.dart';
+import '../../../../core/device/app_device_settings.dart';
+import '../../../../core/di/di.dart';
 import '../../../../core/widgets/app_alert_dialog.dart';
 import '../../../../core/widgets/app_elevated_button.dart';
+import '../../../../core/widgets/app_outlined_button.dart';
 import '../../../../core/widgets/app_text_button.dart';
+import '../../widgets/intro_base_page.dart';
 import 'onboarding_page_actions.dart';
 
 class OnboardingPage extends StatefulWidget {
@@ -33,7 +35,6 @@ class _OnboardingPageState extends State<OnboardingPage>
 
   @override
   Widget build(BuildContext context) {
-    final AppTheme t = context.watch();
     return BlocProvider.value(
       value: cubit,
       child: Scaffold(
@@ -42,31 +43,31 @@ class _OnboardingPageState extends State<OnboardingPage>
             final pages = [
               OnboardingPageInfo(
                   title: 'Seja bem vindo(a)!',
-                  description:
+                  body:
                       'Você poderá encontrar profissionais em sua região e agendar uma consulta com poucos cliques.',
-                  imagePath: 'assets/onboarding/onboarding_2.svg',
+                  imagePath: 'assets/intro/onboarding_2.svg',
                   nextButtonLabel: 'Bora lá!'),
               if (state.showLocationPage)
                 OnboardingPageInfo(
                   title: 'Acesso à\nlocalização',
-                  description:
+                  body:
                       'Para facilitar a busca de profissionais em sua região',
-                  imagePath: 'assets/onboarding/onboarding_0.svg',
+                  imagePath: 'assets/intro/onboarding_0.svg',
                   onNextPressed: cubit.requestLocationPermission,
                 ),
               if (state.showNotificationPage)
                 OnboardingPageInfo(
                   title: 'Ative às\nnotificações',
-                  description:
+                  body:
                       'Para receber avisos importantes sobre os seus agendamentos.',
-                  imagePath: 'assets/onboarding/onboarding_1.svg',
+                  imagePath: 'assets/intro/onboarding_1.svg',
                   onNextPressed: cubit.requestNotificationPermission,
                 ),
               OnboardingPageInfo(
                 title: 'Agende uma\nconsulta',
-                description:
+                body:
                     'Você poderá encontrar profissionais em sua região e agendar uma consulta com poucos cliques.',
-                imagePath: 'assets/onboarding/onboarding_2.svg',
+                imagePath: 'assets/intro/onboarding_2.svg',
                 onNextPressed: cubit.finish,
                 nextButtonLabel: 'Finalizar',
               ),
@@ -80,48 +81,10 @@ class _OnboardingPageState extends State<OnboardingPage>
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
                       for (final p in pages)
-                        Padding(
-                          padding: const EdgeInsets.all(24),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                  flex: 2,
-                                  child: SvgPicture.asset(p.imagePath)),
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 32),
-                                      child: Text(
-                                        p.title,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 32,
-                                          fontWeight: FontWeight.w700,
-                                          color: t.black,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 12),
-                                    SizedBox(
-                                      width: 300,
-                                      child: Text(
-                                        p.description,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                          color: t.black,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                        IntroBasePage(
+                          title: p.title,
+                          body: p.body,
+                          imagePath: p.imagePath,
                         ),
                     ],
                     onPageChanged: (p) => setState(() {
@@ -176,13 +139,20 @@ class _OnboardingPageState extends State<OnboardingPage>
     return showDialog(
       context: context,
       builder: (_) => AppAlertDialog(
-        title: 'Autorização negada',
+        title: 'Autorização\nnegada',
         body:
             'Você não autorizou esta permissão. Acesse as configurações do seu dispositivo para permitir.',
         actions: [
+          AppOutLinedButton(
+            label: 'Prosseguir mesmo assim',
+            onPressed: () => Navigator.pop(context),
+          ),
           AppElevatedButton(
             label: 'Ir para as configurações',
-            onPressed: () {},
+            onPressed: () async {
+              await getIt<AppDeviceSettings>().openSettings();
+              if (mounted) Navigator.pop(context);
+            },
           ),
         ],
       ),
@@ -206,14 +176,14 @@ class _OnboardingPageState extends State<OnboardingPage>
 class OnboardingPageInfo {
   OnboardingPageInfo({
     required this.title,
-    required this.description,
+    required this.body,
     required this.imagePath,
     this.onNextPressed,
     this.nextButtonLabel,
   });
 
   final String title;
-  final String description;
+  final String body;
   final String imagePath;
   final Function? onNextPressed;
   final String? nextButtonLabel;
