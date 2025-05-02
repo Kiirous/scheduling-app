@@ -4,6 +4,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'core/widgets/alert/alert_area.dart';
 import 'firebase_options.dart';
 
 import 'core/di/di.dart';
@@ -33,7 +34,16 @@ class App extends StatelessWidget {
       create: (_) => AppTheme(),
       child: MaterialApp.router(
         locale: DevicePreview.locale(context),
-        builder: DevicePreview.appBuilder,
+        builder: (context, child) {
+          final newChild = Stack(
+            children: [
+              if(child != null) child,
+              const AlertArea(),
+            ],
+          );
+
+          return DevicePreview.appBuilder(context, newChild);
+        },
         debugShowCheckedModeBanner: false,
         routerConfig: router,
         theme: ThemeData.light().copyWith(

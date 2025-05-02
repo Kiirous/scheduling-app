@@ -20,6 +20,7 @@ import '../device/app_package_info.dart';
 import '../firebase/crashlytics/app_crashlytics.dart';
 import '../firebase/remote_config/app_remote_config.dart';
 import '../helpers/token_interceptor.dart';
+import '../widgets/alert/alert_area_cubit.dart';
 
 final getIt = GetIt.I;
 
@@ -46,6 +47,8 @@ Future<void> configureDependencies(FlavorConfig config) async {
   ///SECURE STORAGE
   getIt.registerFactory(() => const FlutterSecureStorage());
   getIt.registerFactory(() => AppSecureStorage(getIt()));
+
+  getIt.registerLazySingleton(() => AlertAreaCubit());
 
   getIt.registerFactory<AuthDatasource>(() => RemoteAuthDatasource(getIt()));
   getIt.registerSingleton(AuthRepository(getIt(), getIt()));
