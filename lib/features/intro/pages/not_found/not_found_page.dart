@@ -30,6 +30,9 @@ class NotFoundPage extends StatelessWidget {
                   getIt<AlertAreaCubit>().showAlert(
                     const Alert.success(title: 'Este é um alerta legal!'),
                   );
+                  getIt<AlertAreaCubit>().showAlert(
+                    const Alert.error(title: 'Este é um alerta legal!'),
+                  );
                 },
               ),
             ),

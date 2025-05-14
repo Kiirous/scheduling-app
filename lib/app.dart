@@ -37,7 +37,7 @@ class App extends StatelessWidget {
         builder: (context, child) {
           final newChild = Stack(
             children: [
-              if(child != null) child,
+              if (child != null) child,
               const AlertArea(),
             ],
           );

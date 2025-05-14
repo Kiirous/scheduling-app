@@ -63,7 +63,7 @@ class _SplashPageState extends State<SplashPage> implements SplashPageActions {
 
   @override
   void navToOnboarding() {
-    context.go(AppRoutes.onboarding);
+    context.go('/qwerqwerqwer');
   }
 
   @override
