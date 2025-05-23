@@ -8,10 +8,12 @@ class AppTextButton extends StatelessWidget {
     super.key,
     required this.label,
     this.onPressed,
+    this.color,
   });
 
   final String label;
   final VoidCallback? onPressed;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class AppTextButton extends StatelessWidget {
             return t.lightGray;
           }
 
-          return t.black;
+          return color ?? t.black;
         }),
         shape: WidgetStateProperty.all(
           RoundedRectangleBorder(

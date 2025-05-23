@@ -3,6 +3,7 @@ import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/widgets/alert/alert_area.dart';
 import 'firebase_options.dart';
@@ -16,6 +17,10 @@ Future<void> bootstrap(FlavorConfig config) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   await configureDependencies(config);
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
 
   runApp(
     DevicePreview(

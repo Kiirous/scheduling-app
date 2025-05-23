@@ -68,7 +68,7 @@ class _SplashPageState extends State<SplashPage> implements SplashPageActions {
 
   @override
   void navToAuth() {
-    context.go('/qwer');
+    context.go(AppRoutes.auth);
   }
 
   @override
