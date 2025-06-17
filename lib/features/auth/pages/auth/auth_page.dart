@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/route/app_routes.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/app_divider.dart';
 import '../../../../core/widgets/app_outlined_button.dart';
 import '../../../../core/widgets/app_text_button.dart';
 
@@ -53,16 +54,10 @@ class _AuthPageState extends State<AuthPage> {
             const SizedBox(height: 24),
             AppOutLinedButton(
               label: 'Cadastrar',
-              onPressed: () => context.push(AppRoutes.signUp),
+              onPressed: () => context.push(AppRoutes.signUp.fullPath),
             ),
             const SizedBox(height: 24),
-            Row(
-              children: [
-                Expanded(child: Divider(color: t.gray)),
-                const Expanded(child: Text('ou', textAlign: TextAlign.center)),
-                Expanded(child: Divider(color: t.gray)),
-              ],
-            ),
+            const AppDivider(text: 'ou'),
             const SizedBox(height: 8),
             AppTextButton(
               label: 'Entrar como visitante',

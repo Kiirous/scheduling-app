@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app_agendamento/features/intro/widgets/intro_base_page.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../../../core/di/di.dart';
-import '../../../../core/widgets/alert/alert_area_cubit.dart';
 import '../../../../core/widgets/app_text_button.dart';
 
 class NotFoundPage extends StatelessWidget {
@@ -26,14 +25,7 @@ class NotFoundPage extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: AppTextButton(
                 label: 'Voltar',
-                onPressed: () {
-                  getIt<AlertAreaCubit>().showAlert(
-                    const Alert.success(title: 'Este é um alerta legal!'),
-                  );
-                  getIt<AlertAreaCubit>().showAlert(
-                    const Alert.error(title: 'Este é um alerta legal!'),
-                  );
-                },
+                onPressed: context.pop,
               ),
             ),
           ),

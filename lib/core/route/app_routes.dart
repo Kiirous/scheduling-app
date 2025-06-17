@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/pages/auth/auth_page.dart';
+import '../../features/auth/pages/sign_up/signup_page.dart';
 import '../../features/intro/pages/force_update/force_update_page.dart';
 import '../../features/intro/pages/splash/splash_page.dart';
 
@@ -31,8 +32,8 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) => const AuthPage(),
       routes: <RouteBase>[
         GoRoute(
-          path: AppRoutes.signUp,
-          builder: (BuildContext context, GoRouterState state) => Container(),
+          path: AppRoutes.signUp.path,
+          builder: (BuildContext context, GoRouterState state) => const SignUpPage(),
         ),
       ],
     ),
@@ -56,5 +57,15 @@ class AppRoutes {
   static const String maintenance = '/maintenance';
   static const String forceUpdate = '/force-update';
   static const String home = '/home';
-  static const String signUp = '/signup';
+  static const AppRoute signUp = AppRoute(
+    fullPath: '/auth/signup',
+    path: 'signup',
+  );
+}
+
+class AppRoute {
+  const AppRoute({required this.fullPath, required this.path});
+
+  final String fullPath;
+  final String path;
 }
