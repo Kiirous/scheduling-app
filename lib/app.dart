@@ -35,8 +35,9 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (_) => AppTheme(),
+    final t = AppTheme();
+    return RepositoryProvider.value(
+      value: t,
       child: MaterialApp.router(
         locale: DevicePreview.locale(context),
         builder: (context, child) {
@@ -55,6 +56,11 @@ class App extends StatelessWidget {
           colorScheme: ThemeData.light().colorScheme.copyWith(
                 surface: Colors.white,
               ),
+          textSelectionTheme: TextSelectionThemeData(
+            cursorColor: t.primary,
+            selectionHandleColor: t.primary,
+            selectionColor: t.primary.withValues(alpha: 0.3),
+          )
         ),
       ),
     );

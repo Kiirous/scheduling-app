@@ -6,54 +6,75 @@ import '../theme/app_theme.dart';
 import 'app_icon_button.dart';
 
 class AppBasePage extends StatelessWidget {
-  const AppBasePage({super.key});
+  const AppBasePage({
+    super.key,
+    required this.title,
+    required this.body,
+    this.bodyPadding = const EdgeInsets.symmetric(
+      vertical: 32,
+      horizontal: 24,
+    ),
+  });
+
+  final String title;
+  final Widget body;
+  final EdgeInsets bodyPadding;
 
   @override
   Widget build(BuildContext context) {
     final AppTheme t = context.watch();
     return Scaffold(
-      body: Stack(
-        children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: Card(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(36),
-                ),
+      body: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              padding: EdgeInsets.only(
+                top: MediaQuery.paddingOf(context).top + 64 + bodyPadding.top,
+                bottom: MediaQuery.paddingOf(context).bottom + bodyPadding.bottom,
+                left: bodyPadding.left,
+                right: bodyPadding.right,
               ),
-              margin: EdgeInsets.zero,
-              elevation: 8,
-              child: SafeArea(
-                bottom: false,
-                child: Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      AppIconButton(
-                        iconPath: 'assets/icons/chevron_left.svg',
-                        onPressed: context.pop,
-                      ),
-                      Expanded(
-                        child: Text(
-                          'Cadastre-se',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: t.black,
+              child: body,
+            ),
+            Align(
+              alignment: Alignment.topCenter,
+              child: Card(
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(36),
+                  ),
+                ),
+                margin: EdgeInsets.zero,
+                elevation: 4,
+                shadowColor: t.lightGray,
+                child: SafeArea(
+                  bottom: false,
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AppIconButton(
+                          iconPath: 'assets/icons/chevron_left.svg',
+                          onPressed: context.pop,
+                        ),
+                        Expanded(
+                          child: Text(
+                            title,
+                            textAlign: TextAlign.center,
+                            style: t.body16Bold,
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 48),
-                    ],
+                        const SizedBox(width: 48),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
