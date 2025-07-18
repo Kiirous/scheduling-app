@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/pages/auth/auth_page.dart';
-import '../../features/auth/pages/sign_up/signup_page.dart';
+import '../../features/auth/pages/sign_up/sign_up_page.dart';
 import '../../features/intro/pages/force_update/force_update_page.dart';
 import '../../features/intro/pages/splash/splash_page.dart';
 
