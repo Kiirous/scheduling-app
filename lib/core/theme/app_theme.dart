@@ -13,16 +13,15 @@ class AppTheme {
   final red = const Color(0xffEB5757);
   final yellow = const Color(0xffF2C94C);
 
+  late final label11 = TextStyle(fontSize: 11, color: black);
+
   late final label11Bold = TextStyle(
     fontSize: 11,
     color: black,
     fontWeight: FontWeight.bold,
   );
 
-  late final field15 = TextStyle(
-    fontSize: 15,
-    color: black,
-  );
+  late final field15 = TextStyle(fontSize: 15, color: black);
 
   late final body16 = TextStyle(fontSize: 16, color: black);
 
