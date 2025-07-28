@@ -1,17 +1,34 @@
+import 'package:app_agendamento/core/di/di.dart';
+import 'package:app_agendamento/core/helpers/result.dart';
+import 'package:app_agendamento/core/widgets/alert/alert_area_cubit.dart';
 import 'package:app_agendamento/features/auth/models/cellphone.dart';
+import 'package:app_agendamento/features/auth/pages/sign_up/sign_up_actions.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 
+import '../../data/auth_repository.dart';
 import '../../models/cpf.dart';
 import '../../models/email.dart';
 import '../../models/full_name.dart';
 import '../../models/password.dart';
+import '../../models/sign_up_dto.dart';
 
 part 'sign_up_state.dart';
 
+///Essa estrutura permite que se eu quiser passar um mock para teste, ele aceita, se não pega do getIt
 class SignUpCubit extends Cubit<SignUpState> {
-  SignUpCubit() : super(const SignUpState.empty());
+  SignUpCubit(
+    this._actions, {
+    AuthRepository? authRepository,
+    AlertAreaCubit? alertAreaCubit,
+  }) : _authRepository = authRepository ?? getIt(),
+       _alertAreaCubit = alertAreaCubit ?? getIt(),
+       super(const SignUpState.empty());
+
+  final AuthRepository _authRepository;
+  final AlertAreaCubit _alertAreaCubit;
+  final SignUpActions _actions;
 
   void onFullNameChanged(String s) {
     emit(state.copyWith(fullName: FullName.dirty(s)));
@@ -31,5 +48,34 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   void onPasswordChanged(String s) {
     emit(state.copyWith(password: Password.dirty(s)));
+  }
+
+  Future<void> onSignUpPressed() async {
+    emit(state.copyWith(isLoading: true));
+
+    final result = await _authRepository.signUp(
+      SignUpDto(
+        fullName: state.fullName.value,
+        cpf: state.cpf.value,
+        cellphone: state.cellphone.value,
+        email: state.email.value,
+        password: state.password.value,
+      ),
+    );
+
+    switch (result) {
+      case Success():
+        _actions.navToHome();
+      case Failure():
+        _alertAreaCubit.showAlert(
+          const Alert.error(
+            title:
+                'Não foi possível criar sua conta. Por favor, tente novamente.',
+            duration: Duration(seconds: 3),
+          ),
+        );
+    }
+
+    emit(state.copyWith(isLoading: false));
   }
 }

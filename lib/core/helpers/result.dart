@@ -3,9 +3,9 @@ sealed class Result<E, S> {
 }
 
 final class Success<E, S> extends Result<E, S> {
-  const Success(this.value) : super();
+  const Success(this.object) : super();
 
-  final S value;
+  final S object;
 }
 
 final class Failure<E, S> extends Result<E, S> {

@@ -7,14 +7,16 @@ class SignUpState extends Equatable {
     required this.cellphone,
     required this.email,
     required this.password,
+    required this.isLoading,
   });
 
   const SignUpState.empty()
-      : fullName = const FullName.pure(),
-        cpf = const Cpf.pure(),
-        cellphone = const Cellphone.pure(),
-        email = const Email.pure(),
-        password = const Password.pure();
+    : fullName = const FullName.pure(),
+      cpf = const Cpf.pure(),
+      cellphone = const Cellphone.pure(),
+      email = const Email.pure(),
+      password = const Password.pure(),
+      isLoading = false;
 
   final FullName fullName;
   final Cpf cpf;
@@ -22,11 +24,13 @@ class SignUpState extends Equatable {
   final Email email;
   final Password password;
 
-  bool get isValid => Formz.validate([fullName, cpf, cellphone, email, password]);
+  final bool isLoading;
 
+  bool get isValid =>
+      Formz.validate([fullName, cpf, cellphone, email, password]);
 
   @override
-  List<Object> get props => [fullName, cpf, cellphone, email, password];
+  List<Object> get props => [fullName, cpf, cellphone, email, password, isLoading];
 
   SignUpState copyWith({
     FullName? fullName,
@@ -35,6 +39,7 @@ class SignUpState extends Equatable {
     Email? email,
     Password? password,
     bool? isValid,
+    bool? isLoading,
   }) {
     return SignUpState(
       fullName: fullName ?? this.fullName,
@@ -42,6 +47,7 @@ class SignUpState extends Equatable {
       cellphone: cellphone ?? this.cellphone,
       email: email ?? this.email,
       password: password ?? this.password,
+      isLoading: isLoading ?? this.isLoading,
     );
   }
 }

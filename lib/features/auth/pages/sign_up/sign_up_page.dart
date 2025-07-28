@@ -1,16 +1,21 @@
 import 'package:app_agendamento/core/widgets/app_base_page.dart';
+import 'package:app_agendamento/features/auth/pages/sign_up/sign_up_actions.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../core/route/app_routes.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/app_elevated_button.dart';
 import '../../../../core/widgets/app_logo.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../models/cellphone.dart';
 import '../../models/cpf.dart';
+import '../../models/email.dart';
 import '../../models/full_name.dart';
+import '../../models/password.dart';
 import 'sign_up_cubit.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -20,16 +25,17 @@ class SignUpPage extends StatefulWidget {
   State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignUpPageState extends State<SignUpPage> implements SignUpActions {
   @override
   Widget build(BuildContext context) {
     final AppTheme t = context.watch();
     return BlocProvider(
-      create: (context) => SignUpCubit(),
+      create: (context) => SignUpCubit(this),
       child: BlocBuilder<SignUpCubit, SignUpState>(
         builder: (context, state) {
           return AppBasePage(
             title: 'Criar conta',
+            isLoading: state.isLoading,
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -84,6 +90,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   hint: 'Informe seu e-mail',
                   textInputType: TextInputType.emailAddress,
                   onChanged: context.read<SignUpCubit>().onEmailChanged,
+                  error: switch(state.email.displayError) {
+                    EmailValidationError.empty => 'Campo obrigatório',
+                    EmailValidationError.invalid => 'E-mail inválido',
+                    _ => null,
+                  },
                 ),
                 const SizedBox(height: 24),
                 AppTextField(
@@ -92,11 +103,19 @@ class _SignUpPageState extends State<SignUpPage> {
                   textInputType: TextInputType.emailAddress,
                   obscure: true,
                   onChanged: context.read<SignUpCubit>().onPasswordChanged,
+                  error: switch(state.password.displayError) {
+                    PasswordValidationError.empty => 'Campo obrigatório',
+                    PasswordValidationError.tooShort => 'Senha muito curta',
+                    _ => null,
+                  },
                 ),
                 const SizedBox(height: 24),
                 AppElevatedButton(
                   label: 'Cadastrar',
-                  onPressed: state.isValid ? () {} : null,
+                  onPressed: state.isValid ? () {
+                    FocusScope.of(context).unfocus();
+                    context.read<SignUpCubit>().onSignUpPressed();
+                  } : null,
                 ),
               ],
             ),
@@ -104,5 +123,10 @@ class _SignUpPageState extends State<SignUpPage> {
         },
       ),
     );
+  }
+
+  @override
+  void navToHome() {
+    context.go(AppRoutes.home);
   }
 }

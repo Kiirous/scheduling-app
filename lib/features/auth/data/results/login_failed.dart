@@ -1,4 +1,4 @@
-enum LoginFailure {
+enum LoginFailed {
   invalidCredentials,
   offline,
   unknownError,
