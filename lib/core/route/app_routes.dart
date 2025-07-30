@@ -1,3 +1,4 @@
+import 'package:app_agendamento/features/auth/pages/login/login_page.dart';
 import 'package:app_agendamento/features/intro/pages/maintenance/maintenance_page.dart';
 import 'package:app_agendamento/features/intro/pages/not_found/not_found_page.dart';
 import 'package:app_agendamento/features/intro/pages/onboarding/onboarding_page.dart';
@@ -35,6 +36,10 @@ final GoRouter router = GoRouter(
           path: AppRoutes.signUp.path,
           builder: (BuildContext context, GoRouterState state) => const SignUpPage(),
         ),
+        GoRoute(
+          path: AppRoutes.login.path,
+          builder: (BuildContext context, GoRouterState state) => const LoginPage(),
+        ),
       ],
     ),
     GoRoute(
@@ -57,9 +62,14 @@ class AppRoutes {
   static const String maintenance = '/maintenance';
   static const String forceUpdate = '/force-update';
   static const String home = '/home';
+
   static const AppRoute signUp = AppRoute(
     fullPath: '/auth/signup',
     path: 'signup',
+  );
+  static const AppRoute login = AppRoute(
+    fullPath: '/auth/login',
+    path: 'login',
   );
 }
 

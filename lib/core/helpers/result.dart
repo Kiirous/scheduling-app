@@ -9,7 +9,7 @@ final class Success<E, S> extends Result<E, S> {
 }
 
 final class Failure<E, S> extends Result<E, S> {
-  const Failure(this.exception) : super();
+  const Failure(this.error) : super();
 
-  final E exception;
+  final E error;
 }
