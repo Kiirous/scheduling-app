@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/auth/pages/auth/auth_page.dart';
 import '../../features/auth/pages/sign_up/sign_up_page.dart';
+import '../../features/home/pages/home/home_page.dart';
 import '../../features/intro/pages/force_update/force_update_page.dart';
 import '../../features/intro/pages/splash/splash_page.dart';
 
@@ -51,6 +52,11 @@ final GoRouter router = GoRouter(
       path: AppRoutes.forceUpdate,
       builder: (BuildContext context, GoRouterState state) =>
           const ForceUpdatePage(),
+    ),
+    GoRoute(
+      path: AppRoutes.home,
+      builder: (BuildContext context, GoRouterState state) =>
+      const HomePage(),
     ),
   ],
 );

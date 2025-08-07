@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageActions {
       child: BlocBuilder<LoginPageCubit, LoginPageState>(
         builder: (context, state) {
           return AppBasePage(
-            title: 'Criar conta',
+            title: 'Entrar',
             isLoading: state.isLoading,
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageActions {
                 const Center(child: AppLogo()),
                 const SizedBox(height: 10),
                 Text(
-                  'Bem-vindo(a) de volta!',
+                  'Bem-vindo(a)\nde volta!',
                   style: t.heading36Bold,
                   textAlign: TextAlign.center,
                 ),

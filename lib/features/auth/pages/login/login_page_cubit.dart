@@ -39,7 +39,7 @@ class LoginPageCubit extends Cubit<LoginPageState> {
       case Success():
         _actions.navToHome();
         break;
-      case Failure(error: final error):
+      case Failure(:final error):
         _alertAreaCubit.showAlert(
           Alert.error(
             title: switch (error) {
