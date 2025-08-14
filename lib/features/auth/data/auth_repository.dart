@@ -13,13 +13,14 @@ class AuthRepository {
   final AuthDatasource _datasource;
   final AppSecureStorage _appSecureStorage;
 
-  User? user;
-
-  Future<Result<LoginFailed, User>> login({required String email, required String password}) async {
+  Future<Result<LoginFailed, User>> login({
+    required String email,
+    required String password,
+  }) async {
     final result = await _datasource.login(email: email, password: password);
+
     ///Exemplo para mostrar que podemos ter acesso a exception também no repository
-    if(result case Success(object: final user)) {
-      this.user = user;
+    if (result case Success(object: final user)) {
       await _appSecureStorage.saveSessionToken(user.token);
     }
 
@@ -28,25 +29,19 @@ class AuthRepository {
 
   Future<Result<SignUpFailed, User>> signUp(SignUpDto signUpDto) async {
     final result = await _datasource.signUp(signUpDto);
-    if(result case Success(object: final user)) {
-      this.user = user;
+    if (result case Success(object: final user)) {
       await _appSecureStorage.saveSessionToken(user.token);
     }
 
     return result;
-
   }
 
   Future<Result<ValidateTokenFailed, User>> validateToken() async {
     final token = await _appSecureStorage.getSessionToken();
-    if(token == null) {
+    if (token == null) {
       return const Failure(ValidateTokenFailed.invalidToken);
     }
-    final result = await _datasource.validateToken(token);
-    if(result case Success(object: final user)) {
-      this.user = user;
-    }
 
-    return result;
+    return _datasource.validateToken(token);
   }
 }

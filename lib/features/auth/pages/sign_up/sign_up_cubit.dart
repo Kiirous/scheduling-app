@@ -1,13 +1,13 @@
 import 'package:app_agendamento/core/di/di.dart';
 import 'package:app_agendamento/core/helpers/result.dart';
 import 'package:app_agendamento/core/widgets/alert/alert_area_cubit.dart';
+import 'package:app_agendamento/features/auth/data/session/session_cubit.dart';
 import 'package:app_agendamento/features/auth/models/cellphone.dart';
 import 'package:app_agendamento/features/auth/pages/sign_up/sign_up_actions.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 
-import '../../data/auth_repository.dart';
 import '../../models/cpf.dart';
 import '../../models/email.dart';
 import '../../models/full_name.dart';
@@ -20,13 +20,13 @@ part 'sign_up_state.dart';
 class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit(
     this._actions, {
-    AuthRepository? authRepository,
+    SessionCubit? sessionCubit,
     AlertAreaCubit? alertAreaCubit,
-  }) : _authRepository = authRepository ?? getIt(),
+  }) : _sessionCubit = sessionCubit ?? getIt(),
        _alertAreaCubit = alertAreaCubit ?? getIt(),
        super(const SignUpState.empty());
 
-  final AuthRepository _authRepository;
+  final SessionCubit _sessionCubit;
   final AlertAreaCubit _alertAreaCubit;
   final SignUpActions _actions;
 
@@ -53,7 +53,7 @@ class SignUpCubit extends Cubit<SignUpState> {
   Future<void> onSignUpPressed() async {
     emit(state.copyWith(isLoading: true));
 
-    final result = await _authRepository.signUp(
+    final result = await _sessionCubit.signUp(
       SignUpDto(
         fullName: state.fullName.value,
         cpf: state.cpf.value,

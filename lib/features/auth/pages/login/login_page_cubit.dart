@@ -1,7 +1,7 @@
 import 'package:app_agendamento/core/helpers/result.dart';
 import 'package:app_agendamento/core/widgets/alert/alert_area_cubit.dart';
-import 'package:app_agendamento/features/auth/data/auth_repository.dart';
 import 'package:app_agendamento/features/auth/data/results/login_failed.dart';
+import 'package:app_agendamento/features/auth/data/session/session_cubit.dart';
 import 'package:app_agendamento/features/auth/models/password.dart';
 import 'package:app_agendamento/features/auth/pages/login/login_page_actions.dart';
 import 'package:bloc/bloc.dart';
@@ -17,20 +17,20 @@ part 'login_page_state.dart';
 class LoginPageCubit extends Cubit<LoginPageState> {
   LoginPageCubit(
     this._actions, {
-    AuthRepository? authRepository,
+    SessionCubit? sessionCubit,
     AlertAreaCubit? alertAreaCubit,
-  }) : _authRepository = authRepository ?? getIt(),
+  }) : _sessionCubit = sessionCubit ?? getIt(),
        _alertAreaCubit = alertAreaCubit ?? getIt(),
        super(const LoginPageState.empty());
 
   final LoginPageActions _actions;
-  final AuthRepository _authRepository;
+  final SessionCubit _sessionCubit;
   final AlertAreaCubit _alertAreaCubit;
 
   Future<void> onLoginPressed() async {
     emit(state.copyWith(isLoading: true));
 
-    final result = await _authRepository.login(
+    final result = await _sessionCubit.login(
       email: state.email.value,
       password: state.password.value,
     );
