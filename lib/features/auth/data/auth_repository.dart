@@ -44,4 +44,8 @@ class AuthRepository {
 
     return _datasource.validateToken(token);
   }
+
+  Future<void> logout() async {
+    return _appSecureStorage.deleteSessionToken();
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:app_agendamento/core/flavor/flavor_config.dart';
 import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:app_agendamento/core/utils/no_glow_behavior.dart';
+import 'package:app_agendamento/features/auth/data/session/session_cubit.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +20,7 @@ Future<void> bootstrap(FlavorConfig config) async {
 
   await configureDependencies(config);
 
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]);
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   runApp(
     DevicePreview(
@@ -39,32 +38,32 @@ class App extends StatelessWidget {
     final t = AppTheme();
     return RepositoryProvider.value(
       value: t,
-      child: MaterialApp.router(
-        locale: DevicePreview.locale(context),
-        builder: (context, child) {
-          final newChild = ScrollConfiguration(
-            behavior: NoGlowBehavior(),
-            child: Stack(
-              children: [
-                if (child != null) child,
-                const AlertArea(),
-              ],
-            ),
-          );
-
-          return DevicePreview.appBuilder(context, newChild);
-        },
-        debugShowCheckedModeBanner: false,
-        routerConfig: router,
-        theme: ThemeData.light().copyWith(
-          colorScheme: ThemeData.light().colorScheme.copyWith(
-                surface: Colors.white,
+      child: BlocProvider.value(
+        value: getIt<SessionCubit>(),
+        child: MaterialApp.router(
+          routerConfig: router,
+          debugShowCheckedModeBanner: false,
+          locale: DevicePreview.locale(context),
+          builder: (context, child) {
+            final newChild = ScrollConfiguration(
+              behavior: NoGlowBehavior(),
+              child: Stack(
+                children: [if (child != null) child, const AlertArea()],
               ),
-          textSelectionTheme: TextSelectionThemeData(
-            cursorColor: t.primary,
-            selectionHandleColor: t.primary,
-            selectionColor: t.primary.withValues(alpha: 0.3),
-          )
+            );
+
+            return DevicePreview.appBuilder(context, newChild);
+          },
+          theme: ThemeData.light().copyWith(
+            colorScheme: ThemeData.light().colorScheme.copyWith(
+              surface: Colors.white,
+            ),
+            textSelectionTheme: TextSelectionThemeData(
+              cursorColor: t.primary,
+              selectionHandleColor: t.primary,
+              selectionColor: t.primary.withValues(alpha: 0.3),
+            ),
+          ),
         ),
       ),
     );

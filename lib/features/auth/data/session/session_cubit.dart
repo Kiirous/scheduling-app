@@ -52,7 +52,8 @@ class SessionCubit extends Cubit<SessionState> {
     return result;
   }
 
-  void logout() {
-    emit(state.copyWith(loggedUser: null));
+  Future<void> logout() async {
+    await _authRepository.logout();
+    emit(const SessionState(loggedUser: null));
   }
 }

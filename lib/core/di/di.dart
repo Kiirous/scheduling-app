@@ -3,6 +3,9 @@ import 'package:app_agendamento/core/device/app_preferences.dart';
 import 'package:app_agendamento/core/device/app_secure_storage.dart';
 import 'package:app_agendamento/core/firebase/messaging/app_messaging.dart';
 import 'package:app_agendamento/core/flavor/flavor_config.dart';
+import 'package:app_agendamento/features/auth/data/session/session_cubit.dart';
+import 'package:app_agendamento/features/scheduling/data/scheduling_datasource.dart';
+import 'package:app_agendamento/features/scheduling/data/scheduling_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -51,7 +54,10 @@ Future<void> configureDependencies(FlavorConfig config) async {
   getIt.registerLazySingleton(() => AlertAreaCubit());
 
   getIt.registerFactory<AuthDatasource>(() => RemoteAuthDatasource(getIt()));
-  getIt.registerSingleton(AuthRepository(getIt(), getIt()));
+  getIt.registerLazySingleton(() => AuthRepository(getIt(), getIt()));
+
+  getIt.registerFactory<SchedulingDatasource>(() => SchedulingDatasource(getIt()));
+  getIt.registerLazySingleton(() => SchedulingRepository(getIt()));
 
   getIt.registerLazySingleton(() => FirebaseCrashlytics.instance);
   getIt.registerSingleton(AppCrashlytics(getIt()));
@@ -66,4 +72,6 @@ Future<void> configureDependencies(FlavorConfig config) async {
   getIt.registerFactory(() => AppLocation());
   getIt.registerFactory(() => AppDeviceSettings());
   getIt.registerFactory(() => AppExternalLauncher());
+
+  getIt.registerSingleton((SessionCubit()));
 }

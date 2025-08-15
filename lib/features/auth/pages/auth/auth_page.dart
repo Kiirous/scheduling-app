@@ -62,7 +62,7 @@ class _AuthPageState extends State<AuthPage> {
             AppTextButton(
               label: 'Entrar como visitante',
               color: t.primary,
-              onPressed: () {},
+              onPressed: () => context.push(AppRoutes.home),
             ),
           ],
         ),
