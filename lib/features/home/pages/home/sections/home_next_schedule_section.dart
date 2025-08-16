@@ -13,25 +13,35 @@ class HomeNextScheduleSection extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Text(
-            'Próximos agendamentos',
-            style: t.body16Bold,
-          ),
+          child: Text('Próximos agendamentos', style: t.body16Bold),
         ),
         const SizedBox(height: 10),
         SizedBox(
-          height: 120,
+          height: 120 + 24,
           child: ListView.separated(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             scrollDirection: Axis.horizontal,
             itemCount: 3,
-            separatorBuilder: (_, i) => const SizedBox(width: 10),
+            separatorBuilder: (_, i) => const SizedBox(width: 16),
             itemBuilder: (_, i) => Container(
               width: 270,
+              margin: const EdgeInsets.only(bottom: 24),
+              decoration: BoxDecoration(
+                color: t.white,
+                borderRadius: BorderRadius.circular(18),
+                boxShadow: [
+                  BoxShadow(
+                    offset: const Offset(6, 12),
+                    blurRadius: 6,
+                    spreadRadius: 0,
+                    color: t.black.withValues(alpha: 0.08),
+                  ),
+                ],
+              ),
               padding: const EdgeInsets.all(20),
             ),
           ),
-        )
+        ),
       ],
     );
   }
