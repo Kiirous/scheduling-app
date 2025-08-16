@@ -1,7 +1,4 @@
-import 'package:app_agendamento/core/di/di.dart';
 import 'package:app_agendamento/core/theme/app_theme.dart';
-import 'package:app_agendamento/core/widgets/app_elevated_button.dart';
-import 'package:app_agendamento/features/scheduling/data/scheduling_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,14 +19,19 @@ class HomeNextScheduleSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        AppElevatedButton(
-          label: 'Testar',
-          onPressed: () async {
-            final SchedulingRepository repository = getIt();
-            final schedules = await repository.getUserSchedules();
-            print(schedules);
-          }
-        ),
+        SizedBox(
+          height: 120,
+          child: ListView.separated(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            scrollDirection: Axis.horizontal,
+            itemCount: 3,
+            separatorBuilder: (_, i) => const SizedBox(width: 10),
+            itemBuilder: (_, i) => Container(
+              width: 270,
+              padding: const EdgeInsets.all(20),
+            ),
+          ),
+        )
       ],
     );
   }
