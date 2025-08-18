@@ -55,6 +55,7 @@ class App extends StatelessWidget {
             return DevicePreview.appBuilder(context, newChild);
           },
           theme: ThemeData.light().copyWith(
+            scaffoldBackgroundColor: t.bg,
             colorScheme: ThemeData.light().colorScheme.copyWith(
               surface: Colors.white,
             ),

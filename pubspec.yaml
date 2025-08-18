@@ -31,6 +31,7 @@ dependencies:
   package_info_plus: ^8.1.1
   pretty_dio_logger:
   shared_preferences:
+  shimmer: ^3.0.0
   store_redirect: ^2.0.4
   url_launcher:
 

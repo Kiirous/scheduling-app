@@ -1,5 +1,5 @@
 import 'package:app_agendamento/features/home/pages/home/sections/home_header_section.dart';
-import 'package:app_agendamento/features/home/pages/home/sections/home_next_schedule_section.dart';
+import 'package:app_agendamento/features/home/pages/home/sections/next_schedules/home_next_schedule_section.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {

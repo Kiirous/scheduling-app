@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
+
+  final bg = const Color(0xffFAFAFA);
   final primary = const Color(0xff6B48FF);
   final secondary = const Color(0xff1EE0CC);
 

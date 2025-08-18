@@ -15,7 +15,6 @@ class HomeNextScheduleItem extends StatelessWidget {
     final AppTheme t = context.watch();
     return AppCard(
       onPressed: () {},
-      width: 270,
       child: Row(
         children: [
           Expanded(

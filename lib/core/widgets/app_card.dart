@@ -7,7 +7,7 @@ class AppCard extends StatelessWidget {
     super.key,
     this.onPressed,
     required this.child,
-    required this.width,
+    this.width,
   });
 
   final VoidCallback? onPressed;
