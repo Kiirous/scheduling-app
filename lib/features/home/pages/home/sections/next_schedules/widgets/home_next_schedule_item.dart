@@ -4,11 +4,12 @@ import 'package:app_agendamento/features/scheduling/models/scheduling.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 class HomeNextScheduleItem extends StatelessWidget {
-  const HomeNextScheduleItem({super.key, this.scheduling});
+  const HomeNextScheduleItem({super.key, required this.scheduling});
 
-  final Scheduling? scheduling;
+  final Scheduling scheduling;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class HomeNextScheduleItem extends StatelessWidget {
                     color: t.lightGray,
                   ),
                   child: Text(
-                    '11 set',
+                    DateFormat('dd MMM HH:mm').format(scheduling.startDate),
                     style: t.label11Bold.copyWith(color: t.primary),
                   ),
                 ),
@@ -39,11 +40,11 @@ class HomeNextScheduleItem extends StatelessWidget {
                 Expanded(
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text('Consulta médica', style: t.body16Bold),
+                    child: Text(scheduling.services.map((s) => s.name).join(' | '), style: t.body16Bold),
                   ),
                 ),
                 Text(
-                  'Dr. Mario | 8:45 - 9:30',
+                  scheduling.professional.name,
                   style: t.body13Bold.copyWith(color: t.gray),
                 ),
               ],

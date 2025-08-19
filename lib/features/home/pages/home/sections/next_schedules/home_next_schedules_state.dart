@@ -1,6 +1,7 @@
 part of 'home_next_schedules_cubit.dart';
 
 enum HomeNextSchedulesStatus {
+  notLoggedIn,
   loading,
   success,
   error,
@@ -16,7 +17,7 @@ class HomeNextSchedulesState extends Equatable {
   final HomeNextSchedulesStatus status;
 
   @override
-  List<Object?> get props => [schedulings];
+  List<Object?> get props => [schedulings, status];
 
   HomeNextSchedulesState copyWith({
     List<Scheduling>? schedulings,
