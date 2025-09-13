@@ -1,9 +1,11 @@
+import 'package:app_agendamento/core/route/app_routes.dart';
 import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:app_agendamento/core/widgets/app_card.dart';
 import 'package:app_agendamento/features/scheduling/models/scheduling.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class HomeNextScheduleItem extends StatelessWidget {
@@ -15,7 +17,9 @@ class HomeNextScheduleItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppTheme t = context.watch();
     return AppCard(
-      onPressed: () {},
+      onPressed: () {
+        context.push(AppRoutes.professionalDetails(id: scheduling.professional.id));
+      },
       child: Row(
         children: [
           Expanded(
@@ -40,7 +44,9 @@ class HomeNextScheduleItem extends StatelessWidget {
                 Expanded(
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(scheduling.services.map((s) => s.name).join(' | '), style: t.body16Bold),
+                    child: Text(
+                        scheduling.services.map((s) => s.name).join(' | '),
+                        style: t.body16Bold),
                   ),
                 ),
                 Text(

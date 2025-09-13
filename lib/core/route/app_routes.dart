@@ -2,6 +2,7 @@ import 'package:app_agendamento/features/auth/pages/login/login_page.dart';
 import 'package:app_agendamento/features/intro/pages/maintenance/maintenance_page.dart';
 import 'package:app_agendamento/features/intro/pages/not_found/not_found_page.dart';
 import 'package:app_agendamento/features/intro/pages/onboarding/onboarding_page.dart';
+import 'package:app_agendamento/features/professional/pages/professional_details/professional_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -35,11 +36,13 @@ final GoRouter router = GoRouter(
       routes: <RouteBase>[
         GoRoute(
           path: AppRoutes.signUp.path,
-          builder: (BuildContext context, GoRouterState state) => const SignUpPage(),
+          builder: (BuildContext context, GoRouterState state) =>
+              const SignUpPage(),
         ),
         GoRoute(
           path: AppRoutes.login.path,
-          builder: (BuildContext context, GoRouterState state) => const LoginPage(),
+          builder: (BuildContext context, GoRouterState state) =>
+              const LoginPage(),
         ),
       ],
     ),
@@ -55,8 +58,12 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.home,
+      builder: (BuildContext context, GoRouterState state) => const HomePage(),
+    ),
+    GoRoute(
+      path: AppRoutes.professionalDetails(id: ':id'),
       builder: (BuildContext context, GoRouterState state) =>
-      const HomePage(),
+          ProfessionalDetailsPage(id: state.pathParameters['id']!),
     ),
   ],
 );
@@ -68,6 +75,9 @@ class AppRoutes {
   static const String maintenance = '/maintenance';
   static const String forceUpdate = '/force-update';
   static const String home = '/home';
+
+  static String professionalDetails({required String id}) =>
+      '/professionals/$id';
 
   static const AppRoute signUp = AppRoute(
     fullPath: '/auth/signup',

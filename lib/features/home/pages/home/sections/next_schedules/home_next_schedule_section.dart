@@ -1,7 +1,7 @@
 import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:app_agendamento/core/widgets/app_card.dart';
+import 'package:app_agendamento/core/widgets/app_session_observer.dart';
 import 'package:app_agendamento/core/widgets/app_shimmer.dart';
-import 'package:app_agendamento/features/auth/data/session/session_cubit.dart';
 import 'package:app_agendamento/features/home/pages/home/sections/next_schedules/home_next_schedules_cubit.dart';
 import 'package:app_agendamento/features/home/pages/home/sections/next_schedules/widgets/home_next_schedule_item.dart';
 import 'package:flutter/material.dart';
@@ -18,15 +18,6 @@ class HomeNextScheduleSection extends StatefulWidget {
 class _HomeNextScheduleSectionState extends State<HomeNextScheduleSection> {
   final HomeNextSchedulesCubit cubit = HomeNextSchedulesCubit();
 
-  @override
-  void initState() {
-    super.initState();
-
-    final SessionCubit sessionCubit = context.read();
-
-    loadingSchedulings(sessionCubit.state.loggedUser != null);
-  }
-
   void loadingSchedulings(bool isLoggedIn) {
     if (isLoggedIn) {
       cubit.loadSchedulings();
@@ -38,10 +29,8 @@ class _HomeNextScheduleSectionState extends State<HomeNextScheduleSection> {
   @override
   Widget build(BuildContext context) {
     final AppTheme t = context.watch();
-    return BlocListener<SessionCubit, SessionState>(
-      listener: (context, state) {
-        loadingSchedulings(state.loggedUser != null);
-      },
+    return AppSessionObserver(
+      listener: (sessionState) => loadingSchedulings(sessionState.loggedUser != null),
       child: BlocProvider.value(
         value: cubit,
         child: Padding(
