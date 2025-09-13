@@ -1,10 +1,10 @@
+import 'package:app_agendamento/core/widgets/base/app_stateless.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../theme/app_theme.dart';
 
-class AppElevatedButton extends StatelessWidget {
+class AppElevatedButton extends AppStateless {
   const AppElevatedButton({
     super.key,
     required this.label,
@@ -17,38 +17,31 @@ class AppElevatedButton extends StatelessWidget {
   final String? iconPath;
 
   @override
-  Widget build(BuildContext context) {
-    final AppTheme t = context.watch();
+  Widget builder(BuildContext context, AppTheme theme) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        backgroundColor: WidgetStateColor.resolveWith(
-          (state) {
-            if (state.contains(WidgetState.disabled)) {
-              return t.gray;
-            }
+        backgroundColor: WidgetStateColor.resolveWith((state) {
+          if (state.contains(WidgetState.disabled)) {
+            return theme.gray;
+          }
 
-            return t.primary;
-          },
-        ),
+          return theme.primary;
+        }),
         shape: WidgetStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18),
-          ),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
         ),
         minimumSize: WidgetStateProperty.all(const Size(128, 64)),
         textStyle: WidgetStateProperty.all(
           const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
         ),
-        foregroundColor: WidgetStateColor.resolveWith(
-          (state) {
-            if (state.contains(WidgetState.disabled)) {
-              return t.lightGray;
-            }
+        foregroundColor: WidgetStateColor.resolveWith((state) {
+          if (state.contains(WidgetState.disabled)) {
+            return theme.lightGray;
+          }
 
-            return t.white;
-          },
-        ),
+          return theme.white;
+        }),
         elevation: WidgetStateProperty.all(0),
         padding: WidgetStateProperty.all(
           const EdgeInsets.symmetric(horizontal: 16),
@@ -57,10 +50,8 @@ class AppElevatedButton extends StatelessWidget {
       child: Row(
         children: [
           if (iconPath != null) const SizedBox(width: 20),
-          Expanded(
-            child: Center(child: Text(label)),
-          ),
-          if (iconPath != null) SvgPicture.asset(iconPath!, width: 20)
+          Expanded(child: Center(child: Text(label))),
+          if (iconPath != null) SvgPicture.asset(iconPath!, width: 20),
         ],
       ),
     );

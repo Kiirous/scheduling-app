@@ -1,9 +1,9 @@
+import 'package:app_agendamento/core/widgets/base/app_stateless.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../theme/app_theme.dart';
 
-class AppAlertDialog extends StatelessWidget {
+class AppAlertDialog extends AppStateless {
   const AppAlertDialog({
     super.key,
     required this.title,
@@ -16,8 +16,7 @@ class AppAlertDialog extends StatelessWidget {
   final List<Widget> actions;
 
   @override
-  Widget build(BuildContext context) {
-    final AppTheme t = context.watch();
+  Widget builder(BuildContext context, AppTheme theme) {
     return Dialog(
       insetPadding: const EdgeInsets.all(24),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
@@ -33,7 +32,7 @@ class AppAlertDialog extends StatelessWidget {
               style: TextStyle(
                 fontSize: 36,
                 fontWeight: FontWeight.w700,
-                color: t.black,
+                color: theme.black,
               ),
             ),
             const SizedBox(height: 10),
@@ -43,7 +42,7 @@ class AppAlertDialog extends StatelessWidget {
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w400,
-                color: t.black,
+                color: theme.black,
               ),
             ),
             const SizedBox(height: 16),

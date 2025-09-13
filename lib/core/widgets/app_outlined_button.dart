@@ -1,10 +1,10 @@
+import 'package:app_agendamento/core/widgets/base/app_stateless.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../theme/app_theme.dart';
 
-class AppOutLinedButton extends StatelessWidget {
+class AppOutLinedButton extends AppStateless {
   const AppOutLinedButton({
     super.key,
     required this.label,
@@ -17,8 +17,7 @@ class AppOutLinedButton extends StatelessWidget {
   final String? iconPath;
 
   @override
-  Widget build(BuildContext context) {
-    final AppTheme t = context.watch();
+  Widget builder(BuildContext context, AppTheme theme) {
     return OutlinedButton(
       onPressed: onPressed,
       style: ButtonStyle(
@@ -29,9 +28,9 @@ class AppOutLinedButton extends StatelessWidget {
         ),
         side: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.disabled)) {
-            return BorderSide(color: t.lightGray);
+            return BorderSide(color: theme.lightGray);
           } else {
-            return BorderSide(color: t.primary);
+            return BorderSide(color: theme.primary);
           }
         }),
         minimumSize: WidgetStateProperty.all(const Size(128, 64)),
@@ -41,10 +40,10 @@ class AppOutLinedButton extends StatelessWidget {
         foregroundColor: WidgetStateColor.resolveWith(
           (state) {
             if (state.contains(WidgetState.disabled)) {
-              return t.lightGray;
+              return theme.lightGray;
             }
 
-            return t.primary;
+            return theme.primary;
           },
         ),
         elevation: WidgetStateProperty.all(0),

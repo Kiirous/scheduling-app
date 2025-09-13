@@ -1,19 +1,18 @@
+import 'package:app_agendamento/core/widgets/base/app_stateless.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../theme/app_theme.dart';
 
-class AppDivider extends StatelessWidget {
+class AppDivider extends AppStateless {
   const AppDivider({super.key, this.text});
 
   final String? text;
 
   @override
-  Widget build(BuildContext context) {
-    final AppTheme t = context.watch();
+  Widget builder(BuildContext context, AppTheme theme) {
     return Row(
       children: [
-        Expanded(child: Divider(color: t.gray)),
+        Expanded(child: Divider(color: theme.gray)),
         if (text != null)
           Expanded(
             child: Text(
@@ -21,11 +20,11 @@ class AppDivider extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 15,
-                color: t.black,
+                color: theme.black,
               ),
             ),
           ),
-        Expanded(child: Divider(color: t.gray)),
+        Expanded(child: Divider(color: theme.gray)),
       ],
     );
   }

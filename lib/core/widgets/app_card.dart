@@ -1,8 +1,8 @@
 import 'package:app_agendamento/core/theme/app_theme.dart';
+import 'package:app_agendamento/core/widgets/base/app_stateless.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AppCard extends StatelessWidget {
+class AppCard extends AppStateless {
   const AppCard({
     super.key,
     this.onPressed,
@@ -15,8 +15,7 @@ class AppCard extends StatelessWidget {
   final double? width;
 
   @override
-  Widget build(BuildContext context) {
-    final AppTheme t = context.watch();
+  Widget builder(BuildContext context, AppTheme theme) {
     return Container(
       width: width,
       margin: const EdgeInsets.only(bottom: 24),
@@ -26,18 +25,18 @@ class AppCard extends StatelessWidget {
             offset: const Offset(6, 12),
             blurRadius: 15,
             spreadRadius: 0,
-            color: t.black.withValues(alpha: 0.08),
+            color: theme.black.withValues(alpha: 0.08),
           ),
         ],
       ),
       child: Material(
-        color: t.white,
+        color: theme.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onPressed,
-          highlightColor: t.primary.withValues(alpha: 0.1),
-          splashColor: t.primary.withValues(alpha: 0.1),
+          highlightColor: theme.primary.withValues(alpha: 0.1),
+          splashColor: theme.primary.withValues(alpha: 0.1),
           child: Padding(padding: const EdgeInsets.all(20), child: child),
         ),
       ),

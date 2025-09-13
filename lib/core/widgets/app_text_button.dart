@@ -1,9 +1,8 @@
+import 'package:app_agendamento/core/theme/app_theme.dart';
+import 'package:app_agendamento/core/widgets/base/app_stateless.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../theme/app_theme.dart';
-
-class AppTextButton extends StatelessWidget {
+class AppTextButton extends AppStateless {
   const AppTextButton({
     super.key,
     required this.label,
@@ -16,16 +15,15 @@ class AppTextButton extends StatelessWidget {
   final Color? color;
 
   @override
-  Widget build(BuildContext context) {
-    final AppTheme t = context.watch();
+  Widget builder(BuildContext context, AppTheme theme) {
     return TextButton(
       style: ButtonStyle(
         foregroundColor: WidgetStateColor.resolveWith((state) {
           if (state.contains(WidgetState.disabled)) {
-            return t.lightGray;
+            return theme.lightGray;
           }
 
-          return color ?? t.black;
+          return color ?? theme.black;
         }),
         shape: WidgetStateProperty.all(
           RoundedRectangleBorder(
@@ -36,7 +34,7 @@ class AppTextButton extends StatelessWidget {
           const EdgeInsets.symmetric(horizontal: 16),
         ),
         minimumSize: WidgetStateProperty.all(const Size(64, 64)),
-        overlayColor: WidgetStateProperty.all(t.lightGray),
+        overlayColor: WidgetStateProperty.all(theme.lightGray),
         textStyle: WidgetStateProperty.all(
           const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
         ),
