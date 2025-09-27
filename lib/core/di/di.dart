@@ -4,6 +4,8 @@ import 'package:app_agendamento/core/device/app_secure_storage.dart';
 import 'package:app_agendamento/core/firebase/messaging/app_messaging.dart';
 import 'package:app_agendamento/core/flavor/flavor_config.dart';
 import 'package:app_agendamento/features/auth/data/session/session_cubit.dart';
+import 'package:app_agendamento/features/professional/data/professional_datasource.dart';
+import 'package:app_agendamento/features/professional/data/professional_repository.dart';
 import 'package:app_agendamento/features/scheduling/data/scheduling_datasource.dart';
 import 'package:app_agendamento/features/scheduling/data/scheduling_repository.dart';
 import 'package:dio/dio.dart';
@@ -57,7 +59,10 @@ Future<void> configureDependencies(FlavorConfig config) async {
   getIt.registerLazySingleton(() => AuthRepository(getIt(), getIt()));
 
   getIt.registerFactory<SchedulingDatasource>(() => SchedulingDatasource(getIt()));
-  getIt.registerLazySingleton(() => SchedulingRepository(getIt()));
+  getIt.registerFactory(() => SchedulingRepository(getIt()));
+
+  getIt.registerFactory<ProfessionalDatasource>(() => ProfessionalDatasource(getIt()));
+  getIt.registerFactory(() => ProfessionalRepository(getIt()));
 
   getIt.registerLazySingleton(() => FirebaseCrashlytics.instance);
   getIt.registerSingleton(AppCrashlytics(getIt()));

@@ -4,7 +4,7 @@ class Service {
   final String id;
   final String name;
 
-  factory Service.fromMap(Map<String, dynamic> map) {
+  factory Service.fromJson(Map<String, dynamic> map) {
     return Service(id: map['id'] as String, name: map['name'] as String);
   }
 }

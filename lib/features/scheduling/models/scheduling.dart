@@ -23,7 +23,7 @@ class Scheduling {
       endDate: DateTime.parse(map['endDate']),
       professional: Professional.fromJson(map['professional']),
       services: map['services']
-          .map<Service>((s) => Service.fromMap(s))
+          .map<Service>((s) => Service.fromJson(s))
           .toList(),
     );
   }
