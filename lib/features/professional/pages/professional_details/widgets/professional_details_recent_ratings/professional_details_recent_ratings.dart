@@ -1,3 +1,4 @@
+import 'package:app_agendamento/core/route/app_routes.dart';
 import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:app_agendamento/core/widgets/app_outlined_button.dart';
 import 'package:app_agendamento/core/widgets/app_shimmer.dart';
@@ -5,6 +6,7 @@ import 'package:app_agendamento/features/professional/pages/professional_details
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfessionalDetailsRecentRatings extends StatefulWidget {
   const ProfessionalDetailsRecentRatings({super.key, required this.professionalId});
@@ -35,7 +37,12 @@ class _ProfessionalDetailsRecentRatingsState extends State<ProfessionalDetailsRe
             Row(
               children: [
                 Expanded(child: Text('Avaliações', style: t.heading18Bold)),
-                if (state.isSuccess) AppOutLinedButton(label: 'Ver todas', minHeight: 32 ,onPressed: () {}),
+                if (state.isSuccess)
+                  AppOutLinedButton(
+                    label: 'Ver todas',
+                    minHeight: 32,
+                    onPressed: () => context.push(AppRoutes.professionalRatings.fullPath(id: widget.professionalId)),
+                  ),
               ],
             ),
             const SizedBox(height: 12),
