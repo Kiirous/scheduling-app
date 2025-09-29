@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class AppShimmer extends AppStateless {
-  const AppShimmer({super.key, this.width, this.child});
+  const AppShimmer({super.key, this.width, this.height, this.margin ,this.child});
 
   final double? width;
+  final double? height;
+  final EdgeInsets? margin;
   final Widget? child;
 
   @override
@@ -16,8 +18,9 @@ class AppShimmer extends AppStateless {
       highlightColor: theme.gray.withValues(alpha: 0.1),
       child: child ?? Container(
         width: width,
-        margin: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(18)),
+        height: height,
+        margin: margin,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(18), color: theme.white),
       ),
     );
   }

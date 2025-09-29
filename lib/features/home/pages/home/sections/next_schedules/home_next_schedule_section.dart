@@ -50,6 +50,7 @@ class _HomeNextScheduleSectionState extends State<HomeNextScheduleSection> {
                       builder: (context, state) {
                         return switch (state.status) {
                           HomeNextSchedulesStatus.loading => AppShimmer(
+                            margin: const EdgeInsets.fromLTRB(24, 0, 24, 24),
                             child: OverflowBox(
                               maxWidth: 1000,
                               alignment: Alignment.centerLeft,
@@ -79,9 +80,7 @@ class _HomeNextScheduleSectionState extends State<HomeNextScheduleSection> {
                               width: state.schedulings!.length == 1
                                   ? MediaQuery.sizeOf(context).width - 48
                                   : 270,
-                              child: HomeNextScheduleItem(
-                                scheduling: state.schedulings![i],
-                              ),
+                              child: HomeNextScheduleItem(scheduling: state.schedulings![i]),
                             ),
                           ),
                         };

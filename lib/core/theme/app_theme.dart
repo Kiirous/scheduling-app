@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-
   final bg = const Color(0xffFAFAFA);
   final primary = const Color(0xff6B48FF);
   final secondary = const Color(0xff1EE0CC);
@@ -17,37 +16,21 @@ class AppTheme {
 
   late final label11 = TextStyle(fontSize: 11, color: black);
 
-  late final label11Bold = TextStyle(
-    fontSize: 11,
-    color: black,
-    fontWeight: FontWeight.bold,
-  );
+  late final label11Bold = TextStyle(fontSize: 11, color: black, fontWeight: FontWeight.bold);
 
-  late final body13Bold = TextStyle(
-    fontSize: 13,
-    color: black,
-    fontWeight: FontWeight.bold,
-  );
+  late final body13 = TextStyle(fontSize: 13, color: black);
+
+  late final body13Bold = TextStyle(fontSize: 13, color: black, fontWeight: FontWeight.bold);
 
   late final field15 = TextStyle(fontSize: 15, color: black);
 
   late final body16 = TextStyle(fontSize: 16, color: black);
 
-  late final body16Bold = TextStyle(
-    fontSize: 16,
-    color: black,
-    fontWeight: FontWeight.bold,
-  );
+  late final body16Bold = TextStyle(fontSize: 16, color: black, fontWeight: FontWeight.bold);
 
-  late final heading20Bold = TextStyle(
-    fontSize: 20,
-    color: black,
-    fontWeight: FontWeight.bold,
-  );
+  late final heading18Bold = TextStyle(fontSize: 18, color: black, fontWeight: FontWeight.bold);
 
-  late final heading36Bold = TextStyle(
-    fontSize: 36,
-    color: black,
-    fontWeight: FontWeight.bold,
-  );
+  late final heading20Bold = TextStyle(fontSize: 20, color: black, fontWeight: FontWeight.bold);
+
+  late final heading36Bold = TextStyle(fontSize: 36, color: black, fontWeight: FontWeight.bold);
 }
