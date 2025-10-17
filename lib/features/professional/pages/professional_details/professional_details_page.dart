@@ -1,4 +1,5 @@
 import 'package:app_agendamento/core/widgets/app_base_page.dart';
+import 'package:app_agendamento/core/widgets/app_elevated_button.dart';
 import 'package:app_agendamento/features/professional/pages/professional_details/professional_details_page_cubit.dart';
 import 'package:app_agendamento/features/professional/pages/professional_details/widgets/professional_basic_details_widget.dart';
 import 'package:app_agendamento/features/professional/pages/professional_details/widgets/professional_details_recent_ratings/professional_details_recent_ratings.dart';
@@ -45,6 +46,7 @@ class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
                   ],
                 )
               : Container(),
+          bottomAction: AppElevatedButton(label: 'Agendar serviço(s)', onPressed: () {}),
         );
       },
     );

@@ -16,9 +16,20 @@ class ProfessionalRatingsPageCubit extends Cubit<ProfessionalRatingsPageState> {
   final ProfessionalRepository _repository;
 
   Future<void> loadRatings() async {
-    final result = await _repository.getProfessionalRatings(professionalId: professionalId, page: 0, limit: 20);
+    if (state.isLoading) return;
+
+    final result = await _repository.getProfessionalRatings(
+      professionalId: professionalId,
+      page: state.page,
+      limit: 20,
+    );
     emit(switch (result) {
-      Success(:final object) => state.copyWith(ratings: object, isLoading: false),
+      Success(:final object) => state.copyWith(
+        ratings: state.page == 0 ? object : [...state.ratings!, ...object],
+        isLoading: false,
+        page: state.page + 1,
+        finishedLoading: object.length < 20,
+      ),
       Failure() => state.copyWith(isLoading: false),
     });
   }

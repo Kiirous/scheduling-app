@@ -8,6 +8,8 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../theme/app_theme.dart';
 import 'app_icon_button.dart';
 
+enum AppBasePageType { fixed, scrollable }
+
 class AppBasePage extends StatefulWidget {
   const AppBasePage({
     super.key,
@@ -15,30 +17,28 @@ class AppBasePage extends StatefulWidget {
     required this.body,
     this.bodyPadding = const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
     this.isLoading = false,
+    this.type = AppBasePageType.scrollable,
+    this.bottomAction,
   });
 
   final String title;
   final Widget body;
   final EdgeInsets bodyPadding;
   final bool isLoading;
+  final AppBasePageType type;
+  final Widget? bottomAction;
 
   @override
   State<AppBasePage> createState() => _AppBasePageState();
 }
 
-class _AppBasePageState extends State<AppBasePage>
-    with SingleTickerProviderStateMixin {
+class _AppBasePageState extends State<AppBasePage> with SingleTickerProviderStateMixin {
   late final AnimationController controller;
 
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
-      lowerBound: 0,
-      upperBound: 3,
-    );
+    controller = AnimationController(vsync: this, duration: const Duration(seconds: 1), lowerBound: 0, upperBound: 3);
   }
 
   ///Sempre em um statefull widget, quando os parâmetros que são passados, mudam
@@ -62,20 +62,16 @@ class _AppBasePageState extends State<AppBasePage>
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Stack(
           children: [
-            SingleChildScrollView(
-              padding: EdgeInsets.only(
-                top:
-                    MediaQuery.paddingOf(context).top +
-                    64 +
-                    widget.bodyPadding.top,
-                bottom:
-                    MediaQuery.paddingOf(context).bottom +
-                    widget.bodyPadding.bottom,
-                left: widget.bodyPadding.left,
-                right: widget.bodyPadding.right,
-              ),
-              child: widget.body,
-            ),
+            if (widget.type == AppBasePageType.scrollable)
+              SingleChildScrollView(
+                padding: EdgeInsets.only(
+                  top: MediaQuery.paddingOf(context).top + 64,
+                  bottom: MediaQuery.paddingOf(context).bottom + (widget.bottomAction != null ? 88 : 0),
+                ).add(widget.bodyPadding),
+                child: widget.body,
+              )
+            else
+              widget.body,
             Positioned.fill(
               child: AbsorbPointer(
                 absorbing: widget.isLoading,
@@ -88,10 +84,9 @@ class _AppBasePageState extends State<AppBasePage>
                       filter: ImageFilter.blur(sigmaX: value, sigmaY: value),
                       child: Container(
                         alignment: Alignment.center,
-                        child: widget.isLoading ? LoadingAnimationWidget.stretchedDots(
-                          color: t.primary,
-                          size: 60,
-                        ) : null,
+                        child: widget.isLoading
+                            ? LoadingAnimationWidget.stretchedDots(color: t.primary, size: 60)
+                            : null,
                       ),
                     );
                   },
@@ -101,11 +96,7 @@ class _AppBasePageState extends State<AppBasePage>
             Align(
               alignment: Alignment.topCenter,
               child: Card(
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(36),
-                  ),
-                ),
+                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(36))),
                 margin: EdgeInsets.zero,
                 elevation: 4,
                 shadowColor: t.lightGray,
@@ -116,16 +107,9 @@ class _AppBasePageState extends State<AppBasePage>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        AppIconButton(
-                          iconPath: 'assets/icons/chevron_left.svg',
-                          onPressed: context.pop,
-                        ),
+                        AppIconButton(iconPath: 'assets/icons/chevron_left.svg', onPressed: context.pop),
                         Expanded(
-                          child: Text(
-                            widget.title,
-                            textAlign: TextAlign.center,
-                            style: t.body16Bold,
-                          ),
+                          child: Text(widget.title, textAlign: TextAlign.center, style: t.body16Bold),
                         ),
                         const SizedBox(width: 48),
                       ],
@@ -134,6 +118,28 @@ class _AppBasePageState extends State<AppBasePage>
                 ),
               ),
             ),
+            if (widget.bottomAction != null)
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.white.withValues(alpha: 0.1),
+                        Colors.white.withValues(alpha: 0.8),
+                        Colors.white.withValues(alpha: 0.8),
+                      ],
+                      stops: const [0, 0.1, 1],
+                    ),
+                  ),
+                  child: widget.bottomAction!,
+                ),
+              ),
           ],
         ),
       ),
