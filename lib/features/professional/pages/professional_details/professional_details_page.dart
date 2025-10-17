@@ -49,4 +49,10 @@ class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
       },
     );
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    cubit.close();
+  }
 }

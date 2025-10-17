@@ -69,7 +69,10 @@ class AppRoutes {
   static const AppRoute signUp = AppRoute(fullPath: '/auth/signup', path: 'signup');
   static const AppRoute login = AppRoute(fullPath: '/auth/login', path: 'login');
 
-  static const ProfessionalRatingsRoute professionalRatings = ProfessionalRatingsRoute();
+  static AppRouteWithId professionalRatings = AppRouteWithId(
+    path: 'ratings',
+    buildFullPath: (String id) => '/professionals/$id/ratings',
+  );
 }
 
 class AppRoute {
@@ -79,10 +82,11 @@ class AppRoute {
   final String path;
 }
 
-class ProfessionalRatingsRoute {
-  const ProfessionalRatingsRoute();
+class AppRouteWithId {
+  const AppRouteWithId({required this.path, required this.buildFullPath});
 
-  final String path = 'ratings';
+  final String path;
+  final Function(String id) buildFullPath;
 
-  String fullPath({required String id}) => '/professionals/$id/$path';
+  String fullPath({required String id}) => buildFullPath(id);
 }

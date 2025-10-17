@@ -3,9 +3,9 @@ import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:app_agendamento/core/widgets/app_outlined_button.dart';
 import 'package:app_agendamento/core/widgets/app_shimmer.dart';
 import 'package:app_agendamento/features/professional/pages/professional_details/widgets/professional_details_recent_ratings/professional_details_recent_ratings_cubit.dart';
+import 'package:app_agendamento/features/professional/widgets/professional_rating_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 class ProfessionalDetailsRecentRatings extends StatefulWidget {
@@ -57,27 +57,7 @@ class _ProfessionalDetailsRecentRatingsState extends State<ProfessionalDetailsRe
                 separatorBuilder: (_, __) => const SizedBox(height: 18),
                 itemBuilder: (_, i) {
                   final rating = state.ratings![i];
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(rating.username, style: t.body16Bold),
-                      const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          for (int i = 0; i < 5; i++)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 2),
-                              child: SvgPicture.asset(
-                                'assets/icons/star.svg',
-                                colorFilter: ColorFilter.mode(i < rating.stars ? t.secondary : t.gray, BlendMode.srcIn),
-                              ),
-                            ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Text(rating.comments, style: t.body13),
-                    ],
-                  );
+                  return ProfessionalRatingListItem(rating: rating);
                 },
               ),
             },
