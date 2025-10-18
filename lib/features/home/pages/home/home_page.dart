@@ -12,9 +12,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int page = 0;
+
   @override
   Widget build(BuildContext context) {
     final AppTheme t = context.watch();
+    final w = (MediaQuery.sizeOf(context).width - (5 * 48)) / 6;
     return Scaffold(
       body: Stack(
         children: [
@@ -26,16 +29,60 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      bottomNavigationBar: Stack(
-        children: [
-          Container(
-            height: 100,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(36)),
-              color: t.red,
+      bottomNavigationBar: Container(
+        child: SafeArea(
+          top: false,
+          child: SizedBox(
+            height: 78,
+            child: Stack(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(36)),
+                    color: t.red,
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      for (int i = 0; i < 5; i++)
+                        GestureDetector(
+                          onTap: () => setState(() => page = i),
+                          child: Container(
+                            height: 48,
+                            width: 48,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: t.secondary.withValues(alpha: 0.3),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                AnimatedPositioned(
+                  top: 20,
+                  left: w * (page + 1) + page * 48,
+                  duration: const Duration(milliseconds: 300),
+                  child: Container(
+                    height: 48,
+                    width: 48,
+                    decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.yellow),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    height: 64,
+                    width: 64,
+                    decoration: BoxDecoration(shape: BoxShape.circle, color: t.primary),
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
