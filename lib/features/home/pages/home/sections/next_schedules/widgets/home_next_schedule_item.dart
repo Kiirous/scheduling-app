@@ -27,32 +27,20 @@ class HomeNextScheduleItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: t.lightGray,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: t.lightGray),
                   child: Text(
                     DateFormat('dd MMM HH:mm').format(scheduling.startDate),
                     style: t.label11Bold.copyWith(color: t.primary),
                   ),
                 ),
-
                 Expanded(
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                        scheduling.services.map((s) => s.name).join(' | '),
-                        style: t.body16Bold),
+                    child: Text(scheduling.services.map((s) => s.name).join(' | '), style: t.body16Bold),
                   ),
                 ),
-                Text(
-                  scheduling.professional.name,
-                  style: t.body13Bold.copyWith(color: t.gray),
-                ),
+                Text(scheduling.professional.name, style: t.body13Bold.copyWith(color: t.gray)),
               ],
             ),
           ),
@@ -63,10 +51,7 @@ class HomeNextScheduleItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(18),
               color: t.primary.withValues(alpha: 0.18),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: SvgPicture.asset('assets/icons/map_pin.svg'),
-            ),
+            child: Padding(padding: const EdgeInsets.all(8), child: SvgPicture.asset('assets/icons/map_pin.svg')),
           ),
         ],
       ),

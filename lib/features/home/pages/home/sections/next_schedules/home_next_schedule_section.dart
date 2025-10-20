@@ -11,8 +11,7 @@ class HomeNextScheduleSection extends StatefulWidget {
   const HomeNextScheduleSection({super.key});
 
   @override
-  State<HomeNextScheduleSection> createState() =>
-      _HomeNextScheduleSectionState();
+  State<HomeNextScheduleSection> createState() => _HomeNextScheduleSectionState();
 }
 
 class _HomeNextScheduleSectionState extends State<HomeNextScheduleSection> {
@@ -45,47 +44,39 @@ class _HomeNextScheduleSectionState extends State<HomeNextScheduleSection> {
               const SizedBox(height: 10),
               SizedBox(
                 height: 120 + 24,
-                child:
-                    BlocBuilder<HomeNextSchedulesCubit, HomeNextSchedulesState>(
-                      builder: (context, state) {
-                        return switch (state.status) {
-                          HomeNextSchedulesStatus.loading => AppShimmer(
-                            margin: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-                            child: OverflowBox(
-                              maxWidth: 1000,
-                              alignment: Alignment.centerLeft,
-                              child: Row(
-                                children: [
-                                  const SizedBox(width: 24),
-                                  AppCard(width: 270, child: Container()),
-                                  const SizedBox(width: 16),
-                                  AppCard(width: 270, child: Container()),
-                                ],
-                              ),
-                            ),
+                child: BlocBuilder<HomeNextSchedulesCubit, HomeNextSchedulesState>(
+                  builder: (context, state) {
+                    return switch (state.status) {
+                      HomeNextSchedulesStatus.loading => AppShimmer(
+                        margin: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+                        child: OverflowBox(
+                          maxWidth: 1000,
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 24),
+                              AppCard(width: 270, child: Container()),
+                              const SizedBox(width: 16),
+                              AppCard(width: 270, child: Container()),
+                            ],
                           ),
-                          HomeNextSchedulesStatus.notLoggedIn => Container(
-                            color: Colors.blue,
-                          ),
-                          HomeNextSchedulesStatus.error => Container(
-                            color: Colors.red,
-                          ),
-                          HomeNextSchedulesStatus.success => ListView.separated(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            scrollDirection: Axis.horizontal,
-                            itemCount: state.schedulings!.length,
-                            separatorBuilder: (_, i) =>
-                                const SizedBox(width: 16),
-                            itemBuilder: (_, i) => SizedBox(
-                              width: state.schedulings!.length == 1
-                                  ? MediaQuery.sizeOf(context).width - 48
-                                  : 270,
-                              child: HomeNextScheduleItem(scheduling: state.schedulings![i]),
-                            ),
-                          ),
-                        };
-                      },
-                    ),
+                        ),
+                      ),
+                      HomeNextSchedulesStatus.notLoggedIn => Container(color: Colors.blue),
+                      HomeNextSchedulesStatus.error => Container(color: Colors.red),
+                      HomeNextSchedulesStatus.success => ListView.separated(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: state.schedulings!.length,
+                        separatorBuilder: (_, i) => const SizedBox(width: 16),
+                        itemBuilder: (_, i) => SizedBox(
+                          width: state.schedulings!.length == 1 ? MediaQuery.sizeOf(context).width - 48 : 270,
+                          child: HomeNextScheduleItem(scheduling: state.schedulings![i]),
+                        ),
+                      ),
+                    };
+                  },
+                ),
               ),
             ],
           ),
