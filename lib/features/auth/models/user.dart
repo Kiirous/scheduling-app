@@ -22,6 +22,4 @@ class User {
       phone: map['phone'] as String,
     );
   }
-
-//</editor-fold>
 }
