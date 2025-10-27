@@ -1,7 +1,7 @@
 import 'package:app_agendamento/features/auth/pages/auth/auth_page.dart';
 import 'package:app_agendamento/features/auth/pages/login/login_page.dart';
 import 'package:app_agendamento/features/auth/pages/sign_up/sign_up_page.dart';
-import 'package:app_agendamento/features/home/pages/home/home_page.dart';
+import 'package:app_agendamento/features/home/pages/base/base_page.dart';
 import 'package:app_agendamento/features/intro/pages/force_update/force_update_page.dart';
 import 'package:app_agendamento/features/intro/pages/maintenance/maintenance_page.dart';
 import 'package:app_agendamento/features/intro/pages/not_found/not_found_page.dart';
@@ -41,7 +41,7 @@ final GoRouter router = GoRouter(
       path: AppRoutes.forceUpdate,
       builder: (BuildContext context, GoRouterState state) => const ForceUpdatePage(),
     ),
-    GoRoute(path: AppRoutes.home, builder: (BuildContext context, GoRouterState state) => const HomePage()),
+    GoRoute(path: AppRoutes.home, builder: (BuildContext context, GoRouterState state) => const BasePage()),
     GoRoute(
       path: AppRoutes.professionalDetails(id: ':id'),
       builder: (BuildContext context, GoRouterState state) => ProfessionalDetailsPage(id: state.pathParameters['id']!),

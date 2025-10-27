@@ -2,17 +2,17 @@ import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeBottomNavBar extends StatefulWidget {
-  const HomeBottomNavBar({super.key, required this.page, required this.onChanged});
+class BottomNavBar extends StatefulWidget {
+  const BottomNavBar({super.key, required this.page, required this.onChanged});
 
   final int page;
   final Function(int) onChanged;
 
   @override
-  State<HomeBottomNavBar> createState() => _HomeBottomNavBarState();
+  State<BottomNavBar> createState() => _BottomNavBarState();
 }
 
-class _HomeBottomNavBarState extends State<HomeBottomNavBar> {
+class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     final AppTheme t = context.watch();

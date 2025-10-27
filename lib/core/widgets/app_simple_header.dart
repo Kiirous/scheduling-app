@@ -1,10 +1,11 @@
 import 'package:app_agendamento/core/theme/app_theme.dart';
-import 'package:app_agendamento/features/auth/data/session/session_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeHeaderSection extends StatelessWidget {
-  const HomeHeaderSection({super.key});
+class AppSimpleHeader extends StatelessWidget {
+  const AppSimpleHeader({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +16,7 @@ class HomeHeaderSection extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
         child: Align(
           alignment: Alignment.centerLeft,
-          child: BlocBuilder<SessionCubit, SessionState>(
-            builder: (context, state) {
-              return Text('Olá, ${state.loggedUser?.fullname ?? 'visitante'}', style: t.heading20Bold);
-            },
-          ),
+          child: Text(title, style: t.heading20Bold),
         ),
       ),
     );
