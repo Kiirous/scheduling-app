@@ -24,7 +24,6 @@ class _NotificationsPageState extends State<NotificationsPage> with AutomaticKee
         const AppSimpleHeader(title: 'Notificações'),
         NotificationsSwitch(
           showRead: _showRead,
-          pendingCount: 2,
           onChanged: (value) => setState(() => _showRead = value),
         ),
         Expanded(

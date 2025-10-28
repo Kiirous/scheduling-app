@@ -1,5 +1,6 @@
 part of 'professional_ratings_page_cubit.dart';
 
+@immutable
 class ProfessionalRatingsPageState extends Equatable {
   const ProfessionalRatingsPageState({
     required this.isLoading,

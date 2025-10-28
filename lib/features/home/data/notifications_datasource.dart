@@ -7,18 +7,9 @@ class NotificationsDatasource {
 
   final Dio _dio;
 
-  Future<Result<void, List<Notification>>> loadPendingNotifications() async {
+  Future<Result<void, List<Notification>>> getNotifications(int page) async {
     try {
-      final response = await _dio.post('/v1-get-user-schedules');
-      return Success(response.data['result'].map<Notification>((s) => Notification.fromJson(s)).toList());
-    } catch (e) {
-      return const Failure(null);
-    }
-  }
-
-  Future<Result<void, List<Notification>>> loadReadNotifications() async {
-    try {
-      final response = await _dio.post('/v1-get-user-schedules');
+      final response = await _dio.post('/v1-get-notifications', data: {'page': page});
       return Success(response.data['result'].map<Notification>((s) => Notification.fromJson(s)).toList());
     } catch (e) {
       return const Failure(null);

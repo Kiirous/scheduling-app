@@ -3,11 +3,10 @@ import 'package:app_agendamento/core/widgets/base/app_stateless.dart';
 import 'package:flutter/material.dart';
 
 class NotificationsSwitch extends AppStateless {
-  const NotificationsSwitch({super.key, required this.showRead, required this.onChanged, required this.pendingCount});
+  const NotificationsSwitch({super.key, required this.showRead, required this.onChanged});
 
   final bool showRead;
   final Function(bool) onChanged;
-  final int pendingCount;
 
   @override
   Widget builder(BuildContext context, AppTheme theme) {
@@ -49,7 +48,7 @@ class NotificationsSwitch extends AppStateless {
                         color: Colors.transparent,
                         alignment: Alignment.center,
                         child: Text(
-                          'Não lidas ($pendingCount)',
+                          'Não lidas',
                           style: theme.body13Bold.copyWith(color: showRead ? theme.gray : theme.black),
                         ),
                       ),

@@ -2,31 +2,31 @@ part of 'notifications_page_cubit.dart';
 
 class NotificationsPageState extends Equatable {
   const NotificationsPageState({
-    required this.isLoading,
-    this.pendingNotifications,
-    this.readNotifications,
-    this.pendingCount,
+    this.isLoading = false,
+    this.notifications,
+    this.page = 0,
+    this.finishedLoading = false,
   });
 
   final bool isLoading;
-  final List<Notification>? pendingNotifications;
-  final List<Notification>? readNotifications;
-  final int? pendingCount;
+  final List<Notification>? notifications;
+  final int page;
+  final bool finishedLoading;
 
   @override
-  List<Object?> get props => [isLoading, pendingNotifications, readNotifications, pendingCount];
+  List<Object?> get props => [isLoading, notifications, page, finishedLoading];
 
   NotificationsPageState copyWith({
     bool? isLoading,
-    List<Notification>? pendingNotifications,
-    List<Notification>? readNotifications,
-    int? pendingCount,
+    List<Notification>? notifications,
+    int? page,
+    bool? finishedLoading,
   }) {
     return NotificationsPageState(
       isLoading: isLoading ?? this.isLoading,
-      pendingNotifications: pendingNotifications ?? this.pendingNotifications,
-      readNotifications: readNotifications ?? this.readNotifications,
-      pendingCount: pendingCount ?? this.pendingCount,
+      notifications: notifications ?? this.notifications,
+      page: page ?? this.page,
+      finishedLoading: finishedLoading ?? this.finishedLoading,
     );
   }
 }

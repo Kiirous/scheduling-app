@@ -4,6 +4,7 @@ import 'package:app_agendamento/features/professional/data/professional_reposito
 import 'package:app_agendamento/features/professional/models/rating.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
 part 'professional_ratings_page_state.dart';
 
