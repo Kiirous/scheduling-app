@@ -7,18 +7,18 @@ import 'package:equatable/equatable.dart';
 
 part 'notifications_page_state.dart';
 
-enum NotificationsStatus { read, notRead }
+enum NotificationStatus { read, notRead }
 
 class NotificationsPageCubit extends Cubit<NotificationsPageState> {
   NotificationsPageCubit({NotificationsRepository? repository, required this.status})
     : _repository = repository ?? getIt(),
-      super(const NotificationsPageState(isLoading: false));
+      super(const NotificationsPageState(isLoading: true));
 
-  final NotificationsStatus status;
+  final NotificationStatus status;
   final NotificationsRepository _repository;
 
   Future<void> loadNotifications() async {
-    if (state.isLoading) return;
+    if (state.isLoading && state.notifications != null) return;
 
     final result = await _repository.getNotifications(state.page);
     emit(switch (result) {

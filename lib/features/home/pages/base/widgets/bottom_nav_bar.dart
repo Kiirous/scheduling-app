@@ -26,7 +26,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
           children: [
             Container(
               margin: const EdgeInsets.only(top: 6),
-              decoration: const BoxDecoration(borderRadius: BorderRadius.vertical(top: Radius.circular(36))),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(36)),
+                color: t.white,
+              ),
               child: Stack(
                 children: [
                   AnimatedPositioned(

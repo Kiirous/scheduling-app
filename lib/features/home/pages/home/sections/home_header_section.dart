@@ -17,7 +17,22 @@ class HomeHeaderSection extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: BlocBuilder<SessionCubit, SessionState>(
             builder: (context, state) {
-              return Text('Olá, ${state.loggedUser?.fullname ?? 'visitante'}', style: t.heading20Bold);
+              return Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      final sessionCubit = context.read<SessionCubit>();
+                      if(sessionCubit.state.loggedUser != null) {
+                        sessionCubit.logout();
+                      } else {
+                        sessionCubit.login(email: 'binladen@teste.com', password: '12345678');
+                      }
+                    },
+                    icon: Icon(Icons.menu, color: t.primary),
+                  ),
+                  Text('Olá, ${state.loggedUser?.fullname ?? 'visitante'}', style: t.heading20Bold),
+                ],
+              );
             },
           ),
         ),

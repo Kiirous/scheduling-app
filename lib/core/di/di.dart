@@ -4,6 +4,8 @@ import 'package:app_agendamento/core/device/app_secure_storage.dart';
 import 'package:app_agendamento/core/firebase/messaging/app_messaging.dart';
 import 'package:app_agendamento/core/flavor/flavor_config.dart';
 import 'package:app_agendamento/features/auth/data/session/session_cubit.dart';
+import 'package:app_agendamento/features/home/data/notifications_datasource.dart';
+import 'package:app_agendamento/features/home/data/notifications_repository.dart';
 import 'package:app_agendamento/features/professional/data/professional_datasource.dart';
 import 'package:app_agendamento/features/professional/data/professional_repository.dart';
 import 'package:app_agendamento/features/scheduling/data/scheduling_datasource.dart';
@@ -32,17 +34,21 @@ final getIt = GetIt.I;
 Future<void> configureDependencies(FlavorConfig config) async {
   getIt.registerSingleton(config);
 
-  getIt.registerLazySingleton(() => Dio(
-        BaseOptions(baseUrl: config.baseUrl, headers: {
-          'X-Parse-Application-Id': config.appId,
-          'X-Parse-REST-API-Key': config.restKey,
-        }),
-      )..interceptors.addAll([
-          TokenInterceptor(),
-          //TODO:VOLTAR VERIFICAÇÃO
-          //if (config.flavor == AppFlavor.dev)
-            PrettyDioLogger(requestHeader: true, requestBody: true)
-        ]));
+  getIt.registerLazySingleton(
+    () =>
+        Dio(
+            BaseOptions(
+              baseUrl: config.baseUrl,
+              headers: {'X-Parse-Application-Id': config.appId, 'X-Parse-REST-API-Key': config.restKey},
+            ),
+          )
+          ..interceptors.addAll([
+            TokenInterceptor(),
+            //TODO:VOLTAR VERIFICAÇÃO
+            //if (config.flavor == AppFlavor.dev)
+            PrettyDioLogger(requestHeader: true, requestBody: true),
+          ]),
+  );
 
   ///PREFERENCES
   final preferences = await SharedPreferences.getInstance();
@@ -63,6 +69,9 @@ Future<void> configureDependencies(FlavorConfig config) async {
 
   getIt.registerFactory<ProfessionalDatasource>(() => ProfessionalDatasource(getIt()));
   getIt.registerFactory(() => ProfessionalRepository(getIt()));
+
+  getIt.registerFactory(() => NotificationsDatasource(getIt()));
+  getIt.registerFactory(() => NotificationsRepository(getIt()));
 
   getIt.registerLazySingleton(() => FirebaseCrashlytics.instance);
   getIt.registerSingleton(AppCrashlytics(getIt()));

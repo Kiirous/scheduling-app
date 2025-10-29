@@ -17,7 +17,7 @@ class ProfessionalRatingsPageCubit extends Cubit<ProfessionalRatingsPageState> {
   final ProfessionalRepository _repository;
 
   Future<void> loadRatings() async {
-    if (state.isLoading) return;
+    if (state.isLoading && state.ratings != null) return;
 
     final result = await _repository.getProfessionalRatings(
       professionalId: professionalId,
