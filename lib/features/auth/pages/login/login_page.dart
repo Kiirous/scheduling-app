@@ -36,18 +36,14 @@ class _LoginPageState extends State<LoginPage> implements LoginPageActions {
               children: [
                 const Center(child: AppLogo()),
                 const SizedBox(height: 10),
-                Text(
-                  'Bem-vindo(a)\nde volta!',
-                  style: t.heading36Bold,
-                  textAlign: TextAlign.center,
-                ),
+                Text('Bem-vindo(a)\nde volta!', style: t.heading36Bold, textAlign: TextAlign.center),
                 const SizedBox(height: 24),
                 AppTextField(
                   title: 'E-mail',
                   hint: 'Informe seu e-mail',
                   textInputType: TextInputType.emailAddress,
                   onChanged: context.read<LoginPageCubit>().onEmailChanged,
-                  error: switch(state.email.displayError) {
+                  error: switch (state.email.displayError) {
                     EmailValidationError.empty => 'Campo obrigatório',
                     EmailValidationError.invalid => 'E-mail inválido',
                     _ => null,
@@ -60,7 +56,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageActions {
                   textInputType: TextInputType.emailAddress,
                   obscure: true,
                   onChanged: context.read<LoginPageCubit>().onPasswordChanged,
-                  error: switch(state.password.displayError) {
+                  error: switch (state.password.displayError) {
                     PasswordValidationError.empty => 'Campo obrigatório',
                     _ => null,
                   },
@@ -68,10 +64,12 @@ class _LoginPageState extends State<LoginPage> implements LoginPageActions {
                 const SizedBox(height: 24),
                 AppElevatedButton(
                   label: 'Entrar',
-                  onPressed: state.isValid ? () {
-                    FocusScope.of(context).unfocus();
-                    context.read<LoginPageCubit>().onLoginPressed();
-                  } : null,
+                  onPressed: state.isValid
+                      ? () {
+                          FocusScope.of(context).unfocus();
+                          context.read<LoginPageCubit>().onLoginPressed();
+                        }
+                      : null,
                 ),
               ],
             ),
