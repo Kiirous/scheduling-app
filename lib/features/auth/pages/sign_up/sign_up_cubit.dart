@@ -69,8 +69,7 @@ class SignUpCubit extends Cubit<SignUpState> {
       case Failure():
         _alertAreaCubit.showAlert(
           const Alert.error(
-            title:
-                'Não foi possível criar sua conta. Por favor, tente novamente.',
+            title: 'Não foi possível criar sua conta. Por favor, tente novamente.',
             duration: Duration(seconds: 3),
           ),
         );

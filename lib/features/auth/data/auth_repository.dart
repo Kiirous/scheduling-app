@@ -2,6 +2,7 @@ import 'package:app_agendamento/core/device/app_secure_storage.dart';
 import 'package:app_agendamento/features/auth/data/auth_datasource.dart';
 import 'package:app_agendamento/features/auth/data/results/sign_up_failed.dart';
 import 'package:app_agendamento/features/auth/data/results/validate_token_failed.dart';
+
 import '../../../core/helpers/result.dart';
 import '../models/sign_up_dto.dart';
 import '../models/user.dart';
@@ -13,10 +14,7 @@ class AuthRepository {
   final AuthDatasource _datasource;
   final AppSecureStorage _appSecureStorage;
 
-  Future<Result<LoginFailed, User>> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<Result<LoginFailed, User>> login({required String email, required String password}) async {
     final result = await _datasource.login(email: email, password: password);
 
     ///Exemplo para mostrar que podemos ter acesso a exception também no repository

@@ -100,7 +100,7 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpActions {
                 AppTextField(
                   title: 'Senha',
                   hint: 'Informe uma senha forte',
-                  textInputType: TextInputType.emailAddress,
+                  textInputType: TextInputType.visiblePassword,
                   obscure: true,
                   onChanged: context.read<SignUpCubit>().onPasswordChanged,
                   error: switch(state.password.displayError) {
