@@ -3,26 +3,22 @@ import 'package:app_agendamento/core/widgets/base/app_stateless.dart';
 import 'package:flutter/material.dart';
 
 class AppCard extends AppStateless {
-  const AppCard({
-    super.key,
-    this.onPressed,
-    required this.child,
-    this.width,
-  });
+  const AppCard({super.key, this.onPressed, required this.child, this.width, this.shadowOffset = const Offset(6, 12)});
 
   final VoidCallback? onPressed;
   final Widget child;
   final double? width;
+  final Offset shadowOffset;
 
   @override
   Widget builder(BuildContext context, AppTheme theme) {
     return Container(
       width: width,
-      margin: const EdgeInsets.only(bottom: 24),
+      margin: EdgeInsets.only(bottom: shadowOffset.dy * 2),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            offset: const Offset(6, 12),
+            offset: shadowOffset,
             blurRadius: 15,
             spreadRadius: 0,
             color: theme.black.withValues(alpha: 0.08),

@@ -1,6 +1,7 @@
 import 'package:app_agendamento/core/route/app_routes.dart';
 import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:app_agendamento/core/widgets/app_card.dart';
+import 'package:app_agendamento/core/widgets/app_chip.dart';
 import 'package:app_agendamento/features/scheduling/models/scheduling.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,14 +27,7 @@ class HomeNextScheduleItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: t.lightGray),
-                  child: Text(
-                    DateFormat('dd MMM HH:mm').format(scheduling.startDate),
-                    style: t.label11Bold.copyWith(color: t.primary),
-                  ),
-                ),
+                AppChip(text: DateFormat('dd MMM HH:mm').format(scheduling.startDate)),
                 Expanded(
                   child: Align(
                     alignment: Alignment.centerLeft,

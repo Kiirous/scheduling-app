@@ -20,7 +20,8 @@ class NotificationsPageCubit extends Cubit<NotificationsPageState> {
   Future<void> loadNotifications() async {
     if (state.isLoading && state.notifications != null) return;
 
-    final result = await _repository.getNotifications(state.page);
+    emit(state.copyWith(isLoading: true));
+    final result = await _repository.getNotifications(state.page, status == NotificationStatus.read);
     emit(switch (result) {
       Success(:final object) => state.copyWith(
         notifications: state.page == 0 ? object : [...state.notifications!, ...object],

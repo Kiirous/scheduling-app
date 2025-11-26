@@ -1,10 +1,8 @@
-import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:app_agendamento/core/widgets/app_simple_header.dart';
 import 'package:app_agendamento/features/home/pages/notifications/notifications_page_cubit.dart';
 import 'package:app_agendamento/features/home/pages/notifications/widgets/notifications_list_area.dart';
 import 'package:app_agendamento/features/home/pages/notifications/widgets/notifications_switch.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({super.key});
@@ -20,18 +18,16 @@ class _NotificationsPageState extends State<NotificationsPage> with AutomaticKee
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final AppTheme t = context.watch();
-
     return Column(
       children: [
         const AppSimpleHeader(title: 'Notificações'),
         NotificationsSwitch(
           showRead: _showRead,
-          onChanged: (value) {
-            setState(() => _showRead = value);
+          onChanged: (r) {
+            setState(() => _showRead = r);
             _pageController.animateToPage(
               _showRead ? 1 : 0,
-              duration: const Duration(microseconds: 250),
+              duration: const Duration(milliseconds: 300),
               curve: Curves.ease,
             );
           },

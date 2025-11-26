@@ -7,9 +7,9 @@ class NotificationsDatasource {
 
   final Dio _dio;
 
-  Future<Result<void, List<Notification>>> getNotifications(int page) async {
+  Future<Result<void, List<Notification>>> getNotifications(int page, bool read) async {
     try {
-      final response = await _dio.post('/v1-get-notifications', data: {'page': page});
+      final response = await _dio.post('/v1-get-notifications', data: {'page': page, 'read': read});
       return Success(response.data['result'].map<Notification>((s) => Notification.fromJson(s)).toList());
     } catch (e) {
       return const Failure(null);

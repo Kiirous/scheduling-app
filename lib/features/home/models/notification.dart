@@ -5,6 +5,7 @@ class Notification {
     required this.title,
     required this.subtitle,
     required this.page,
+    required this.createdAt,
   });
 
   final String id;
@@ -12,6 +13,7 @@ class Notification {
   final String title;
   final String subtitle;
   final String page;
+  final DateTime createdAt;
 
   factory Notification.fromJson(Map<String, dynamic> map) {
     return Notification(
@@ -20,6 +22,7 @@ class Notification {
       title: map['title'] as String,
       subtitle: map['subtitle'] as String,
       page: map['page'] as String,
+      createdAt: DateTime.parse(map['createdAt']),
     );
   }
 }

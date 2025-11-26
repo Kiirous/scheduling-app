@@ -7,7 +7,7 @@ class NotificationsRepository {
 
   final NotificationsDatasource _datasource;
 
-  Future<Result<void, List<Notification>>> getNotifications(int page) {
-    return _datasource.getNotifications(page);
+  Future<Result<void, List<Notification>>> getNotifications(int page, bool read) {
+    return _datasource.getNotifications(page, read);
   }
 }
