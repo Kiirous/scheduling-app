@@ -1,15 +1,16 @@
 import 'package:dio/dio.dart';
 
 import '../../../core/helpers/result.dart';
+import '../models/sign_up_dto.dart';
 import '../models/user.dart';
-import 'results/login_failure.dart';
+import 'results/login_failed.dart';
+import 'results/sign_up_failed.dart';
 import 'results/validate_token_failed.dart';
 
 abstract class AuthDatasource {
-  Future<Result<LoginFailure, User>> login({
-    required String email,
-    required String password,
-  });
+  Future<Result<LoginFailed, User>> login({required String email, required String password});
+
+  Future<Result<SignUpFailed, User>> signUp(SignUpDto signUpDto);
 
   Future<Result<ValidateTokenFailed, User>> validateToken(String token);
 }
@@ -20,40 +21,40 @@ class RemoteAuthDatasource implements AuthDatasource {
   final Dio _dio;
 
   @override
-  Future<Result<LoginFailure, User>> login(
-      {required String email, required String password}) async {
+  Future<Result<LoginFailed, User>> login({required String email, required String password}) async {
     try {
-      final response = await _dio.post('v1-sign-in', data: {
-        'email': email,
-        'password': password,
-      });
+      final response = await _dio.post('/v1-sign-in', data: {'email': email, 'password': password});
 
-      return Success(User.fromMap(response.data['result']));
+      return Success(User.fromJson(response.data['result']));
     } on DioException catch (e) {
       if (e.type == DioExceptionType.unknown) {
-        return const Failure(LoginFailure.offline);
+        return const Failure(LoginFailed.offline);
       } else if (e.response?.statusCode == 404) {
-        return const Failure(LoginFailure.invalidCredentials);
+        return const Failure(LoginFailed.invalidCredentials);
       }
-      return const Failure(LoginFailure.unknownError);
+      return const Failure(LoginFailed.unknownError);
     } catch (_) {
-      return const Failure(LoginFailure.unknownError);
+      return const Failure(LoginFailed.unknownError);
+    }
+  }
+
+  @override
+  Future<Result<SignUpFailed, User>> signUp(SignUpDto signUpDto) async {
+    try {
+      final response = await _dio.post('/v1-sign-up', data: signUpDto.toJson());
+
+      return Success(User.fromJson(response.data['result']));
+    } catch (_) {
+      return const Failure(SignUpFailed.unknownError);
     }
   }
 
   @override
   Future<Result<ValidateTokenFailed, User>> validateToken(String token) async {
     try {
-      final response = await _dio.post(
-        '/v1-get-user',
-        options: Options(
-          headers: {
-            'x-parse-session-token': token,
-          },
-        ),
-      );
+      final response = await _dio.post('/v1-get-user', options: Options(headers: {'x-parse-session-token': token}));
 
-      return Success(User.fromMap(response.data['result']));
+      return Success(User.fromJson(response.data['result']));
     } on DioException {
       return const Failure(ValidateTokenFailed.invalidToken);
     } catch (_) {

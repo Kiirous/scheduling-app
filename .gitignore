@@ -32,6 +32,7 @@ firebase.json
 .pub-cache/
 .pub/
 /build/
+devtools_options.yaml
 
 # Symbolication related
 app.*.symbols

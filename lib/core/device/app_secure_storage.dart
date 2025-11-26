@@ -1,13 +1,25 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class AppSecureStorage {
+enum AppSecureStorageKeys { sessionToken }
 
+class AppSecureStorage {
   const AppSecureStorage(this._secureStorage);
 
   final FlutterSecureStorage _secureStorage;
 
   Future<String?> getSessionToken() {
-    return Future.value('r:7bf1c9dfe9bc3c75d53c2af684f7bd32');
-    return _secureStorage.read(key: 'sessionToken');
+    return _secureStorage.read(key: AppSecureStorageKeys.sessionToken.name);
+  }
+
+  Future<void> saveSessionToken(String token) {
+    return _secureStorage.write(
+      key: AppSecureStorageKeys.sessionToken.name,
+      value: token,
+    );
+  }
+
+  Future<void> deleteSessionToken() {
+    //TODO:CHAMAR B4A PARA INVALIDAR SESSÃO
+    return _secureStorage.delete(key: AppSecureStorageKeys.sessionToken.name);
   }
 }
