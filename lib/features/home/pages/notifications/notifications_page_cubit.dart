@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:app_agendamento/core/di/di.dart';
 import 'package:app_agendamento/core/helpers/result.dart';
 import 'package:app_agendamento/features/home/data/notifications_repository.dart';
@@ -31,5 +33,15 @@ class NotificationsPageCubit extends Cubit<NotificationsPageState> {
       ),
       Failure() => state.copyWith(isLoading: false),
     });
+  }
+
+  void markNotificationAsRead(Notification notification) {
+    _repository.markNotificationAsRead(notification.id);
+    final readNotification = notification.copyWith(isRead: true);
+    emit(
+      state.copyWith(
+        notifications: state.notifications!.map((e) => e.id == notification.id ? readNotification : e).toList(),
+      ),
+    );
   }
 }

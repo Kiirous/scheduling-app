@@ -25,4 +25,22 @@ class Notification {
       createdAt: DateTime.parse(map['createdAt']),
     );
   }
+
+  Notification copyWith({
+    String? id,
+    bool? isRead,
+    String? title,
+    String? subtitle,
+    String? page,
+    DateTime? createdAt,
+  }) {
+    return Notification(
+      id: id ?? this.id,
+      isRead: isRead ?? this.isRead,
+      title: title ?? this.title,
+      subtitle: subtitle ?? this.subtitle,
+      page: page ?? this.page,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
 }

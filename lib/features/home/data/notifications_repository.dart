@@ -10,4 +10,6 @@ class NotificationsRepository {
   Future<Result<void, List<Notification>>> getNotifications(int page, bool read) {
     return _datasource.getNotifications(page, read);
   }
+
+  Future<bool> markNotificationAsRead(String id) => _datasource.markNotificationAsRead(id);
 }

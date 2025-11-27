@@ -3,15 +3,19 @@ part of 'notifications_page_cubit.dart';
 class NotificationsPageState extends Equatable {
   const NotificationsPageState({
     this.isLoading = false,
-    this.notifications,
     this.page = 0,
     this.finishedLoading = false,
-  });
+    List<Notification>? notifications,
+  }) : _notifications = notifications;
 
   final bool isLoading;
-  final List<Notification>? notifications;
   final int page;
   final bool finishedLoading;
+
+  final List<Notification>? _notifications;
+
+  UnmodifiableListView<Notification>? get notifications =>
+      _notifications != null ? UnmodifiableListView(_notifications) : null;
 
   @override
   List<Object?> get props => [isLoading, notifications, page, finishedLoading];
@@ -24,7 +28,7 @@ class NotificationsPageState extends Equatable {
   }) {
     return NotificationsPageState(
       isLoading: isLoading ?? this.isLoading,
-      notifications: notifications ?? this.notifications,
+      notifications: notifications ?? _notifications,
       page: page ?? this.page,
       finishedLoading: finishedLoading ?? this.finishedLoading,
     );

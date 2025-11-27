@@ -15,4 +15,13 @@ class NotificationsDatasource {
       return const Failure(null);
     }
   }
+
+  Future<bool> markNotificationAsRead(String id) async {
+    try {
+      await _dio.post('/v1-mark-notification-read', data: {'notificationId': id});
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }
