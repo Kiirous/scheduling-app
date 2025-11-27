@@ -64,10 +64,10 @@ Future<void> configureDependencies(FlavorConfig config) async {
   getIt.registerFactory<AuthDatasource>(() => RemoteAuthDatasource(getIt()));
   getIt.registerLazySingleton(() => AuthRepository(getIt(), getIt()));
 
-  getIt.registerFactory<SchedulingDatasource>(() => SchedulingDatasource(getIt()));
+  getIt.registerFactory(() => SchedulingDatasource(getIt()));
   getIt.registerFactory(() => SchedulingRepository(getIt()));
 
-  getIt.registerFactory<ProfessionalDatasource>(() => ProfessionalDatasource(getIt()));
+  getIt.registerFactory(() => ProfessionalDatasource(getIt()));
   getIt.registerFactory(() => ProfessionalRepository(getIt()));
 
   getIt.registerFactory(() => NotificationsDatasource(getIt()));
@@ -77,7 +77,7 @@ Future<void> configureDependencies(FlavorConfig config) async {
   getIt.registerSingleton(AppCrashlytics(getIt()));
 
   getIt.registerLazySingleton(() => FirebaseMessaging.instance);
-  getIt.registerSingleton(AppMessaging(getIt()));
+  getIt.registerSingleton(AppMessaging(getIt(), getIt()));
 
   getIt.registerLazySingleton(() => FirebaseRemoteConfig.instance);
   getIt.registerSingleton(AppRemoteConfig(getIt()));

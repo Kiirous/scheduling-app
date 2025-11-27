@@ -48,6 +48,8 @@ class OnboardingPageCubit extends Cubit<OnboardingPageState> {
     final messagingStatus = await _appMessaging.requestPermission();
     if(messagingStatus == AppMessagingStatus.denied) {
       await _actions?.showDeniedForeverDialog();
+    } else {
+
     }
   }
 

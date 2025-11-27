@@ -1,3 +1,4 @@
+import 'package:app_agendamento/core/firebase/messaging/app_messaging.dart';
 import 'package:app_agendamento/core/flavor/flavor_config.dart';
 import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:app_agendamento/core/utils/no_glow_behavior.dart';
@@ -20,6 +21,7 @@ Future<void> bootstrap(FlavorConfig config) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   await configureDependencies(config);
+  getIt<AppMessaging>().configure();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
