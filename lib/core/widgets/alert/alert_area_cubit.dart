@@ -10,16 +10,12 @@ class AlertAreaCubit extends Cubit<AlertAreaState> {
     emit(AlertAreaState(alerts: [alert, ...state.alerts]));
   }
 
-  void removeAlert(Alert alert) {
-    final alerts = List<Alert>.from(state.alerts);
-    final index = alerts.indexOf(alert);
-    alerts.removeAt(index);
-    emit(AlertAreaState(alerts: alerts));
-  }
+  void removeAlert(Alert alert) => emit(AlertAreaState(alerts: state.alerts.where((e) => e != alert).toList()));
 }
 
 class Alert extends Equatable {
   const Alert.success({required this.title, this.duration = const Duration(seconds: 2)}) : type = AlertType.success;
+
   const Alert.error({required this.title, this.duration = const Duration(seconds: 2)}) : type = AlertType.error;
 
   final String title;
@@ -30,4 +26,4 @@ class Alert extends Equatable {
   List<Object?> get props => [title, type, duration];
 }
 
-enum AlertType {success, error}
+enum AlertType { success, error }
