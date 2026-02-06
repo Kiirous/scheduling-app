@@ -2,6 +2,7 @@ import 'package:app_agendamento/core/device/app_secure_storage.dart';
 import 'package:app_agendamento/features/auth/data/auth_datasource.dart';
 import 'package:app_agendamento/features/auth/data/results/sign_up_failed.dart';
 import 'package:app_agendamento/features/auth/data/results/validate_token_failed.dart';
+import 'package:app_agendamento/features/auth/models/device.dart';
 
 import '../../../core/helpers/result.dart';
 import '../models/sign_up_dto.dart';
@@ -43,7 +44,11 @@ class AuthRepository {
     return _datasource.validateToken(token);
   }
 
-  Future<void> logout() async {
+  Future<void> logout() {
     return _appSecureStorage.deleteSessionToken();
+  }
+
+  Future<bool> registerDevice(Device device) {
+    return _datasource.registerDevice(device);
   }
 }

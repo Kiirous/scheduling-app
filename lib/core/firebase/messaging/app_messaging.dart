@@ -21,12 +21,23 @@ class AppMessaging {
     return settings.authorizationStatus.toApp();
   }
 
-  void configure() {
+  Future<void> configure() async {
     FirebaseMessaging.onMessageOpenedApp.listen((remoteMessage) {
       final notification = Notification.fromJson(remoteMessage.data);
       _repository.markNotificationAsRead(notification.id);
       router.push(notification.page);
     });
+  }
+
+  Future<Notification?> getInitialMessage() async {
+    final remoteMessage = await _messaging.getInitialMessage();
+    if(remoteMessage != null) {
+      final notification = Notification.fromJson(remoteMessage.data);
+      _repository.markNotificationAsRead(notification.id);
+      return notification;
+    } else {
+      return null;
+    }
   }
 }
 

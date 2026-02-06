@@ -1,4 +1,6 @@
+import 'package:app_agendamento/features/auth/models/device.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../core/helpers/result.dart';
 import '../models/sign_up_dto.dart';
@@ -13,6 +15,8 @@ abstract class AuthDatasource {
   Future<Result<SignUpFailed, User>> signUp(SignUpDto signUpDto);
 
   Future<Result<ValidateTokenFailed, User>> validateToken(String token);
+
+  Future<bool> registerDevice(Device device);
 }
 
 class RemoteAuthDatasource implements AuthDatasource {
@@ -59,6 +63,18 @@ class RemoteAuthDatasource implements AuthDatasource {
       return const Failure(ValidateTokenFailed.invalidToken);
     } catch (_) {
       return const Failure(ValidateTokenFailed.unknownError);
+    }
+  }
+
+  @override
+  Future<bool> registerDevice(Device device) async {
+    try {
+      await _dio.post('/v1-register-device', data: device.toJson());
+
+      return true;
+    } catch (e) {
+      debugPrint(e.toString());
+      return false;
     }
   }
 }

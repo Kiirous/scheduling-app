@@ -87,4 +87,9 @@ class _SplashPageState extends State<SplashPage> implements SplashPageActions {
     cubit.close();
     super.dispose();
   }
+
+  @override
+  void navToPath(String path) {
+    context.push(path);
+  }
 }
