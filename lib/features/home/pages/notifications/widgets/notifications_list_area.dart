@@ -1,3 +1,4 @@
+import 'package:app_agendamento/core/widgets/app_empty_state_indicator.dart';
 import 'package:app_agendamento/core/widgets/app_loading_indicator.dart';
 import 'package:app_agendamento/features/home/pages/notifications/notifications_page_cubit.dart';
 import 'package:app_agendamento/features/home/pages/notifications/widgets/notification_list_item.dart';
@@ -32,6 +33,16 @@ class _NotificationsListAreaState extends State<NotificationsListArea> with Auto
           if (state.isLoading) {
             return const Center(child: AppLoadingIndicator());
           }
+
+          if (state.notifications == null) return Container();
+
+          if (state.notifications!.isEmpty) {
+            return const AppEmptyStateIndicator(
+              icon: Icons.not_interested_outlined,
+              message: 'Você não possui notificações ainda!',
+            );
+          }
+
           return Padding(
             padding: const EdgeInsets.only(top: 8),
             child: ListView.builder(
