@@ -73,7 +73,11 @@ class _NotificationsPageState extends State<NotificationsPage> with AutomaticKee
                     child: AppElevatedButton(
                       label: 'Entrar',
                       onPressed: () {
-                        context.go('${AppRoutes.login.fullPath}?redirectTo=/professionals/ZNqNHB1MO8');
+                        final uri = Uri(
+                          path: AppRoutes.login.fullPath,
+                          queryParameters: {'redirectTo': '${AppRoutes.home}?initialTab=notifications'},
+                        );
+                        context.go(uri.toString());
                       },
                     ),
                   ),

@@ -45,7 +45,11 @@ final GoRouter router = GoRouter(
       path: AppRoutes.forceUpdate,
       builder: (BuildContext context, GoRouterState state) => const ForceUpdatePage(),
     ),
-    GoRoute(path: AppRoutes.home, builder: (BuildContext context, GoRouterState state) => const BasePage()),
+    GoRoute(
+      path: AppRoutes.home,
+      builder: (BuildContext context, GoRouterState state) =>
+          BasePage(initialTab: state.uri.queryParameters['initialTab']),
+    ),
     GoRoute(
       path: AppRoutes.professionalDetails(id: ':id'),
       builder: (BuildContext context, GoRouterState state) => ProfessionalDetailsPage(id: state.pathParameters['id']!),

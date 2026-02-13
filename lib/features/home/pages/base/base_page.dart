@@ -1,18 +1,25 @@
 import 'package:app_agendamento/features/home/pages/base/widgets/bottom_nav_bar.dart';
 import 'package:app_agendamento/features/home/pages/home/home_page.dart';
 import 'package:app_agendamento/features/home/pages/notifications/notifications_page.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
+enum BasePageTab { home, calendar, menu, notifications, profile }
+
 class BasePage extends StatefulWidget {
-  const BasePage({super.key});
+  const BasePage({super.key, this.initialTab});
+
+  final String? initialTab;
 
   @override
   State<BasePage> createState() => _BasePageState();
 }
 
 class _BasePageState extends State<BasePage> {
-  int page = 0;
-  final PageController _pageController = PageController();
+  late int page = widget.initialTab != null
+      ? BasePageTab.values.firstWhereOrNull((i) => i.name == widget.initialTab)?.index ?? 0
+      : 0;
+  late final PageController _pageController = PageController(keepPage: true, initialPage: page);
 
   @override
   Widget build(BuildContext context) {
