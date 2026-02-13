@@ -1,3 +1,4 @@
+import 'package:app_agendamento/core/route/app_routes.dart';
 import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:app_agendamento/core/widgets/app_elevated_button.dart';
 import 'package:app_agendamento/core/widgets/app_session_observer.dart';
@@ -7,6 +8,7 @@ import 'package:app_agendamento/features/home/pages/notifications/widgets/notifi
 import 'package:app_agendamento/features/home/pages/notifications/widgets/notifications_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({super.key});
@@ -65,7 +67,16 @@ class _NotificationsPageState extends State<NotificationsPage> with AutomaticKee
                   const SizedBox(height: 16),
                   Text('Entre para ver suas notificações!', style: theme.body16Bold),
                   const SizedBox(height: 16),
-                  AppElevatedButton(label: 'Entrar',onPressed: () {}),
+                  SizedBox(
+                    width: 100,
+                    height: 50,
+                    child: AppElevatedButton(
+                      label: 'Entrar',
+                      onPressed: () {
+                        context.go('${AppRoutes.login.fullPath}?redirectTo=/professionals/ZNqNHB1MO8');
+                      },
+                    ),
+                  ),
                 ],
               );
             },

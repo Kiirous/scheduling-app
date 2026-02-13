@@ -30,7 +30,11 @@ final GoRouter router = GoRouter(
           path: AppRoutes.signUp.path,
           builder: (BuildContext context, GoRouterState state) => const SignUpPage(),
         ),
-        GoRoute(path: AppRoutes.login.path, builder: (BuildContext context, GoRouterState state) => const LoginPage()),
+        GoRoute(
+          path: AppRoutes.login.path,
+          builder: (BuildContext context, GoRouterState state) =>
+              LoginPage(redirectTo: state.uri.queryParameters['redirectTo']),
+        ),
       ],
     ),
     GoRoute(
