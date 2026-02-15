@@ -16,9 +16,12 @@ class Notification {
   final DateTime createdAt;
 
   factory Notification.fromJson(Map<String, dynamic> map) {
+    final isReadString = map['isRead'].toString().toLowerCase();
+    final isRead = isReadString == 'true' ? true : false;
+
     return Notification(
       id: map['id'] as String,
-      isRead: map['isRead'] as bool,
+      isRead: isRead,
       title: map['title'] as String,
       subtitle: map['subtitle'] as String,
       page: map['page'] as String,

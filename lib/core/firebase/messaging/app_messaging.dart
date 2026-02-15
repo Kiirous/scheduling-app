@@ -1,4 +1,5 @@
 import 'package:app_agendamento/core/route/app_routes.dart';
+import 'package:app_agendamento/core/widgets/alert/alert_area_cubit.dart';
 import 'package:app_agendamento/features/home/data/notifications_repository.dart';
 import 'package:app_agendamento/features/home/models/notification.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -6,10 +7,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 enum AppMessagingStatus { denied, allowed, notDetermined }
 
 class AppMessaging {
-  AppMessaging(this._messaging, this._repository);
+  AppMessaging(this._messaging, this._repository, this._alertAreaCubit);
 
   final FirebaseMessaging _messaging;
   final NotificationsRepository _repository;
+  final AlertAreaCubit _alertAreaCubit;
 
   Future<AppMessagingStatus> checkStatus() async {
     final settings = await _messaging.getNotificationSettings();
@@ -27,11 +29,26 @@ class AppMessaging {
       _repository.markNotificationAsRead(notification.id);
       router.push(notification.page);
     });
+
+    FirebaseMessaging.onMessage.listen((remoteMessage) {
+      final notification = Notification.fromJson(remoteMessage.data);
+      _alertAreaCubit.showAlert(
+        Alert.notification(
+          title: notification.title,
+          subtitle: notification.subtitle,
+          onTap: () {
+            router.push(notification.page);
+            _repository.markNotificationAsRead(notification.id);
+          },
+        ),
+      );
+      _repository.markNotificationAsRead(notification.id);
+    });
   }
 
   Future<Notification?> getInitialMessage() async {
     final remoteMessage = await _messaging.getInitialMessage();
-    if(remoteMessage != null) {
+    if (remoteMessage != null) {
       final notification = Notification.fromJson(remoteMessage.data);
       _repository.markNotificationAsRead(notification.id);
       return notification;
