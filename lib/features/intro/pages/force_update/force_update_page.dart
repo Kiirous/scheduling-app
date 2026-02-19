@@ -24,6 +24,7 @@ class ForceUpdatePage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 32, left: 24, right: 24),
               child: AppElevatedButton(
+                id: 'atualizar',
                 label: 'Atualizar',
                 onPressed: getIt<AppExternalLauncher>().launchStore,
               ),

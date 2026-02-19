@@ -48,6 +48,7 @@ class _AuthPageState extends State<AuthPage> {
             ),
             const SizedBox(height: 50),
             AppElevatedButton(
+              id: 'entrar',
               label: 'Entrar',
               onPressed: () => context.push(AppRoutes.login.fullPath),
             ),

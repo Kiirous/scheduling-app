@@ -1,0 +1,11 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+
+class AppAnalytics {
+  const AppAnalytics(this._analytics);
+
+  final FirebaseAnalytics _analytics;
+
+  Future<void> logButtonPressed(String id) {
+    return _analytics.logEvent(name: 'button_pressed', parameters: {'id': id});
+  }
+}

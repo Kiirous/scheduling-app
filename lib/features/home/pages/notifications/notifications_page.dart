@@ -71,6 +71,7 @@ class _NotificationsPageState extends State<NotificationsPage> with AutomaticKee
                     width: 100,
                     height: 50,
                     child: AppElevatedButton(
+                      id: 'entrar',
                       label: 'Entrar',
                       onPressed: () {
                         final uri = Uri(

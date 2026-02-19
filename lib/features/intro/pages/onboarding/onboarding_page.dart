@@ -111,6 +111,7 @@ class _OnboardingPageState extends State<OnboardingPage>
                       ],
                       Expanded(
                         child: AppElevatedButton(
+                          id: 'próximo',
                           label: pages[page].nextButtonLabel ?? 'Próximo',
                           iconPath: 'assets/icons/arrow_right.svg',
                           onPressed: () async {
@@ -148,6 +149,7 @@ class _OnboardingPageState extends State<OnboardingPage>
             onPressed: () => Navigator.pop(context),
           ),
           AppElevatedButton(
+            id: 'ir-para-configurações',
             label: 'Ir para as configurações',
             onPressed: () async {
               await getIt<AppDeviceSettings>().openSettings();

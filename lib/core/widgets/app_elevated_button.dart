@@ -5,13 +5,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../theme/app_theme.dart';
 
 class AppElevatedButton extends AppStateless {
-  const AppElevatedButton({
-    super.key,
-    required this.label,
-    this.onPressed,
-    this.iconPath,
-  });
+  const AppElevatedButton({super.key, required this.label, this.onPressed, this.iconPath, required this.id});
 
+  final String id;
   final String label;
   final VoidCallback? onPressed;
   final String? iconPath;
@@ -19,7 +15,12 @@ class AppElevatedButton extends AppStateless {
   @override
   Widget builder(BuildContext context, AppTheme theme) {
     return ElevatedButton(
-      onPressed: onPressed,
+      onPressed: onPressed != null
+          ? () {
+              onPressed!.call();
+              analytics.logButtonPressed(id);
+            }
+          : null,
       style: ButtonStyle(
         backgroundColor: WidgetStateColor.resolveWith((state) {
           if (state.contains(WidgetState.disabled)) {
@@ -28,13 +29,9 @@ class AppElevatedButton extends AppStateless {
 
           return theme.primary;
         }),
-        shape: WidgetStateProperty.all(
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-        ),
+        shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(18))),
         minimumSize: WidgetStateProperty.all(const Size(128, 64)),
-        textStyle: WidgetStateProperty.all(
-          const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
-        ),
+        textStyle: WidgetStateProperty.all(const TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
         foregroundColor: WidgetStateColor.resolveWith((state) {
           if (state.contains(WidgetState.disabled)) {
             return theme.lightGray;
@@ -43,9 +40,7 @@ class AppElevatedButton extends AppStateless {
           return theme.white;
         }),
         elevation: WidgetStateProperty.all(0),
-        padding: WidgetStateProperty.all(
-          const EdgeInsets.symmetric(horizontal: 16),
-        ),
+        padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 16)),
       ),
       child: Row(
         children: [

@@ -1,3 +1,5 @@
+import 'package:app_agendamento/core/di/di.dart';
+import 'package:app_agendamento/core/firebase/analytics/app_analytics.dart';
 import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,4 +14,6 @@ abstract class AppStateless extends StatelessWidget {
     final AppTheme t = context.watch();
     return builder(context, t);
   }
+
+  AppAnalytics get analytics => getIt<AppAnalytics>();
 }

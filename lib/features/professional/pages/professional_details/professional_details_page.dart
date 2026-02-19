@@ -46,7 +46,7 @@ class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
                   ],
                 )
               : Container(),
-          bottomAction: AppElevatedButton(label: 'Agendar serviço(s)', onPressed: () {}),
+          bottomAction: AppElevatedButton(id: 'agendar-serviço', label: 'Agendar serviço(s)', onPressed: () {}),
         );
       },
     );

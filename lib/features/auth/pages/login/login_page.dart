@@ -65,6 +65,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageActions {
                 ),
                 const SizedBox(height: 24),
                 AppElevatedButton(
+                  id: 'entrar',
                   label: 'Entrar',
                   onPressed: state.isValid
                       ? () {

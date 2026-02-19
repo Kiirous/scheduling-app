@@ -111,6 +111,7 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpActions {
                 ),
                 const SizedBox(height: 24),
                 AppElevatedButton(
+                  id: 'cadastrar',
                   label: 'Cadastrar',
                   onPressed: state.isValid ? () {
                     FocusScope.of(context).unfocus();
