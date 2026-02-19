@@ -8,4 +8,8 @@ class AppAnalytics {
   Future<void> logButtonPressed(String id) {
     return _analytics.logEvent(name: 'button_pressed', parameters: {'id': id});
   }
+
+  Future<void> setUserId(String? id) {
+    return _analytics.setUserId(id: id);
+  }
 }

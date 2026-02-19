@@ -5,8 +5,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../theme/app_theme.dart';
 
 class AppOutLinedButton extends AppStateless {
-  const AppOutLinedButton({super.key, required this.label, this.onPressed, this.iconPath, this.minHeight});
+  const AppOutLinedButton({
+    super.key,
+    required this.id,
+    required this.label,
+    this.onPressed,
+    this.iconPath,
+    this.minHeight,
+  });
 
+  final String id;
   final String label;
   final VoidCallback? onPressed;
   final String? iconPath;
@@ -15,7 +23,12 @@ class AppOutLinedButton extends AppStateless {
   @override
   Widget builder(BuildContext context, AppTheme theme) {
     return OutlinedButton(
-      onPressed: onPressed,
+      onPressed: onPressed != null
+          ? () {
+              onPressed!.call();
+              analytics.logButtonPressed(id);
+            }
+          : null,
       style: ButtonStyle(
         shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(18))),
         side: WidgetStateProperty.resolveWith((states) {

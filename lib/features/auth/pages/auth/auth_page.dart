@@ -54,6 +54,7 @@ class _AuthPageState extends State<AuthPage> {
             ),
             const SizedBox(height: 24),
             AppOutLinedButton(
+              id: 'cadastrar',
               label: 'Cadastrar',
               onPressed: () => context.push(AppRoutes.signUp.fullPath),
             ),

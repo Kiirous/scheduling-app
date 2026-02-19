@@ -9,6 +9,7 @@ import 'package:app_agendamento/features/intro/pages/onboarding/onboarding_page.
 import 'package:app_agendamento/features/intro/pages/splash/splash_page.dart';
 import 'package:app_agendamento/features/professional/pages/professional_details/professional_details_page.dart';
 import 'package:app_agendamento/features/professional/pages/professional_ratings/professional_ratings_page.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,6 +19,7 @@ final GoRouter router = GoRouter(
   redirect: (context, state) {
     return null;
   },
+  observers: [FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance)],
   errorBuilder: (context, state) => const NotFoundPage(),
   routes: <RouteBase>[
     GoRoute(path: AppRoutes.splash, builder: (BuildContext context, GoRouterState state) => const SplashPage()),

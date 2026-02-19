@@ -107,7 +107,7 @@ class _AppBasePageState extends State<AppBasePage> with SingleTickerProviderStat
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        AppIconButton(iconPath: 'assets/icons/chevron_left.svg', onPressed: context.pop),
+                        AppIconButton(id: 'voltar', iconPath: 'assets/icons/chevron_left.svg', onPressed: context.pop),
                         Expanded(
                           child: Text(widget.title, textAlign: TextAlign.center, style: t.body16Bold),
                         ),

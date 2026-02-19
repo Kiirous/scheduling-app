@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class AppIconButton extends AppStateless {
-  const AppIconButton({super.key, required this.iconPath, this.onPressed});
+  const AppIconButton({super.key, required this.id, required this.iconPath, this.onPressed});
 
+  final String id;
   final String iconPath;
   final VoidCallback? onPressed;
 
@@ -19,10 +20,13 @@ class AppIconButton extends AppStateless {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
-          onTap: onPressed,
-          child: Center(
-            child: SvgPicture.asset(iconPath, width: 24, height: 24),
-          ),
+          onTap: onPressed != null
+              ? () {
+                  onPressed!.call();
+                  analytics.logButtonPressed(id);
+                }
+              : null,
+          child: Center(child: SvgPicture.asset(iconPath, width: 24, height: 24)),
         ),
       ),
     );

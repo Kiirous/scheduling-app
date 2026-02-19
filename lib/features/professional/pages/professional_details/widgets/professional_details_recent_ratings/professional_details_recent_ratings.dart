@@ -39,6 +39,7 @@ class _ProfessionalDetailsRecentRatingsState extends State<ProfessionalDetailsRe
                 Expanded(child: Text('Avaliações', style: t.heading18Bold)),
                 if (state.isSuccess)
                   AppOutLinedButton(
+                    id: 'ver-todas',
                     label: 'Ver todas',
                     minHeight: 32,
                     onPressed: () => context.push(AppRoutes.professionalRatings.fullPath(id: widget.professionalId)),

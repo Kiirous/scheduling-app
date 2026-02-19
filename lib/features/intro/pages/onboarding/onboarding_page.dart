@@ -145,6 +145,7 @@ class _OnboardingPageState extends State<OnboardingPage>
             'Você não autorizou esta permissão. Acesse as configurações do seu dispositivo para permitir.',
         actions: [
           AppOutLinedButton(
+            id: 'prosseguir-mesmo-assim',
             label: 'Prosseguir mesmo assim',
             onPressed: () => Navigator.pop(context),
           ),
