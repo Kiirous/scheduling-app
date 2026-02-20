@@ -1,3 +1,4 @@
+import 'package:app_agendamento/core/firebase/analytics/custom_firebase_analytics_observer.dart';
 import 'package:app_agendamento/features/auth/pages/auth/auth_page.dart';
 import 'package:app_agendamento/features/auth/pages/login/login_page.dart';
 import 'package:app_agendamento/features/auth/pages/sign_up/sign_up_page.dart';
@@ -19,7 +20,7 @@ final GoRouter router = GoRouter(
   redirect: (context, state) {
     return null;
   },
-  observers: [FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance)],
+  observers: [CustomFirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance)],
   errorBuilder: (context, state) => const NotFoundPage(),
   routes: <RouteBase>[
     GoRoute(path: AppRoutes.splash, builder: (BuildContext context, GoRouterState state) => const SplashPage()),
