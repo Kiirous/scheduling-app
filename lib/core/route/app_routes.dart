@@ -23,7 +23,10 @@ final GoRouter router = GoRouter(
   observers: [CustomFirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance)],
   errorBuilder: (context, state) => const NotFoundPage(),
   routes: <RouteBase>[
-    GoRoute(path: AppRoutes.splash, builder: (BuildContext context, GoRouterState state) => const SplashPage()),
+    GoRoute(
+      path: AppRoutes.splash,
+      pageBuilder: (context, state) => const MaterialPage(name: AppRoutes.splash, child: SplashPage()),
+    ),
     GoRoute(path: AppRoutes.onboarding, builder: (BuildContext context, GoRouterState state) => const OnboardingPage()),
     GoRoute(
       path: AppRoutes.auth,
@@ -55,12 +58,19 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.professionalDetails(id: ':id'),
-      builder: (BuildContext context, GoRouterState state) => ProfessionalDetailsPage(id: state.pathParameters['id']!),
+      pageBuilder: (context, state) => MaterialPage(
+        name: state.path,
+        arguments: state.pathParameters['id']!,
+        child: ProfessionalDetailsPage(id: state.pathParameters['id']!),
+      ),
       routes: <RouteBase>[
         GoRoute(
           path: AppRoutes.professionalRatings.path,
-          builder: (BuildContext context, GoRouterState state) =>
-              ProfessionalRatingsPage(id: state.pathParameters['id']!),
+          pageBuilder: (context, state) => MaterialPage(
+            name: state.path,
+            arguments: state.pathParameters['id']!,
+            child:ProfessionalRatingsPage(id: state.pathParameters['id']!),
+          ),
         ),
       ],
     ),

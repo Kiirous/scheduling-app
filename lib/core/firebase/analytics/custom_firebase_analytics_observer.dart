@@ -13,7 +13,7 @@ class CustomFirebaseAnalyticsObserver extends RouteObserver<ModalRoute<dynamic>>
 
   void _sendScreenView(Route<dynamic> route) {
     final String? screenName = route.settings.name ;
-    print(screenName);
+    print('SEND SCREEN VIEW: $screenName ${route.settings.arguments}');
     // if (screenName != null) {
     //   analytics.logScreenView(screenName: screenName).catchError((Object error) {
     //     final onError = _onError;
