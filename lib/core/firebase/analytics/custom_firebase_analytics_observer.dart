@@ -3,27 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 class CustomFirebaseAnalyticsObserver extends RouteObserver<ModalRoute<dynamic>> {
-  CustomFirebaseAnalyticsObserver({
-    required this.analytics,
-    Function(PlatformException error)? onError,
-  }) : _onError = onError;
+  CustomFirebaseAnalyticsObserver({required this.analytics, Function(PlatformException error)? onError});
 
   final FirebaseAnalytics analytics;
-  final void Function(PlatformException error)? _onError;
 
   void _sendScreenView(Route<dynamic> route) {
-    final String? screenName = route.settings.name ;
-    print('SEND SCREEN VIEW: $screenName ${route.settings.arguments}');
-    // if (screenName != null) {
-    //   analytics.logScreenView(screenName: screenName).catchError((Object error) {
-    //     final onError = _onError;
-    //     if (onError == null) {
-    //       debugPrint('$FirebaseAnalyticsObserver: $error');
-    //     } else {
-    //       onError(error as PlatformException);
-    //     }
-    //   }, test: (Object error) => error is PlatformException);
-    // }
+    final String? screenName = route.settings.name;
+    if (screenName != null) {
+      analytics.logScreenView(screenName: screenName);
+    }
   }
 
   @override

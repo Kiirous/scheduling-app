@@ -1,4 +1,5 @@
 import 'package:app_agendamento/core/firebase/analytics/custom_firebase_analytics_observer.dart';
+import 'package:app_agendamento/core/route/custom_page_route.dart';
 import 'package:app_agendamento/features/auth/pages/auth/auth_page.dart';
 import 'package:app_agendamento/features/auth/pages/login/login_page.dart';
 import 'package:app_agendamento/features/auth/pages/sign_up/sign_up_page.dart';
@@ -11,7 +12,6 @@ import 'package:app_agendamento/features/intro/pages/splash/splash_page.dart';
 import 'package:app_agendamento/features/professional/pages/professional_details/professional_details_page.dart';
 import 'package:app_agendamento/features/professional/pages/professional_ratings/professional_ratings_page.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final GoRouter router = GoRouter(
@@ -22,54 +22,60 @@ final GoRouter router = GoRouter(
   },
   observers: [CustomFirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance)],
   errorBuilder: (context, state) => const NotFoundPage(),
+  errorPageBuilder: (context, state) => CustomPage(state: state, child: const NotFoundPage()),
   routes: <RouteBase>[
     GoRoute(
       path: AppRoutes.splash,
-      pageBuilder: (context, state) => const MaterialPage(name: AppRoutes.splash, child: SplashPage()),
+      pageBuilder: (context, state) => CustomPage(state: state, child: const SplashPage()),
     ),
-    GoRoute(path: AppRoutes.onboarding, builder: (BuildContext context, GoRouterState state) => const OnboardingPage()),
+    GoRoute(
+      path: AppRoutes.onboarding,
+      pageBuilder: (context, state) => CustomPage(state: state, child: const OnboardingPage()),
+    ),
     GoRoute(
       path: AppRoutes.auth,
-      builder: (BuildContext context, GoRouterState state) => const AuthPage(),
+      pageBuilder: (context, state) => CustomPage(state: state, child: const AuthPage()),
       routes: <RouteBase>[
         GoRoute(
           path: AppRoutes.signUp.path,
-          builder: (BuildContext context, GoRouterState state) => const SignUpPage(),
+          pageBuilder: (context, state) => CustomPage(state: state, child: const SignUpPage()),
         ),
         GoRoute(
           path: AppRoutes.login.path,
-          builder: (BuildContext context, GoRouterState state) =>
-              LoginPage(redirectTo: state.uri.queryParameters['redirectTo']),
+          pageBuilder: (context, state) => CustomPage(
+            state: state,
+            child: LoginPage(redirectTo: state.pathParameters['redirectTo']),
+          ),
         ),
       ],
     ),
     GoRoute(
       path: AppRoutes.maintenance,
-      builder: (BuildContext context, GoRouterState state) => const MaintenancePage(),
+      pageBuilder: (context, state) => CustomPage(state: state, child: const MaintenancePage()),
     ),
     GoRoute(
       path: AppRoutes.forceUpdate,
-      builder: (BuildContext context, GoRouterState state) => const ForceUpdatePage(),
+      pageBuilder: (context, state) => CustomPage(state: state, child: const ForceUpdatePage()),
     ),
     GoRoute(
       path: AppRoutes.home,
-      builder: (BuildContext context, GoRouterState state) =>
-          BasePage(initialTab: state.uri.queryParameters['initialTab']),
+      pageBuilder: (context, state) => CustomPage(
+        state: state,
+        child: BasePage(initialTab: state.pathParameters['initialTab']),
+      ),
     ),
     GoRoute(
       path: AppRoutes.professionalDetails(id: ':id'),
-      pageBuilder: (context, state) => MaterialPage(
-        name: state.path,
-        arguments: state.pathParameters['id']!,
+      pageBuilder: (context, state) => CustomPage(
+        state: state,
         child: ProfessionalDetailsPage(id: state.pathParameters['id']!),
       ),
       routes: <RouteBase>[
         GoRoute(
           path: AppRoutes.professionalRatings.path,
-          pageBuilder: (context, state) => MaterialPage(
-            name: state.path,
-            arguments: state.pathParameters['id']!,
-            child:ProfessionalRatingsPage(id: state.pathParameters['id']!),
+          pageBuilder: (context, state) => CustomPage(
+            state: state,
+            child: ProfessionalRatingsPage(id: state.pathParameters['id']!),
           ),
         ),
       ],
