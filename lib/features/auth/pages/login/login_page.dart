@@ -41,6 +41,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageActions {
                 Text('Bem-vindo(a)\nde volta!', style: t.heading36Bold, textAlign: TextAlign.center),
                 const SizedBox(height: 24),
                 AppTextField(
+                  id: 'e-mail',
                   title: 'E-mail',
                   hint: 'Informe seu e-mail',
                   textInputType: TextInputType.emailAddress,
@@ -53,6 +54,7 @@ class _LoginPageState extends State<LoginPage> implements LoginPageActions {
                 ),
                 const SizedBox(height: 24),
                 AppTextField(
+                  id: 'senha',
                   title: 'Senha',
                   hint: 'Informe uma senha forte',
                   textInputType: TextInputType.emailAddress,

@@ -1,3 +1,5 @@
+import 'package:app_agendamento/core/di/di.dart';
+import 'package:app_agendamento/core/firebase/analytics/app_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +9,7 @@ import '../theme/app_theme.dart';
 class AppTextField extends StatefulWidget {
   const AppTextField({
     super.key,
+    required this.id,
     required this.title,
     required this.hint,
     this.initialText,
@@ -17,6 +20,7 @@ class AppTextField extends StatefulWidget {
     this.error,
   });
 
+  final String id;
   final String title;
   final String hint;
   final String? initialText;
@@ -32,15 +36,33 @@ class AppTextField extends StatefulWidget {
 
 class _AppTextFieldState extends State<AppTextField> {
   bool hidePassword = true;
+  final FocusNode focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    focusNode.addListener(onFocusChanged);
+  }
+
+  void onFocusChanged() {
+    if (focusNode.hasFocus) {
+      getIt<AppAnalytics>().logFieldEdited(widget.id);
+      setState(() => hidePassword = true);
+    }
+  }
+
+  @override
+  void dispose() {
+    focusNode.removeListener(onFocusChanged);
+    focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final AppTheme t = context.watch();
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(18),
-        color: t.lightGray,
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(18), color: t.lightGray),
       child: Row(
         children: [
           Expanded(
@@ -51,19 +73,12 @@ class _AppTextFieldState extends State<AppTextField> {
                   padding: const EdgeInsets.only(left: 20, top: 8, right: 20),
                   child: Row(
                     children: [
-                      Text(
-                        widget.title,
-                        style: t.label11Bold,
-                        textAlign: TextAlign.start,
-                      ),
+                      Text(widget.title, style: t.label11Bold, textAlign: TextAlign.start),
                       if (widget.error != null)
                         Expanded(
                           child: Text(
                             widget.error!,
-                            style: t.label11.copyWith(
-                              color: t.red,
-                              fontWeight: FontWeight.w600,
-                            ),
+                            style: t.label11.copyWith(color: t.red, fontWeight: FontWeight.w600),
                             textAlign: TextAlign.end,
                           ),
                         ),
@@ -71,6 +86,7 @@ class _AppTextFieldState extends State<AppTextField> {
                   ),
                 ),
                 TextFormField(
+                  focusNode: focusNode,
                   initialValue: widget.initialText,
                   decoration: InputDecoration(
                     border: InputBorder.none,
@@ -91,10 +107,7 @@ class _AppTextFieldState extends State<AppTextField> {
           if (widget.obscure)
             IconButton(
               onPressed: () => setState(() => hidePassword = !hidePassword),
-              icon: Icon(
-                hidePassword ? Icons.visibility : Icons.visibility_off,
-                color: t.gray,
-              ),
+              icon: Icon(hidePassword ? Icons.visibility : Icons.visibility_off, color: t.gray),
             ),
         ],
       ),

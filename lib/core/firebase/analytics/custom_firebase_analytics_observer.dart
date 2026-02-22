@@ -9,8 +9,12 @@ class CustomFirebaseAnalyticsObserver extends RouteObserver<ModalRoute<dynamic>>
 
   void _sendScreenView(Route<dynamic> route) {
     final String? screenName = route.settings.name;
-    if (screenName != null) {
+    if (screenName != null && route.settings.arguments is Map) {
       analytics.logScreenView(screenName: screenName);
+      analytics.logEvent(
+        name: 'screen_view',
+        parameters: {'screen_name': screenName, ...route.settings.arguments as Map},
+      );
     }
   }
 

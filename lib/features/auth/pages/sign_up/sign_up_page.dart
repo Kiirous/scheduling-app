@@ -41,18 +41,15 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpActions {
               children: [
                 const Center(child: AppLogo()),
                 const SizedBox(height: 10),
-                Text(
-                  'Cadastre-se',
-                  style: t.heading36Bold,
-                  textAlign: TextAlign.center,
-                ),
+                Text('Cadastre-se', style: t.heading36Bold, textAlign: TextAlign.center),
                 const SizedBox(height: 32),
                 AppTextField(
+                  id: 'nome',
                   title: 'Nome completo',
                   hint: 'Informe seu nome completo',
                   textInputType: TextInputType.name,
                   onChanged: context.read<SignUpCubit>().onFullNameChanged,
-                  error: switch(state.fullName.displayError) {
+                  error: switch (state.fullName.displayError) {
                     FullNameValidationError.empty => 'Campo obrigatório',
                     FullNameValidationError.incomplete => 'Informe seu nome completo',
                     _ => null,
@@ -60,12 +57,13 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpActions {
                 ),
                 const SizedBox(height: 24),
                 AppTextField(
+                  id: 'cpf',
                   title: 'CPF',
                   hint: 'Informe seu CPF',
                   textInputType: TextInputType.number,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly, CpfInputFormatter()],
                   onChanged: context.read<SignUpCubit>().onCpfChanged,
-                  error: switch(state.cpf.displayError) {
+                  error: switch (state.cpf.displayError) {
                     CPFValidationError.empty => 'Campo obrigatório',
                     CPFValidationError.invalid => 'CPF inválido',
                     _ => null,
@@ -73,12 +71,13 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpActions {
                 ),
                 const SizedBox(height: 24),
                 AppTextField(
+                  id: 'celular',
                   title: 'Celular',
                   hint: 'Informe seu número de celular',
                   textInputType: TextInputType.phone,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly, TelefoneInputFormatter()],
                   onChanged: context.read<SignUpCubit>().onCellphoneChanged,
-                  error: switch(state.cellphone.displayError) {
+                  error: switch (state.cellphone.displayError) {
                     CellphoneValidationError.empty => 'Campo obrigatório',
                     CellphoneValidationError.invalid => 'Celular inválido',
                     _ => null,
@@ -86,11 +85,12 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpActions {
                 ),
                 const SizedBox(height: 24),
                 AppTextField(
+                  id: 'e-mail',
                   title: 'E-mail',
                   hint: 'Informe seu e-mail',
                   textInputType: TextInputType.emailAddress,
                   onChanged: context.read<SignUpCubit>().onEmailChanged,
-                  error: switch(state.email.displayError) {
+                  error: switch (state.email.displayError) {
                     EmailValidationError.empty => 'Campo obrigatório',
                     EmailValidationError.invalid => 'E-mail inválido',
                     _ => null,
@@ -98,12 +98,13 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpActions {
                 ),
                 const SizedBox(height: 24),
                 AppTextField(
+                  id: 'senha',
                   title: 'Senha',
                   hint: 'Informe uma senha forte',
                   textInputType: TextInputType.visiblePassword,
                   obscure: true,
                   onChanged: context.read<SignUpCubit>().onPasswordChanged,
-                  error: switch(state.password.displayError) {
+                  error: switch (state.password.displayError) {
                     PasswordValidationError.empty => 'Campo obrigatório',
                     PasswordValidationError.tooShort => 'Senha muito curta',
                     _ => null,
@@ -113,10 +114,12 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpActions {
                 AppElevatedButton(
                   id: 'cadastrar',
                   label: 'Cadastrar',
-                  onPressed: state.isValid ? () {
-                    FocusScope.of(context).unfocus();
-                    context.read<SignUpCubit>().onSignUpPressed();
-                  } : null,
+                  onPressed: state.isValid
+                      ? () {
+                          FocusScope.of(context).unfocus();
+                          context.read<SignUpCubit>().onSignUpPressed();
+                        }
+                      : null,
                 ),
               ],
             ),
