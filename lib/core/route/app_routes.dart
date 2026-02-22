@@ -1,5 +1,6 @@
 import 'package:app_agendamento/core/firebase/analytics/custom_firebase_analytics_observer.dart';
 import 'package:app_agendamento/core/route/custom_page_route.dart';
+import 'package:app_agendamento/features/auth/data/session/session_cubit.dart';
 import 'package:app_agendamento/features/auth/pages/auth/auth_page.dart';
 import 'package:app_agendamento/features/auth/pages/login/login_page.dart';
 import 'package:app_agendamento/features/auth/pages/sign_up/sign_up_page.dart';
@@ -11,17 +12,28 @@ import 'package:app_agendamento/features/intro/pages/onboarding/onboarding_page.
 import 'package:app_agendamento/features/intro/pages/splash/splash_page.dart';
 import 'package:app_agendamento/features/professional/pages/professional_details/professional_details_page.dart';
 import 'package:app_agendamento/features/professional/pages/professional_ratings/professional_ratings_page.dart';
+import 'package:app_agendamento/features/scheduling/pages/schedule_services/schedule_services_page.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+final protectedRoutes = <String>['professionals/:id/schedule-services'];
 
 final GoRouter router = GoRouter(
   initialLocation: '/',
   debugLogDiagnostics: true,
   redirect: (context, state) {
+    if (protectedRoutes.contains(state.fullPath)) {
+      final SessionCubit sessionCubit = context.read();
+
+      if (sessionCubit.state.loggedUser == null) {
+        final uri = Uri(path: AppRoutes.login.fullPath, queryParameters: {'redirectTo': state.fullPath});
+        return uri.toString();
+      }
+    }
     return null;
   },
   observers: [CustomFirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance)],
-  errorBuilder: (context, state) => const NotFoundPage(),
   errorPageBuilder: (context, state) => CustomPage(state: state, child: const NotFoundPage()),
   routes: <RouteBase>[
     GoRoute(
@@ -78,6 +90,13 @@ final GoRouter router = GoRouter(
             child: ProfessionalRatingsPage(id: state.pathParameters['id']!),
           ),
         ),
+        GoRoute(
+          path: AppRoutes.professionalScheduleServices.path,
+          pageBuilder: (context, state) => CustomPage(
+            state: state,
+            child: ScheduleServicesPage(id: state.pathParameters['id']!),
+          ),
+        ),
       ],
     ),
   ],
@@ -99,6 +118,11 @@ class AppRoutes {
   static AppRouteWithId professionalRatings = AppRouteWithId(
     path: 'ratings',
     buildFullPath: (String id) => '/professionals/$id/ratings',
+  );
+
+  static AppRouteWithId professionalScheduleServices = AppRouteWithId(
+    path: 'schedule-services',
+    buildFullPath: (String id) => '/professionals/$id/schedule-services',
   );
 }
 

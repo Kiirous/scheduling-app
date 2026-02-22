@@ -1,3 +1,4 @@
+import 'package:app_agendamento/core/route/app_routes.dart';
 import 'package:app_agendamento/core/widgets/app_base_page.dart';
 import 'package:app_agendamento/core/widgets/app_elevated_button.dart';
 import 'package:app_agendamento/features/professional/pages/professional_details/professional_details_page_cubit.dart';
@@ -5,6 +6,7 @@ import 'package:app_agendamento/features/professional/pages/professional_details
 import 'package:app_agendamento/features/professional/pages/professional_details/widgets/professional_details_recent_ratings/professional_details_recent_ratings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import 'widgets/professional_details_services_widget.dart';
 
@@ -46,7 +48,11 @@ class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
                   ],
                 )
               : Container(),
-          bottomAction: AppElevatedButton(id: 'agendar-serviço', label: 'Agendar serviço(s)', onPressed: () {}),
+          bottomAction: AppElevatedButton(
+            id: 'agendar-serviço',
+            label: 'Agendar serviço(s)',
+            onPressed: () => context.push(AppRoutes.professionalScheduleServices.fullPath(id: widget.id)),
+          ),
         );
       },
     );
