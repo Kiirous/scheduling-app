@@ -17,17 +17,18 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-final protectedRoutes = <String>['professionals/:id/schedule-services'];
+final protectedRoutes = [RegExp(r"\/professionals\/.*\/schedule-services")];
 
 final GoRouter router = GoRouter(
-  initialLocation: '/',
+  initialLocation: AppRoutes.splash,
   debugLogDiagnostics: true,
   redirect: (context, state) {
-    if (protectedRoutes.contains(state.fullPath)) {
+    final currentLocation = state.uri.toString();
+    if (protectedRoutes.any((route) => route.hasMatch(currentLocation))) {
       final SessionCubit sessionCubit = context.read();
 
       if (sessionCubit.state.loggedUser == null) {
-        final uri = Uri(path: AppRoutes.login.fullPath, queryParameters: {'redirectTo': state.fullPath});
+        final uri = Uri(path: AppRoutes.login.fullPath, queryParameters: {'redirectTo': currentLocation});
         return uri.toString();
       }
     }
@@ -56,7 +57,7 @@ final GoRouter router = GoRouter(
           path: AppRoutes.login.path,
           pageBuilder: (context, state) => CustomPage(
             state: state,
-            child: LoginPage(redirectTo: state.pathParameters['redirectTo']),
+            child: LoginPage(redirectTo: state.uri.queryParameters['redirectTo']),
           ),
         ),
       ],
@@ -75,27 +76,29 @@ final GoRouter router = GoRouter(
         state: state,
         child: BasePage(initialTab: state.pathParameters['initialTab']),
       ),
-    ),
-    GoRoute(
-      path: AppRoutes.professionalDetails(id: ':id'),
-      pageBuilder: (context, state) => CustomPage(
-        state: state,
-        child: ProfessionalDetailsPage(id: state.pathParameters['id']!),
-      ),
-      routes: <RouteBase>[
+      routes: [
         GoRoute(
-          path: AppRoutes.professionalRatings.path,
+          path: AppRoutes.professionalDetails.path,
           pageBuilder: (context, state) => CustomPage(
             state: state,
-            child: ProfessionalRatingsPage(id: state.pathParameters['id']!),
+            child: ProfessionalDetailsPage(id: state.pathParameters['id']!),
           ),
-        ),
-        GoRoute(
-          path: AppRoutes.professionalScheduleServices.path,
-          pageBuilder: (context, state) => CustomPage(
-            state: state,
-            child: ScheduleServicesPage(id: state.pathParameters['id']!),
-          ),
+          routes: <RouteBase>[
+            GoRoute(
+              path: AppRoutes.professionalRatings.path,
+              pageBuilder: (context, state) => CustomPage(
+                state: state,
+                child: ProfessionalRatingsPage(id: state.pathParameters['id']!),
+              ),
+            ),
+            GoRoute(
+              path: AppRoutes.professionalScheduleServices.path,
+              pageBuilder: (context, state) => CustomPage(
+                state: state,
+                child: ScheduleServicesPage(id: state.pathParameters['id']!),
+              ),
+            ),
+          ],
         ),
       ],
     ),
@@ -103,14 +106,17 @@ final GoRouter router = GoRouter(
 );
 
 class AppRoutes {
-  static const String splash = '/';
+  static const String splash = '/splash';
   static const String onboarding = '/intro';
   static const String auth = '/auth';
   static const String maintenance = '/maintenance';
   static const String forceUpdate = '/force-update';
-  static const String home = '/home';
+  static const String home = '/';
 
-  static String professionalDetails({required String id}) => '/professionals/$id';
+  static AppRouteWithId professionalDetails = AppRouteWithId(
+    path: 'professionals/:id',
+    buildFullPath: (String id) => '/professionals/$id',
+  );
 
   static const AppRoute signUp = AppRoute(fullPath: '/auth/signup', path: 'signup');
   static const AppRoute login = AppRoute(fullPath: '/auth/login', path: 'login');
@@ -134,10 +140,11 @@ class AppRoute {
 }
 
 class AppRouteWithId {
-  const AppRouteWithId({required this.path, required this.buildFullPath});
+  const AppRouteWithId({required this.path, required Function(String id) buildFullPath})
+    : _buildFullPath = buildFullPath;
 
   final String path;
-  final Function(String id) buildFullPath;
+  final Function(String id) _buildFullPath;
 
-  String fullPath({required String id}) => buildFullPath(id);
+  String fullPath({required String id}) => _buildFullPath(id);
 }

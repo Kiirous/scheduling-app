@@ -19,7 +19,7 @@ class HomeNextScheduleItem extends StatelessWidget {
     final AppTheme t = context.watch();
     return AppCard(
       onPressed: () {
-        context.push(AppRoutes.professionalDetails(id: scheduling.professional.id));
+        context.push(AppRoutes.professionalDetails.fullPath(id: scheduling.professional.id));
       },
       child: Row(
         children: [

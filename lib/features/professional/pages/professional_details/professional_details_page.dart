@@ -34,7 +34,7 @@ class _ProfessionalDetailsPageState extends State<ProfessionalDetailsPage> {
       bloc: cubit,
       builder: (context, state) {
         return AppBasePage(
-          title: 'PROFISSIONAL',
+          title: 'Profissional',
           isLoading: state.isLoading,
           body: state.professional != null
               ? Column(

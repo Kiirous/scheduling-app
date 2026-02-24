@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:app_agendamento/core/widgets/app_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -19,6 +20,7 @@ class AppBasePage extends StatefulWidget {
     this.isLoading = false,
     this.type = AppBasePageType.scrollable,
     this.bottomAction,
+    this.backgroundColor
   });
 
   final String title;
@@ -27,6 +29,7 @@ class AppBasePage extends StatefulWidget {
   final bool isLoading;
   final AppBasePageType type;
   final Widget? bottomAction;
+  final Color? backgroundColor;
 
   @override
   State<AppBasePage> createState() => _AppBasePageState();
@@ -58,6 +61,7 @@ class _AppBasePageState extends State<AppBasePage> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     final AppTheme t = context.watch();
     return Scaffold(
+      backgroundColor: widget.backgroundColor,
       body: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Stack(
@@ -65,7 +69,7 @@ class _AppBasePageState extends State<AppBasePage> with SingleTickerProviderStat
             if (widget.type == AppBasePageType.scrollable)
               SingleChildScrollView(
                 padding: EdgeInsets.only(
-                  top: MediaQuery.paddingOf(context).top + 64,
+                  top: MediaQuery.paddingOf(context).top + 52,
                   bottom: MediaQuery.paddingOf(context).bottom + (widget.bottomAction != null ? 88 : 0),
                 ).add(widget.bodyPadding),
                 child: widget.body,
@@ -95,11 +99,9 @@ class _AppBasePageState extends State<AppBasePage> with SingleTickerProviderStat
             ),
             Align(
               alignment: Alignment.topCenter,
-              child: Card(
-                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(36))),
-                margin: EdgeInsets.zero,
-                elevation: 4,
-                shadowColor: t.lightGray,
+              child: AppCard(
+                padding: EdgeInsets.zero,
+                borderRadius: const BorderRadius.vertical(bottom: Radius.circular(36)),
                 child: SafeArea(
                   bottom: false,
                   child: Padding(
