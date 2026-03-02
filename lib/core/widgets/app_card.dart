@@ -11,6 +11,8 @@ class AppCard extends AppStateless {
     this.shadowOffset = const Offset(6, 12),
     this.borderRadius,
     this.padding = const EdgeInsets.all(20),
+    this.shadowEnabled = true,
+    this.color,
   });
 
   final VoidCallback? onPressed;
@@ -19,19 +21,27 @@ class AppCard extends AppStateless {
   final Offset shadowOffset;
   final BorderRadius? borderRadius;
   final EdgeInsetsGeometry padding;
+  final bool shadowEnabled;
+  final Color? color;
 
   @override
   Widget builder(BuildContext context, AppTheme theme) {
     return Container(
       width: width,
-      margin: EdgeInsets.only(bottom: shadowOffset.dy * 2),
+      margin: EdgeInsets.only(bottom: shadowEnabled ? shadowOffset.dy * 2 : 0),
       decoration: BoxDecoration(
         boxShadow: [
-          BoxShadow(offset: shadowOffset, blurRadius: 15, spreadRadius: 0, color: theme.black.withValues(alpha: 0.08)),
+          if (shadowEnabled)
+            BoxShadow(
+              offset: shadowOffset,
+              blurRadius: 15,
+              spreadRadius: 0,
+              color: theme.black.withValues(alpha: 0.08),
+            ),
         ],
       ),
       child: Material(
-        color: theme.white,
+        color: color ?? theme.white,
         shape: RoundedRectangleBorder(borderRadius: borderRadius ?? BorderRadius.circular(18)),
         clipBehavior: Clip.antiAlias,
         child: InkWell(

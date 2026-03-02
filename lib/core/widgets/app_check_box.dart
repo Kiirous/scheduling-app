@@ -1,0 +1,37 @@
+import 'package:app_agendamento/core/theme/app_theme.dart';
+import 'package:app_agendamento/core/widgets/base/app_stateless.dart';
+import 'package:flutter/material.dart';
+
+class AppCheckBox extends AppStateless {
+  const AppCheckBox({super.key, required this.checked, required this.onTap});
+
+  final bool checked;
+  final VoidCallback onTap;
+
+  @override
+  Widget builder(BuildContext context, AppTheme theme) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(9),
+      highlightColor: theme.primary.withValues(alpha: 0.1),
+      splashColor: theme.primary.withValues(alpha: 0.1),
+      child: Container(
+        width: 20,
+        height: 20,
+        margin: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: theme.primary, width: 1),
+        ),
+        padding: const EdgeInsets.all(2),
+        child: checked ? Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            color: theme.primary,
+
+          ),
+        ) : null,
+      ),
+    );
+  }
+}
