@@ -3,6 +3,7 @@ import 'package:app_agendamento/core/widgets/app_base_page.dart';
 import 'package:app_agendamento/core/widgets/app_card.dart';
 import 'package:app_agendamento/core/widgets/app_check_box.dart';
 import 'package:app_agendamento/core/widgets/app_chip.dart';
+import 'package:app_agendamento/core/widgets/app_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -81,8 +82,8 @@ class _ScheduleServicesPageState extends State<ScheduleServicesPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Mês', style: theme.heading18Bold),
-                      Text('Selecione um mês para visualizar os dias e horários disponíveis', style: theme.body13),
+                      Text('Data', style: theme.heading18Bold),
+                      Text('Selecione um mês para visualizar os dias disponíveis', style: theme.body13),
                     ],
                   ),
                 ),
@@ -92,22 +93,28 @@ class _ScheduleServicesPageState extends State<ScheduleServicesPage> {
                     const SizedBox(width: 20),
                     AppChip(
                       text: 'Junho',
-                      padding: const EdgeInsets.all(8),
-                      textStyle: theme.body16Bold.copyWith(color: theme.primary),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      textStyle: theme.body16.copyWith(color: theme.primary, fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(width: 8),
                     AppChip(
                       text: 'Julho',
-                      padding: const EdgeInsets.all(8),
-                      textStyle: theme.body16Bold.copyWith(color: theme.primary),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      textStyle: theme.body16.copyWith(color: theme.primary, fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(width: 8),
                     AppChip(
                       text: 'Agosto',
-                      padding: const EdgeInsets.all(8),
-                      textStyle: theme.body16Bold.copyWith(color: theme.primary),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      textStyle: theme.body16.copyWith(color: theme.primary, fontWeight: FontWeight.w600),
                     ),
                   ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: Row(
+                    children: [AppIconButton(id: 'mes-anterior', iconPath: '', onPressed: () {})],
+                  ),
                 ),
               ],
             ),
