@@ -13,8 +13,6 @@ class AppCheckBox extends AppStateless {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(9),
-      highlightColor: theme.primary.withValues(alpha: 0.1),
-      splashColor: theme.primary.withValues(alpha: 0.1),
       child: Container(
         width: 20,
         height: 20,

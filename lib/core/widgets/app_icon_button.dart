@@ -4,17 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class AppIconButton extends AppStateless {
-  const AppIconButton({super.key, required this.id, required this.iconPath, this.onPressed});
+  const AppIconButton({super.key, required this.id, required this.iconPath, this.onPressed, this.size = 48});
 
   final String id;
   final String iconPath;
   final VoidCallback? onPressed;
+  final double size;
 
   @override
   Widget builder(BuildContext context, AppTheme theme) {
     return SizedBox(
-      height: 48,
-      width: 48,
+      height: size,
+      width: size,
       child: Material(
         color: Colors.transparent,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),

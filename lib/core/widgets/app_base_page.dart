@@ -70,7 +70,7 @@ class _AppBasePageState extends State<AppBasePage> with SingleTickerProviderStat
               SingleChildScrollView(
                 padding: EdgeInsets.only(
                   top: MediaQuery.paddingOf(context).top + 52,
-                  bottom: MediaQuery.paddingOf(context).bottom + (widget.bottomAction != null ? 88 : 0),
+                  bottom: MediaQuery.paddingOf(context).bottom + (widget.bottomAction != null ? 104 : 0),
                 ).add(widget.bodyPadding),
                 child: widget.body,
               )
@@ -109,7 +109,7 @@ class _AppBasePageState extends State<AppBasePage> with SingleTickerProviderStat
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        AppIconButton(id: 'voltar', iconPath: 'assets/icons/chevron_left.svg', onPressed: context.pop),
+                        AppIconButton(id: 'voltar', iconPath: 'assets/icons/back_button.svg', onPressed: context.pop),
                         Expanded(
                           child: Text(widget.title, textAlign: TextAlign.center, style: t.body16Bold),
                         ),

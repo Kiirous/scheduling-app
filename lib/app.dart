@@ -75,6 +75,8 @@ class App extends StatelessWidget {
               selectionHandleColor: t.primary,
               selectionColor: t.primary.withValues(alpha: 0.3),
             ),
+            highlightColor: t.primary.withValues(alpha: 0.1),
+            splashColor: t.primary.withValues(alpha: 0.1),
           ),
         ),
       ),
