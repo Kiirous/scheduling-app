@@ -27,7 +27,14 @@ class AppIconButton extends AppStateless {
                   analytics.logButtonPressed(id);
                 }
               : null,
-          child: Center(child: SvgPicture.asset(iconPath, width: 24, height: 24)),
+          child: Center(
+            child: SvgPicture.asset(
+              iconPath,
+              width: 24,
+              height: 24,
+              colorFilter: ColorFilter.mode(onPressed != null ? theme.primary : theme.gray, BlendMode.srcIn),
+            ),
+          ),
         ),
       ),
     );

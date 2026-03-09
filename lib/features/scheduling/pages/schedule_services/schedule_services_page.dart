@@ -4,7 +4,7 @@ import 'package:app_agendamento/core/widgets/app_card.dart';
 import 'package:app_agendamento/core/widgets/app_check_box.dart';
 import 'package:app_agendamento/core/widgets/app_chip.dart';
 import 'package:app_agendamento/core/widgets/app_elevated_button.dart';
-import 'package:app_agendamento/core/widgets/app_icon_button.dart';
+import 'package:app_agendamento/features/scheduling/pages/schedule_services/widgets/schedule_services_day_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -110,86 +110,7 @@ class _ScheduleServicesPageState extends State<ScheduleServicesPage> {
             ],
           ),
           const SizedBox(height: 24),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Row(
-              children: [
-                AppIconButton(
-                  id: 'mes-anterior',
-                  size: 40,
-                  iconPath: 'assets/icons/chevron_left.svg',
-                  onPressed: () {},
-                ),
-                Expanded(
-                  child: SizedBox(
-                    height: 60,
-                    child: PageView(
-                      children: [
-                        LayoutBuilder(
-                          builder: (_, constraints) {
-                            final width = constraints.maxWidth;
-                            final itemWidth = width / 7;
-
-                            return Stack(
-                              children: [
-                                AnimatedPositioned(
-                                  duration: const Duration(milliseconds: 300),
-                                  left: itemWidth * (day - 1),
-                                  child: Container(
-                                    width: itemWidth,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                      color: theme.primary,
-                                      borderRadius: BorderRadius.circular(14),
-                                    ),
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    for (int i = 1; i < 8; i++)
-                                      Expanded(
-                                        child: InkWell(
-                                          onTap: () => setState(() => day = i),
-                                          borderRadius: BorderRadius.circular(14),
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                '0$i',
-                                                style: theme.heading20Bold.copyWith(
-                                                  color: day == i ? theme.bg : theme.black,
-                                                ),
-                                              ),
-                                              Text(
-                                                'qui',
-                                                style: theme.body13.copyWith(
-                                                  fontWeight: FontWeight.w600,
-                                                  color: day == i ? theme.bg : theme.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                AppIconButton(
-                  id: 'mes-anterior',
-                  size: 40,
-                  iconPath: 'assets/icons/chevron_right.svg',
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          ),
+          const ScheduleServicesDaySelector(),
           const SizedBox(height: 24),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
