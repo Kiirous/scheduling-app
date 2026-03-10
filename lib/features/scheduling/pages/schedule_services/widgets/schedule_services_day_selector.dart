@@ -5,7 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class ScheduleServicesDaySelector extends StatefulWidget {
-  const ScheduleServicesDaySelector({super.key});
+  const ScheduleServicesDaySelector({super.key, required this.currentMonth});
+
+  final DateTime currentMonth;
 
   @override
   State<ScheduleServicesDaySelector> createState() => _ScheduleServicesDaySelectorState();
@@ -15,7 +17,7 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
   final PageController pageController = PageController();
   int currentPage = 0;
 
-  final currentMonth = DateTime(2025, 3);
+  DateTime get currentMonth => widget.currentMonth;
   final today = DateTime.now();
 
   List<CalendarDay> days = [];
