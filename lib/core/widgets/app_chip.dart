@@ -9,23 +9,30 @@ class AppChip extends AppStateless {
     this.minWidth,
     this.textStyle,
     this.padding = const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+    this.onTap,
+    this.color
   });
 
   final String text;
   final double? minWidth;
   final TextStyle? textStyle;
   final EdgeInsets padding;
+  final VoidCallback? onTap;
+  final Color? color;
 
   @override
   Widget builder(BuildContext context, AppTheme theme) {
-    return Container(
-      constraints: minWidth != null ? BoxConstraints(minWidth: minWidth!) : null,
-      padding: padding,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: theme.lightGray),
-      child: Text(
-        text,
-        textAlign: TextAlign.center,
-        style: textStyle ?? theme.label11Bold.copyWith(color: theme.primary),
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        constraints: minWidth != null ? BoxConstraints(minWidth: minWidth!) : null,
+        padding: padding,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: color,),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: textStyle ?? theme.label11Bold.copyWith(color: theme.primary),
+        ),
       ),
     );
   }

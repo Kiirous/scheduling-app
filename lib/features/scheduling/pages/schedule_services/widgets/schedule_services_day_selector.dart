@@ -1,13 +1,21 @@
 import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:app_agendamento/core/widgets/app_icon_button.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class ScheduleServicesDaySelector extends StatefulWidget {
-  const ScheduleServicesDaySelector({super.key, required this.currentMonth});
+  const ScheduleServicesDaySelector({
+    super.key,
+    required this.currentMonth,
+    required this.lastDay,
+    required this.onMonthChanged,
+  });
 
   final DateTime currentMonth;
+  final DateTime lastDay;
+  final Function(DateTime) onMonthChanged;
 
   @override
   State<ScheduleServicesDaySelector> createState() => _ScheduleServicesDaySelectorState();
@@ -21,7 +29,7 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
   final today = DateTime.now();
 
   List<CalendarDay> days = [];
-  CalendarDay? selectedDay;
+  late DateTime selectedDay = DateUtils.dateOnly(today);
 
   @override
   void initState() {
@@ -29,7 +37,25 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
     createDays();
   }
 
+  @override
+  void didUpdateWidget(ScheduleServicesDaySelector oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.currentMonth != widget.currentMonth) {
+      createDays();
+
+      final currentDayIndex = days.indexWhere(
+        (day) => DateUtils.dateOnly(day.dateTime) == DateUtils.dateOnly(selectedDay),
+      );
+
+      currentPage = currentDayIndex ~/ 7;
+      pageController.jumpToPage(currentPage);
+    }
+  }
+
   void createDays() {
+    days.clear();
+
     final firstMonthWeekDay = currentMonth.weekday;
     if (firstMonthWeekDay != DateTime.monday) {
       for (int i = firstMonthWeekDay - 1; i >= 1; i--) {
@@ -40,7 +66,9 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
 
     for (int day = 0; day < DateUtils.getDaysInMonth(currentMonth.year, currentMonth.month); day++) {
       final monthDay = currentMonth.add(Duration(days: day));
-      days.add(CalendarDay(dateTime: monthDay, selectable: !monthDay.isAfter(today.subtract(const Duration(days: 1)))));
+      final isAvailable =
+          monthDay.isBefore(widget.lastDay) && !monthDay.isBefore(today.subtract(const Duration(days: 1)));
+      days.add(CalendarDay(dateTime: monthDay, selectable: isAvailable));
     }
 
     final lastMonthDay = days.last.dateTime;
@@ -51,6 +79,10 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
         days.add(CalendarDay(dateTime: nextMonthDay, selectable: false));
       }
     }
+
+    final currentDayIndex = days.indexWhere((day) => DateUtils.dateOnly(day.dateTime) == DateUtils.dateOnly(today));
+    final beforePages = currentDayIndex ~/ 7;
+    days.removeRange(0, beforePages * 7);
   }
 
   @override
@@ -60,7 +92,7 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
     Color getDayTextColor(CalendarDay day) {
       if (!day.selectable) {
         return theme.gray;
-      } else if (day == selectedDay) {
+      } else if (day.dateTime == selectedDay) {
         return theme.bg;
       } else {
         return theme.black;
@@ -100,14 +132,14 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
                         final width = constraints.maxWidth;
                         final itemWidth = width / 7;
 
-                        final selectedDayInView = pageDays.contains(selectedDay);
+                        final selectedDayInView = pageDays.any((d) => d.dateTime == selectedDay);
 
                         return Stack(
                           children: [
                             if (selectedDayInView)
                               AnimatedPositioned(
                                 duration: const Duration(milliseconds: 300),
-                                left: itemWidth * pageDays.indexOf(selectedDay!),
+                                left: itemWidth * pageDays.indexWhere((d) => d.dateTime == selectedDay),
                                 child: Container(
                                   width: itemWidth,
                                   height: 60,
@@ -122,13 +154,16 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
                                 for (final day in pageDays)
                                   Expanded(
                                     child: InkWell(
-                                      onTap: day.selectable
-                                          ? () {
-                                              setState(() {
-                                                selectedDay = day;
-                                              });
-                                            }
-                                          : null,
+                                      onTap: () {
+                                        if (day.selectable) {
+                                          setState(() => selectedDay = day.dateTime);
+                                        } else {
+                                          if (day.dateTime.isBefore(widget.lastDay) && day.dateTime.isAfter(today)) {
+                                            widget.onMonthChanged(DateTime(day.dateTime.year, day.dateTime.month));
+                                            setState(() => selectedDay = day.dateTime);
+                                          }
+                                        }
+                                      },
                                       borderRadius: BorderRadius.circular(14),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
@@ -178,7 +213,7 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
   }
 }
 
-class CalendarDay {
+class CalendarDay extends Equatable {
   const CalendarDay({required this.dateTime, required this.selectable});
 
   final DateTime dateTime;
@@ -188,4 +223,7 @@ class CalendarDay {
   String toString() {
     return 'CalendarDay{dateTime: $dateTime, selectable: $selectable}';
   }
+
+  @override
+  List<Object?> get props => [dateTime, selectable];
 }

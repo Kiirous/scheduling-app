@@ -20,14 +20,12 @@ class ScheduleServicesPage extends StatefulWidget {
 }
 
 class _ScheduleServicesPageState extends State<ScheduleServicesPage> {
-  int day = 3;
-
   @override
   Widget build(BuildContext context) {
     final AppTheme theme = context.watch();
 
     return BlocProvider(
-      create: (context) => ScheduleServicesCubit(),
+      create: (context) => ScheduleServicesCubit(professionalId: widget.id),
       child: AppBasePage(
         backgroundColor: theme.bg,
         title: 'Agendar',
@@ -95,8 +93,12 @@ class _ScheduleServicesPageState extends State<ScheduleServicesPage> {
             const ScheduleServicesMonthSelector(),
             const SizedBox(height: 24),
             BlocBuilder<ScheduleServicesCubit, ScheduleServicesState>(
-              builder: (_, state) {
-                return ScheduleServicesDaySelector(currentMonth: state.selectedMonth);
+              builder: (context, state) {
+                return ScheduleServicesDaySelector(
+                  currentMonth: state.selectedMonth,
+                  lastDay: state.lastAvailableDay,
+                  onMonthChanged: (month) => context.read<ScheduleServicesCubit>().changeSelectedMonth(month),
+                );
               },
             ),
             const SizedBox(height: 24),
