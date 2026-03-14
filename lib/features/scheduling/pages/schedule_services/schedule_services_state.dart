@@ -1,17 +1,24 @@
 part of 'schedule_services_cubit.dart';
 
 class ScheduleServicesState extends Equatable {
-  ScheduleServicesState({required this.selectedMonth, this.professional, required this.loading});
+  ScheduleServicesState({
+    required this.selectedMonth,
+    this.professional,
+    required this.loading,
+    required this.selectedServices,
+  });
 
   ScheduleServicesState.initial()
     : selectedMonth = DateTime(DateTime.now().year, DateTime.now().month),
       professional = null,
-      loading = false;
+      loading = false,
+      selectedServices = [];
 
   final DateTime selectedMonth;
   final DateTime firstAvailableDay = DateTime.now();
   final ProfessionalDetails? professional;
   final bool loading;
+  final List<Service> selectedServices;
 
   List<DateTime> get availableMonths {
     Set<DateTime> months = {};
@@ -26,13 +33,33 @@ class ScheduleServicesState extends Equatable {
   DateTime get lastAvailableDay => firstAvailableDay.add(const Duration(days: 120));
 
   @override
-  List<Object?> get props => [selectedMonth, professional, loading];
+  List<Object?> get props => [selectedMonth, professional, loading, selectedServices];
 
-  ScheduleServicesState copyWith({DateTime? selectedMonth, ProfessionalDetails? professional, bool? loading}) {
+  ScheduleServicesState copyWith({
+    DateTime? selectedMonth,
+    ProfessionalDetails? professional,
+    bool? loading,
+    List<Service>? selectedServices,
+  }) {
     return ScheduleServicesState(
       selectedMonth: selectedMonth ?? this.selectedMonth,
       professional: professional ?? this.professional,
       loading: loading ?? this.loading,
+      selectedServices: selectedServices ?? this.selectedServices,
     );
+  }
+
+  ScheduleServicesState copyAddingService(Service service) {
+    final services = List<Service>.from(selectedServices);
+    services.add(service);
+
+    return copyWith(selectedServices: services);
+  }
+
+  ScheduleServicesState copyRemovingService(Service service) {
+    final services = List<Service>.from(selectedServices);
+    services.remove(service);
+
+    return copyWith(selectedServices: services);
   }
 }

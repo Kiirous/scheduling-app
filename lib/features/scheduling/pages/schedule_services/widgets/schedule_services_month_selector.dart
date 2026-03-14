@@ -13,30 +13,46 @@ class ScheduleServicesMonthSelector extends AppStateless {
   Widget builder(BuildContext context, AppTheme theme) {
     return BlocBuilder<ScheduleServicesCubit, ScheduleServicesState>(
       builder: (context, state) {
-        return SizedBox(
-          height: 36,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: state.availableMonths.length,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            itemBuilder: (_, i) {
-              final month = state.availableMonths[i];
-              final selectedMonth = state.selectedMonth;
-              final isCurrent = month == selectedMonth;
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Data', style: theme.heading18Bold),
+                  Text('Selecione um mês para visualizar os dias disponíveis', style: theme.body13),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              height: 36,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: state.availableMonths.length,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                itemBuilder: (_, i) {
+                  final month = state.availableMonths[i];
+                  final selectedMonth = state.selectedMonth;
+                  final isCurrent = month == selectedMonth;
 
-              return AppChip(
-                color: isCurrent ? theme.primary : theme.white,
-                text: DateFormat('MMMM').format(state.availableMonths[i]),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                textStyle: theme.body16.copyWith(
-                  color: isCurrent ? theme.white : theme.primary,
-                  fontWeight: FontWeight.w600,
-                ),
-                onTap: () => context.read<ScheduleServicesCubit>().changeSelectedMonth(month),
-              );
-            },
-            separatorBuilder: (_, __) => const SizedBox(width: 8),
-          ),
+                  return AppChip(
+                    color: isCurrent ? theme.primary : theme.white,
+                    text: DateFormat('MMMM').format(state.availableMonths[i]),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    textStyle: theme.body16.copyWith(
+                      color: isCurrent ? theme.white : theme.primary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    onTap: () => context.read<ScheduleServicesCubit>().changeSelectedMonth(month),
+                  );
+                },
+                separatorBuilder: (_, __) => const SizedBox(width: 8),
+              ),
+            ),
+          ],
         );
       },
     );

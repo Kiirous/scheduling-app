@@ -11,11 +11,13 @@ class ScheduleServicesDaySelector extends StatefulWidget {
     required this.currentMonth,
     required this.lastDay,
     required this.onMonthChanged,
+    required this.onRangeChanged,
   });
 
   final DateTime currentMonth;
   final DateTime lastDay;
   final Function(DateTime) onMonthChanged;
+  final Function(DateTime, DateTime) onRangeChanged;
 
   @override
   State<ScheduleServicesDaySelector> createState() => _ScheduleServicesDaySelectorState();
@@ -122,7 +124,12 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
               height: 60,
               child: PageView(
                 controller: pageController,
-                onPageChanged: (p) => setState(() => currentPage = p),
+                onPageChanged: (p) {
+                  setState(() => currentPage = p);
+
+                  final pageDays = days.getRange(p * 7, (p + 1) * 7).toList();
+                  widget.onRangeChanged(pageDays.first.dateTime, pageDays.last.dateTime);
+                },
                 children: [
                   for (int page = 0; page < days.length / 7; page++)
                     LayoutBuilder(
@@ -165,21 +172,28 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
                                         }
                                       },
                                       borderRadius: BorderRadius.circular(14),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            day.dateTime.day.toString().padLeft(2, '0'),
-                                            style: theme.heading20Bold.copyWith(color: getDayTextColor(day)),
-                                          ),
-                                          Text(
-                                            DateFormat('EEE').format(day.dateTime).toLowerCase(),
-                                            style: theme.body13.copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              color: getDayTextColor(day),
+                                      child: TweenAnimationBuilder<double>(
+                                        tween: Tween<double>(begin: 0, end: 1),
+                                        duration: const Duration(seconds: 1),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              day.dateTime.day.toString().padLeft(2, '0'),
+                                              style: theme.heading20Bold.copyWith(color: getDayTextColor(day)),
                                             ),
-                                          ),
-                                        ],
+                                            Text(
+                                              DateFormat('EEE').format(day.dateTime).toLowerCase(),
+                                              style: theme.body13.copyWith(
+                                                fontWeight: FontWeight.w600,
+                                                color: getDayTextColor(day),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        builder: (_, value, child) {
+                                          return Opacity(opacity: value, child: child);
+                                        },
                                       ),
                                     ),
                                   ),
