@@ -1,5 +1,6 @@
 import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:app_agendamento/core/widgets/app_icon_button.dart';
+import 'package:app_agendamento/features/scheduling/models/day_slots.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,12 +13,14 @@ class ScheduleServicesDaySelector extends StatefulWidget {
     required this.lastDay,
     required this.onMonthChanged,
     required this.onRangeChanged,
+    required this.daySlots,
   });
 
   final DateTime currentMonth;
   final DateTime lastDay;
   final Function(DateTime) onMonthChanged;
   final Function(DateTime, DateTime) onRangeChanged;
+  final List<DaySlots>? daySlots;
 
   @override
   State<ScheduleServicesDaySelector> createState() => _ScheduleServicesDaySelectorState();
@@ -189,6 +192,26 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
                                                 color: getDayTextColor(day),
                                               ),
                                             ),
+                                            if (widget.daySlots != null &&
+                                                widget.daySlots!
+                                                    .firstWhere(
+                                                      (d) =>
+                                                          DateUtils.dateOnly(d.date) ==
+                                                          DateUtils.dateOnly(day.dateTime),
+                                                    )
+                                                    .slots
+                                                    .isNotEmpty)
+                                              Container(
+                                                width: 8,
+                                                height: 8,
+                                                margin: const EdgeInsets.only(top: 2),
+                                                decoration: BoxDecoration(
+                                                  color: theme.secondary,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                              )
+                                            else
+                                              const SizedBox(height: 8),
                                           ],
                                         ),
                                         builder: (_, value, child) {

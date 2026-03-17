@@ -6,19 +6,22 @@ class ScheduleServicesState extends Equatable {
     this.professional,
     required this.loading,
     required this.selectedServices,
+    this.daySlots,
   });
 
   ScheduleServicesState.initial()
     : selectedMonth = DateTime(DateTime.now().year, DateTime.now().month),
       professional = null,
       loading = false,
-      selectedServices = [];
+      selectedServices = [],
+      daySlots = null;
 
   final DateTime selectedMonth;
   final DateTime firstAvailableDay = DateTime.now();
   final ProfessionalDetails? professional;
   final bool loading;
   final List<Service> selectedServices;
+  final List<DaySlots>? daySlots;
 
   List<DateTime> get availableMonths {
     Set<DateTime> months = {};
@@ -33,19 +36,21 @@ class ScheduleServicesState extends Equatable {
   DateTime get lastAvailableDay => firstAvailableDay.add(const Duration(days: 120));
 
   @override
-  List<Object?> get props => [selectedMonth, professional, loading, selectedServices];
+  List<Object?> get props => [selectedMonth, professional, loading, selectedServices, daySlots];
 
   ScheduleServicesState copyWith({
     DateTime? selectedMonth,
     ProfessionalDetails? professional,
     bool? loading,
     List<Service>? selectedServices,
+    List<DaySlots>? daySlots,
   }) {
     return ScheduleServicesState(
       selectedMonth: selectedMonth ?? this.selectedMonth,
       professional: professional ?? this.professional,
       loading: loading ?? this.loading,
       selectedServices: selectedServices ?? this.selectedServices,
+      daySlots: daySlots ?? this.daySlots,
     );
   }
 

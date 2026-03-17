@@ -57,6 +57,7 @@ class _ScheduleServicesPageState extends State<ScheduleServicesPage> {
                       lastDay: state.lastAvailableDay,
                       onMonthChanged: context.read<ScheduleServicesCubit>().changeSelectedMonth,
                       onRangeChanged: context.read<ScheduleServicesCubit>().onRangeChanged,
+                      daySlots: state.daySlots,
                     );
                   },
                 ),

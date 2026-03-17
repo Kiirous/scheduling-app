@@ -3,6 +3,7 @@ import 'package:app_agendamento/core/helpers/result.dart';
 import 'package:app_agendamento/features/professional/data/professional_repository.dart';
 import 'package:app_agendamento/features/professional/models/professional_details.dart';
 import 'package:app_agendamento/features/scheduling/data/scheduling_repository.dart';
+import 'package:app_agendamento/features/scheduling/models/day_slots.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -53,5 +54,10 @@ class ScheduleServicesCubit extends Cubit<ScheduleServicesState> {
       startDate: startDate,
       endDate: endDate.add(const Duration(days: 1)),
     );
+
+    emit(switch (daySlots) {
+      Success(:final object) => state.copyWith(daySlots: object),
+      Failure() => state,
+    });
   }
 }
