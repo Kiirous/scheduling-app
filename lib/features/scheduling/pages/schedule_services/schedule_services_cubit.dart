@@ -46,16 +46,28 @@ class ScheduleServicesCubit extends Cubit<ScheduleServicesState> {
     } else {
       emit(state.copyAddingService(service));
     }
+
+    return updateAvailableSlots();
   }
 
   Future<void> onRangeChanged(DateTime startDate, DateTime endDate) async {
+    emit(state.copyWith(currentRange: (startDate: startDate, endDate: endDate)));
+
+    return updateAvailableSlots();
+  }
+
+  void onDayChanged(DateTime day) {
+
+  }
+
+  Future<void> updateAvailableSlots() async {
     emit(state.copyWith(daySlots: () => null));
 
     final daySlots = await _schedulingRepository.getSchedulingSlots(
       duration: state.selectedServices.fold(0, (previousValue, element) => previousValue + element.duration),
       professionalId: professionalId,
-      startDate: startDate,
-      endDate: endDate.add(const Duration(days: 1)),
+      startDate: state.currentRange!.startDate,
+      endDate: state.currentRange!.endDate.add(const Duration(days: 1)),
     );
 
     emit(switch (daySlots) {

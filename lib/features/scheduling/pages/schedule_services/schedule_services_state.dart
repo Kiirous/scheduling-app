@@ -7,6 +7,8 @@ class ScheduleServicesState extends Equatable {
     required this.loading,
     required this.selectedServices,
     this.daySlots,
+    this.currentRange,
+    this.selectedDay,
   });
 
   ScheduleServicesState.initial()
@@ -14,14 +16,18 @@ class ScheduleServicesState extends Equatable {
       professional = null,
       loading = false,
       selectedServices = [],
-      daySlots = null;
+      daySlots = null,
+      currentRange = null,
+      selectedDay = null;
 
   final DateTime selectedMonth;
+  final DateTime? selectedDay;
   final DateTime firstAvailableDay = DateTime.now();
   final ProfessionalDetails? professional;
   final bool loading;
   final List<Service> selectedServices;
   final List<DaySlots>? daySlots;
+  final ({DateTime startDate, DateTime endDate})? currentRange;
 
   List<DateTime> get availableMonths {
     Set<DateTime> months = {};
@@ -36,7 +42,16 @@ class ScheduleServicesState extends Equatable {
   DateTime get lastAvailableDay => firstAvailableDay.add(const Duration(days: 120));
 
   @override
-  List<Object?> get props => [selectedMonth, professional, loading, selectedServices, daySlots];
+  List<Object?> get props => [
+    selectedMonth,
+    selectedDay,
+    firstAvailableDay,
+    professional,
+    loading,
+    selectedServices,
+    daySlots,
+    currentRange,
+  ];
 
   ScheduleServicesState copyWith({
     DateTime? selectedMonth,
@@ -44,6 +59,8 @@ class ScheduleServicesState extends Equatable {
     bool? loading,
     List<Service>? selectedServices,
     ValueGetter<List<DaySlots>?>? daySlots,
+    ({DateTime startDate, DateTime endDate})? currentRange,
+    DateTime? selectedDay,
   }) {
     return ScheduleServicesState(
       selectedMonth: selectedMonth ?? this.selectedMonth,
@@ -51,6 +68,8 @@ class ScheduleServicesState extends Equatable {
       loading: loading ?? this.loading,
       selectedServices: selectedServices ?? this.selectedServices,
       daySlots: daySlots != null ? daySlots() : this.daySlots,
+      currentRange: currentRange ?? this.currentRange,
+      selectedDay: selectedDay ?? this.selectedDay,
     );
   }
 

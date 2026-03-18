@@ -83,3 +83,5 @@ class App extends StatelessWidget {
     );
   }
 }
+
+/*chat, sobre o desafio no barzinho de ir no banheiro e tirar foto da buceta, queria melhorar esse desafio. criar niveis dentro desse desafio. Ou seja, se ela for no banheiro e tirar foto da buceta, x pontos, se na foto sair a buceta e o cu, aumenta os pontos. E se ela fazer um video brincando tipo, filmar ela lambendo 2 dedos, e usar os 2 depos pra brincar com a ppk nem q seja por 10 segundos de video sabe? ai aumenta pra mais pontos. Nao precisa mandar a lista inteira de desafios novamente. Só me envie esse desafio em especifico atualizado. Fique a vontade para sugerir melhorar nesse desafio pra torna-lo mais picante, safado e mais putaria kkkk*/

@@ -14,6 +14,7 @@ class ScheduleServicesDaySelector extends StatefulWidget {
     required this.lastDay,
     required this.onMonthChanged,
     required this.onRangeChanged,
+    required this.onDaySelected,
     required this.daySlots,
   });
 
@@ -21,6 +22,7 @@ class ScheduleServicesDaySelector extends StatefulWidget {
   final DateTime lastDay;
   final Function(DateTime) onMonthChanged;
   final Function(DateTime, DateTime) onRangeChanged;
+  final Function(DateTime) onDaySelected;
   final List<DaySlots>? daySlots;
 
   @override
@@ -41,6 +43,7 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
   void initState() {
     super.initState();
     createDays();
+    widget.onDaySelected(selectedDay);
   }
 
   @override
@@ -174,6 +177,7 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
                                             setState(() => selectedDay = day.dateTime);
                                           }
                                         }
+                                        widget.onDaySelected(selectedDay);
                                       },
                                       borderRadius: BorderRadius.circular(14),
                                       child: TweenAnimationBuilder<double>(

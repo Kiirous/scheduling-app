@@ -1,8 +1,8 @@
 import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:app_agendamento/core/widgets/app_base_page.dart';
-import 'package:app_agendamento/core/widgets/app_chip.dart';
 import 'package:app_agendamento/core/widgets/app_elevated_button.dart';
 import 'package:app_agendamento/features/scheduling/pages/schedule_services/schedule_services_cubit.dart';
+import 'package:app_agendamento/features/scheduling/pages/schedule_services/widgets/schedule_service_time_selector.dart';
 import 'package:app_agendamento/features/scheduling/pages/schedule_services/widgets/schedule_services_day_selector.dart';
 import 'package:app_agendamento/features/scheduling/pages/schedule_services/widgets/schedule_services_month_selector.dart';
 import 'package:app_agendamento/features/scheduling/pages/schedule_services/widgets/schedule_services_services_selector.dart';
@@ -52,42 +52,19 @@ class _ScheduleServicesPageState extends State<ScheduleServicesPage> {
                 const SizedBox(height: 24),
                 BlocBuilder<ScheduleServicesCubit, ScheduleServicesState>(
                   builder: (context, state) {
+                    final cubit = context.read<ScheduleServicesCubit>();
                     return ScheduleServicesDaySelector(
                       currentMonth: state.selectedMonth,
                       lastDay: state.lastAvailableDay,
-                      onMonthChanged: context.read<ScheduleServicesCubit>().changeSelectedMonth,
-                      onRangeChanged: context.read<ScheduleServicesCubit>().onRangeChanged,
+                      onMonthChanged: cubit.changeSelectedMonth,
+                      onRangeChanged: cubit.onRangeChanged,
+                      onDaySelected: cubit.onDayChanged,
                       daySlots: state.daySlots,
                     );
                   },
                 ),
                 const SizedBox(height: 24),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Horários disponíveis', style: theme.heading18Bold),
-                      Text('Selecione um horário para realizar o agendamento', style: theme.body13),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Wrap(
-                    runSpacing: 8,
-                    spacing: 8,
-                    children: [
-                      for (int i = 0; i < 10; i++)
-                        AppChip(
-                          text: 'Junho',
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          textStyle: theme.body16.copyWith(color: theme.primary, fontWeight: FontWeight.w600),
-                        ),
-                    ],
-                  ),
-                ),
+                const ScheduleServiceTimeSelector(),
               ],
             ) : const SizedBox.shrink(),
           );
