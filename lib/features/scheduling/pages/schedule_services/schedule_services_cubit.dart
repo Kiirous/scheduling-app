@@ -6,6 +6,7 @@ import 'package:app_agendamento/features/scheduling/data/scheduling_repository.d
 import 'package:app_agendamento/features/scheduling/models/day_slots.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../professional/models/service.dart';
 
@@ -48,6 +49,8 @@ class ScheduleServicesCubit extends Cubit<ScheduleServicesState> {
   }
 
   Future<void> onRangeChanged(DateTime startDate, DateTime endDate) async {
+    emit(state.copyWith(daySlots: () => null));
+
     final daySlots = await _schedulingRepository.getSchedulingSlots(
       duration: state.selectedServices.fold(0, (previousValue, element) => previousValue + element.duration),
       professionalId: professionalId,
@@ -56,7 +59,7 @@ class ScheduleServicesCubit extends Cubit<ScheduleServicesState> {
     );
 
     emit(switch (daySlots) {
-      Success(:final object) => state.copyWith(daySlots: object),
+      Success(:final object) => state.copyWith(daySlots: () => object),
       Failure() => state,
     });
   }

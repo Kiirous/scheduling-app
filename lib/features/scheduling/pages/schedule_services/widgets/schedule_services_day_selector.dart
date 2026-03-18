@@ -1,6 +1,7 @@
 import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:app_agendamento/core/widgets/app_icon_button.dart';
 import 'package:app_agendamento/features/scheduling/models/day_slots.dart';
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -193,14 +194,15 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
                                               ),
                                             ),
                                             if (widget.daySlots != null &&
-                                                widget.daySlots!
-                                                    .firstWhere(
-                                                      (d) =>
-                                                          DateUtils.dateOnly(d.date) ==
-                                                          DateUtils.dateOnly(day.dateTime),
-                                                    )
-                                                    .slots
-                                                    .isNotEmpty)
+                                                (widget.daySlots!
+                                                        .firstWhereOrNull(
+                                                          (d) =>
+                                                              DateUtils.dateOnly(d.date) ==
+                                                              DateUtils.dateOnly(day.dateTime),
+                                                        )
+                                                        ?.slots
+                                                        .isNotEmpty ??
+                                                    false))
                                               Container(
                                                 width: 8,
                                                 height: 8,
@@ -211,7 +213,7 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
                                                 ),
                                               )
                                             else
-                                              const SizedBox(height: 8),
+                                              const SizedBox(height: 10),
                                           ],
                                         ),
                                         builder: (_, value, child) {

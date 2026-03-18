@@ -43,14 +43,14 @@ class ScheduleServicesState extends Equatable {
     ProfessionalDetails? professional,
     bool? loading,
     List<Service>? selectedServices,
-    List<DaySlots>? daySlots,
+    ValueGetter<List<DaySlots>?>? daySlots,
   }) {
     return ScheduleServicesState(
       selectedMonth: selectedMonth ?? this.selectedMonth,
       professional: professional ?? this.professional,
       loading: loading ?? this.loading,
       selectedServices: selectedServices ?? this.selectedServices,
-      daySlots: daySlots ?? this.daySlots,
+      daySlots: daySlots != null ? daySlots() : this.daySlots,
     );
   }
 
