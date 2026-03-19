@@ -4,6 +4,7 @@ import 'package:app_agendamento/core/widgets/base/app_stateless.dart';
 import 'package:app_agendamento/features/scheduling/pages/schedule_services/schedule_services_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class ScheduleServiceTimeSelector extends AppStateless {
   const ScheduleServiceTimeSelector({super.key});
@@ -12,6 +13,8 @@ class ScheduleServiceTimeSelector extends AppStateless {
   Widget builder(BuildContext context, AppTheme theme) {
     return BlocBuilder<ScheduleServicesCubit, ScheduleServicesState>(
       builder: (context, state) {
+        if (state.selectedServices.isEmpty || state.selectedDay == null) return Container();
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -26,23 +29,30 @@ class ScheduleServiceTimeSelector extends AppStateless {
               ),
             ),
             const SizedBox(height: 16),
-            if (state.daySlots != null && state.selectedDay != null)
+            if (state.selectedDaySlots != null)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Wrap(
-                  runSpacing: 8,
-                  spacing: 8,
-                  children: [
-                    for (final slot
-                        in state.daySlots!
-                            .firstWhere((d) => DateUtils.dateOnly(d.date) == DateUtils.dateOnly(state.selectedDay!))
-                            .slots)
-                      AppChip(
-                        text: 'Agosto',
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        textStyle: theme.body16.copyWith(color: theme.primary, fontWeight: FontWeight.w600),
-                      ),
-                  ],
+                child: Center(
+                  child: Wrap(
+                    runSpacing: 8,
+                    spacing: 8,
+                    children: [
+                      for (final slot in state.selectedDaySlots!.slots)
+                        AppChip(
+                          text: DateFormat('HH:mm').format(slot.startDate),
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          textStyle: theme.body16.copyWith(
+                            color: slot.startDate == state.selectedDay ? theme.white : theme.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          color: slot.startDate == state.selectedDay ? theme.primary : theme.white,
+
+                          onTap: () {
+                            context.read<ScheduleServicesCubit>().onDayChanged(slot.startDate);
+                          },
+                        ),
+                    ],
+                  ),
                 ),
               ),
           ],

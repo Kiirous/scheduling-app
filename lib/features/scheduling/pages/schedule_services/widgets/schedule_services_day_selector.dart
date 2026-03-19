@@ -37,13 +37,14 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
   final today = DateTime.now();
 
   List<CalendarDay> days = [];
-  late DateTime selectedDay = DateUtils.dateOnly(today);
+  DateTime? selectedDay;
 
   @override
   void initState() {
     super.initState();
     createDays();
-    widget.onDaySelected(selectedDay);
+    widget.onRangeChanged(days.first.dateTime, days[6].dateTime);
+    //widget.onDaySelected(selectedDay);
   }
 
   @override
@@ -53,12 +54,14 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
     if (oldWidget.currentMonth != widget.currentMonth) {
       createDays();
 
-      final currentDayIndex = days.indexWhere(
-        (day) => DateUtils.dateOnly(day.dateTime) == DateUtils.dateOnly(selectedDay),
-      );
+      if(selectedDay != null) {
+        final currentDayIndex = days.indexWhere(
+              (day) => DateUtils.dateOnly(day.dateTime) == DateUtils.dateOnly(selectedDay!),
+        );
 
-      currentPage = currentDayIndex ~/ 7;
-      pageController.jumpToPage(currentPage);
+        currentPage = currentDayIndex ~/ 7;
+        pageController.jumpToPage(currentPage);
+      }
     }
   }
 
@@ -177,7 +180,7 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
                                             setState(() => selectedDay = day.dateTime);
                                           }
                                         }
-                                        widget.onDaySelected(selectedDay);
+                                        widget.onDaySelected(selectedDay!);
                                       },
                                       borderRadius: BorderRadius.circular(14),
                                       child: TweenAnimationBuilder<double>(

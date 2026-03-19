@@ -53,6 +53,9 @@ class _ScheduleServicesPageState extends State<ScheduleServicesPage> {
                 BlocBuilder<ScheduleServicesCubit, ScheduleServicesState>(
                   builder: (context, state) {
                     final cubit = context.read<ScheduleServicesCubit>();
+
+                    if(state.selectedServices.isEmpty) return Container();
+
                     return ScheduleServicesDaySelector(
                       currentMonth: state.selectedMonth,
                       lastDay: state.lastAvailableDay,

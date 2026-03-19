@@ -1,7 +1,6 @@
 import 'package:app_agendamento/core/firebase/messaging/app_messaging.dart';
 import 'package:app_agendamento/core/flavor/flavor_config.dart';
 import 'package:app_agendamento/core/theme/app_theme.dart';
-import 'package:app_agendamento/core/utils/no_glow_behavior.dart';
 import 'package:app_agendamento/features/auth/data/session/session_cubit.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,11 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'core/widgets/alert/alert_area.dart';
-import 'firebase_options.dart';
 
 import 'core/di/di.dart';
 import 'core/route/app_routes.dart';
+import 'core/widgets/alert/alert_area.dart';
+import 'firebase_options.dart';
 
 Future<void> bootstrap(FlavorConfig config) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,26 +49,17 @@ class App extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('pt', 'BR'),
-          ],
+          supportedLocales: const [Locale('pt', 'BR')],
           debugShowCheckedModeBanner: false,
           locale: DevicePreview.locale(context),
           builder: (context, child) {
-            final newChild = ScrollConfiguration(
-              behavior: NoGlowBehavior(),
-              child: Stack(
-                children: [if (child != null) child, const AlertArea()],
-              ),
-            );
+            final newChild = Stack(children: [if (child != null) child, const AlertArea()]);
 
             return DevicePreview.appBuilder(context, newChild);
           },
           theme: ThemeData.light().copyWith(
             scaffoldBackgroundColor: t.bg,
-            colorScheme: ThemeData.light().colorScheme.copyWith(
-              surface: Colors.white,
-            ),
+            colorScheme: ThemeData.light().colorScheme.copyWith(surface: Colors.white),
             textSelectionTheme: TextSelectionThemeData(
               cursorColor: t.primary,
               selectionHandleColor: t.primary,
@@ -83,5 +73,3 @@ class App extends StatelessWidget {
     );
   }
 }
-
-/*chat, sobre o desafio no barzinho de ir no banheiro e tirar foto da buceta, queria melhorar esse desafio. criar niveis dentro desse desafio. Ou seja, se ela for no banheiro e tirar foto da buceta, x pontos, se na foto sair a buceta e o cu, aumenta os pontos. E se ela fazer um video brincando tipo, filmar ela lambendo 2 dedos, e usar os 2 depos pra brincar com a ppk nem q seja por 10 segundos de video sabe? ai aumenta pra mais pontos. Nao precisa mandar a lista inteira de desafios novamente. Só me envie esse desafio em especifico atualizado. Fique a vontade para sugerir melhorar nesse desafio pra torna-lo mais picante, safado e mais putaria kkkk*/
