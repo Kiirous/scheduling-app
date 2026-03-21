@@ -8,8 +8,8 @@ class SchedulingRepository {
 
   final SchedulingDatasource _datasource;
 
-  Future<Result<void, List<Scheduling>>> getUserSchedules() {
-    return _datasource.getUserSchedules();
+  Future<Result<void, List<Scheduling>>> getUserSchedules(int page, bool futures) {
+    return _datasource.getUserSchedules(page, futures);
   }
 
   Future<Result<void, List<DaySlots>>> getSchedulingSlots({

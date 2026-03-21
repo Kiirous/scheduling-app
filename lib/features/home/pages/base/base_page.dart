@@ -1,10 +1,11 @@
 import 'package:app_agendamento/features/home/pages/base/widgets/bottom_nav_bar.dart';
 import 'package:app_agendamento/features/home/pages/home/home_page.dart';
 import 'package:app_agendamento/features/home/pages/notifications/notifications_page.dart';
+import 'package:app_agendamento/features/home/pages/schedulings/schedulings_page.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-enum BasePageTab { home, calendar, menu, notifications, profile }
+enum BasePageTab { home, schedulings, menu, notifications, profile }
 
 class BasePage extends StatefulWidget {
   const BasePage({super.key, this.initialTab});
@@ -37,7 +38,7 @@ class _BasePageState extends State<BasePage> {
         controller: _pageController,
         children: [
           const HomePage(),
-          Container(color: Colors.red),
+          const SchedulingsPage(),
           Container(color: Colors.grey),
           const NotificationsPage(),
           Container(color: Colors.blue),

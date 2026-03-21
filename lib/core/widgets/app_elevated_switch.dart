@@ -2,10 +2,18 @@ import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:app_agendamento/core/widgets/base/app_stateless.dart';
 import 'package:flutter/material.dart';
 
-class NotificationsSwitch extends AppStateless {
-  const NotificationsSwitch({super.key, required this.showRead, required this.onChanged});
+class AppElevatedSwitch extends AppStateless {
+  const AppElevatedSwitch({
+    super.key,
+    required this.disabledText,
+    required this.enabledText,
+    required this.enabled,
+    required this.onChanged,
+  });
 
-  final bool showRead;
+  final String disabledText;
+  final String enabledText;
+  final bool enabled;
   final Function(bool) onChanged;
 
   @override
@@ -19,7 +27,7 @@ class NotificationsSwitch extends AppStateless {
           return Stack(
             children: [
               AnimatedAlign(
-                alignment: showRead ? Alignment.centerRight : Alignment.centerLeft,
+                alignment: enabled ? Alignment.centerRight : Alignment.centerLeft,
                 duration: const Duration(milliseconds: 250),
                 child: Container(
                   width: constraints.maxWidth / 2,
@@ -48,8 +56,8 @@ class NotificationsSwitch extends AppStateless {
                         color: Colors.transparent,
                         alignment: Alignment.center,
                         child: Text(
-                          'Não lidas',
-                          style: theme.body13Bold.copyWith(color: showRead ? theme.gray : theme.black),
+                          disabledText,
+                          style: theme.body13Bold.copyWith(color: enabled ? theme.gray : theme.black),
                         ),
                       ),
                     ),
@@ -63,8 +71,8 @@ class NotificationsSwitch extends AppStateless {
                         color: Colors.transparent,
                         alignment: Alignment.center,
                         child: Text(
-                          'Lidas',
-                          style: theme.body16Bold.copyWith(color: !showRead ? theme.gray : theme.black),
+                          enabledText,
+                          style: theme.body16Bold.copyWith(color: !enabled ? theme.gray : theme.black),
                         ),
                       ),
                     ),

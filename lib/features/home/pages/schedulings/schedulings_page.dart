@@ -1,24 +1,24 @@
 import 'package:app_agendamento/core/route/app_routes.dart';
 import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:app_agendamento/core/widgets/app_elevated_button.dart';
+import 'package:app_agendamento/core/widgets/app_elevated_switch.dart';
 import 'package:app_agendamento/core/widgets/app_session_observer.dart';
 import 'package:app_agendamento/core/widgets/app_simple_header.dart';
-import 'package:app_agendamento/features/home/pages/notifications/notifications_page_cubit.dart';
-import 'package:app_agendamento/features/home/pages/notifications/widgets/notifications_list_area.dart';
-import 'package:app_agendamento/core/widgets/app_elevated_switch.dart';
+import 'package:app_agendamento/features/home/pages/schedulings/schedulings_cubit.dart';
+import 'package:app_agendamento/features/home/pages/schedulings/widgets/schedulings_list_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class NotificationsPage extends StatefulWidget {
-  const NotificationsPage({super.key});
+class SchedulingsPage extends StatefulWidget {
+  const SchedulingsPage({super.key});
 
   @override
-  State<NotificationsPage> createState() => _NotificationsPageState();
+  State<SchedulingsPage> createState() => _SchedulingsPageState();
 }
 
-class _NotificationsPageState extends State<NotificationsPage> with AutomaticKeepAliveClientMixin {
-  bool _showRead = false;
+class _SchedulingsPageState extends State<SchedulingsPage> with AutomaticKeepAliveClientMixin {
+  bool _showHistory = false;
   final PageController _pageController = PageController();
 
   @override
@@ -27,7 +27,7 @@ class _NotificationsPageState extends State<NotificationsPage> with AutomaticKee
     final AppTheme theme = context.watch();
     return Column(
       children: [
-        const AppSimpleHeader(title: 'Notificações'),
+        const AppSimpleHeader(title: 'Agendamentos'),
         Expanded(
           child: AppSessionObserver(
             listener: (state) {},
@@ -36,13 +36,13 @@ class _NotificationsPageState extends State<NotificationsPage> with AutomaticKee
                 return Column(
                   children: [
                     AppElevatedSwitch(
-                      disabledText: 'Não lidas',
-                      enabledText: 'Lidas',
-                      enabled: _showRead,
+                      disabledText: 'Próximos',
+                      enabledText: 'Histórico',
+                      enabled: _showHistory,
                       onChanged: (r) {
-                        setState(() => _showRead = r);
+                        setState(() => _showHistory = r);
                         _pageController.animateToPage(
-                          _showRead ? 1 : 0,
+                          _showHistory ? 1 : 0,
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.ease,
                         );
@@ -53,8 +53,8 @@ class _NotificationsPageState extends State<NotificationsPage> with AutomaticKee
                         controller: _pageController,
                         physics: const NeverScrollableScrollPhysics(),
                         children: const [
-                          NotificationsListArea(status: NotificationStatus.notRead),
-                          NotificationsListArea(status: NotificationStatus.read),
+                          SchedulingsListArea(status: SchedulingStatus.future),
+                          SchedulingsListArea(status: SchedulingStatus.past),
                         ],
                       ),
                     ),
@@ -67,7 +67,7 @@ class _NotificationsPageState extends State<NotificationsPage> with AutomaticKee
                 children: [
                   Icon(Icons.account_circle_outlined, size: 80, color: theme.primary),
                   const SizedBox(height: 16),
-                  Text('Entre para ver suas notificações!', style: theme.body16Bold),
+                  Text('Entre para ver seus agendamentos!', style: theme.body16Bold),
                   const SizedBox(height: 16),
                   SizedBox(
                     width: 100,
@@ -78,7 +78,7 @@ class _NotificationsPageState extends State<NotificationsPage> with AutomaticKee
                       onPressed: () {
                         final uri = Uri(
                           path: AppRoutes.login.fullPath,
-                          queryParameters: {'redirectTo': '${AppRoutes.home}?initialTab=notifications'},
+                          queryParameters: {'redirectTo': '${AppRoutes.home}?initialTab=schedulings'},
                         );
                         context.go(uri.toString());
                       },

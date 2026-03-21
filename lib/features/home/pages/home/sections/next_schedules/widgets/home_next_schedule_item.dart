@@ -10,9 +10,10 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class HomeNextScheduleItem extends StatelessWidget {
-  const HomeNextScheduleItem({super.key, required this.scheduling});
+  const HomeNextScheduleItem({super.key, required this.scheduling, required this.shadowOffset});
 
   final Scheduling scheduling;
+  final Offset shadowOffset;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,7 @@ class HomeNextScheduleItem extends StatelessWidget {
       onPressed: () {
         context.push(AppRoutes.professionalDetails.fullPath(id: scheduling.professional.id));
       },
+      shadowOffset: shadowOffset,
       child: Row(
         children: [
           Expanded(

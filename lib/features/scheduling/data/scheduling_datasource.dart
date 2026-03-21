@@ -8,9 +8,9 @@ class SchedulingDatasource {
 
   final Dio _dio;
 
-  Future<Result<void, List<Scheduling>>> getUserSchedules() async {
+  Future<Result<void, List<Scheduling>>> getUserSchedules(int page, bool futures) async {
     try {
-      final response = await _dio.post('/v1-get-user-schedules');
+      final response = await _dio.post('/v1-get-user-schedules', data: {'page': page, 'futures': futures});
       return Success(response.data['result'].map<Scheduling>((s) => Scheduling.fromJson(s)).toList());
     } catch (e) {
       return const Failure(null);

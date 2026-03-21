@@ -71,7 +71,7 @@ class _HomeNextScheduleSectionState extends State<HomeNextScheduleSection> {
                         separatorBuilder: (_, i) => const SizedBox(width: 16),
                         itemBuilder: (_, i) => SizedBox(
                           width: state.schedulings!.length == 1 ? MediaQuery.sizeOf(context).width - 48 : 270,
-                          child: HomeNextScheduleItem(scheduling: state.schedulings![i]),
+                          child: HomeNextScheduleItem(scheduling: state.schedulings![i], shadowOffset: const Offset(6, 12)),
                         ),
                       ),
                     };
