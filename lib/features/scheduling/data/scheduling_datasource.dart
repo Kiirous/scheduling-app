@@ -24,13 +24,38 @@ class SchedulingDatasource {
     required DateTime endDate,
   }) async {
     try {
-      final response = await _dio.post('/v1-get-scheduling-slots', data: {
-        'duration': duration,
-        'professionalId': professionalId,
-        'startDate': startDate.toIso8601String(),
-        'endDate': endDate.toIso8601String(),
-      });
+      final response = await _dio.post(
+        '/v1-get-scheduling-slots',
+        data: {
+          'duration': duration,
+          'professionalId': professionalId,
+          'startDate': startDate.toIso8601String(),
+          'endDate': endDate.toIso8601String(),
+        },
+      );
       return Success(response.data['result'].map<DaySlots>((s) => Scheduling.fromJson(s)).toList());
+    } catch (e) {
+      return const Failure(null);
+    }
+  }
+
+  Future<Result<void, String>> scheduleServices({
+    required String professionalId,
+    required List<String> servicesId,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) async {
+    try {
+      final response = await _dio.post(
+        '/v1-schedule-services',
+        data: {
+          'professionalId': professionalId,
+          'serviceIds': servicesId,
+          'startDate': startDate.toIso8601String(),
+          'endDate': endDate.toIso8601String(),
+        },
+      );
+      return Success(response.data['result']['id']);
     } catch (e) {
       return const Failure(null);
     }

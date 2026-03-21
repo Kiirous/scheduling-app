@@ -70,7 +70,7 @@ class _AppBasePageState extends State<AppBasePage> with SingleTickerProviderStat
               SingleChildScrollView(
                 padding: EdgeInsets.only(
                   top: MediaQuery.paddingOf(context).top + 52,
-                  bottom: MediaQuery.paddingOf(context).bottom + (widget.bottomAction != null ? 104 : 0),
+                  bottom: MediaQuery.paddingOf(context).bottom + (widget.bottomAction != null ? 120 : 0),
                 ).add(widget.bodyPadding),
                 child: widget.body,
               )

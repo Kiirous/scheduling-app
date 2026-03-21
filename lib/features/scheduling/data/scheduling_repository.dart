@@ -25,4 +25,18 @@ class SchedulingRepository {
       endDate: endDate,
     );
   }
+
+  Future<Result<void, String>> scheduleServices({
+    required String professionalId,
+    required List<String> servicesId,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
+    return _datasource.scheduleServices(
+      professionalId: professionalId,
+      servicesId: servicesId,
+      startDate: startDate,
+      endDate: endDate,
+    );
+  }
 }

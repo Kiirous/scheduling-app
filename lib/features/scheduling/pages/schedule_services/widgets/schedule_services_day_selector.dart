@@ -54,9 +54,9 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
     if (oldWidget.currentMonth != widget.currentMonth) {
       createDays();
 
-      if(selectedDay != null) {
+      if (selectedDay != null) {
         final currentDayIndex = days.indexWhere(
-              (day) => DateUtils.dateOnly(day.dateTime) == DateUtils.dateOnly(selectedDay!),
+          (day) => DateUtils.dateOnly(day.dateTime) == DateUtils.dateOnly(selectedDay!),
         );
 
         currentPage = currentDayIndex ~/ 7;
@@ -72,7 +72,7 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
     if (firstMonthWeekDay != DateTime.monday) {
       for (int i = firstMonthWeekDay - 1; i >= 1; i--) {
         final lastMonthDay = currentMonth.subtract(Duration(days: i));
-        days.add(CalendarDay(dateTime: lastMonthDay, selectable: false));
+        days.add(CalendarDay(dateTime: lastMonthDay, highlighted: false));
       }
     }
 
@@ -80,7 +80,7 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
       final monthDay = currentMonth.add(Duration(days: day));
       final isAvailable =
           monthDay.isBefore(widget.lastDay) && !monthDay.isBefore(today.subtract(const Duration(days: 1)));
-      days.add(CalendarDay(dateTime: monthDay, selectable: isAvailable));
+      days.add(CalendarDay(dateTime: monthDay, highlighted: isAvailable));
     }
 
     final lastMonthDay = days.last.dateTime;
@@ -88,7 +88,7 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
     if (lastMonthWeekDay != DateTime.sunday) {
       for (int i = 1; i <= DateTime.daysPerWeek - lastMonthWeekDay; i++) {
         final nextMonthDay = lastMonthDay.add(Duration(days: i));
-        days.add(CalendarDay(dateTime: nextMonthDay, selectable: false));
+        days.add(CalendarDay(dateTime: nextMonthDay, highlighted: false));
       }
     }
 
@@ -97,12 +97,29 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
     days.removeRange(0, beforePages * 7);
   }
 
+  bool dayInAvailableRange(DateTime day) {
+    return day.isBefore(widget.lastDay) && !day.isBefore(today.subtract(const Duration(days: 1)));
+  }
+
+  bool hasIndicator(DateTime day) {
+    return dayInAvailableRange(day) && widget.daySlots != null;
+  }
+
+  bool hasAvailableSlot(DateTime day) {
+    return widget.daySlots != null &&
+        (widget.daySlots!
+                .firstWhereOrNull((d) => DateUtils.dateOnly(d.date) == DateUtils.dateOnly(day))
+                ?.slots
+                .isNotEmpty ??
+            false);
+  }
+
   @override
   Widget build(BuildContext context) {
     final AppTheme theme = context.watch();
 
     Color getDayTextColor(CalendarDay day) {
-      if (!day.selectable) {
+      if (!day.highlighted) {
         return theme.gray;
       } else if (day.dateTime == selectedDay) {
         return theme.bg;
@@ -171,17 +188,17 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
                                 for (final day in pageDays)
                                   Expanded(
                                     child: InkWell(
-                                      onTap: () {
-                                        if (day.selectable) {
-                                          setState(() => selectedDay = day.dateTime);
-                                        } else {
-                                          if (day.dateTime.isBefore(widget.lastDay) && day.dateTime.isAfter(today)) {
-                                            widget.onMonthChanged(DateTime(day.dateTime.year, day.dateTime.month));
-                                            setState(() => selectedDay = day.dateTime);
-                                          }
-                                        }
-                                        widget.onDaySelected(selectedDay!);
-                                      },
+                                      onTap: dayInAvailableRange(day.dateTime)
+                                          ? () {
+                                              setState(() => selectedDay = day.dateTime);
+
+                                              if (currentMonth.month != day.dateTime.month) {
+                                                widget.onMonthChanged(DateTime(day.dateTime.year, day.dateTime.month));
+                                              }
+
+                                              widget.onDaySelected(selectedDay!);
+                                            }
+                                          : null,
                                       borderRadius: BorderRadius.circular(14),
                                       child: TweenAnimationBuilder<double>(
                                         tween: Tween<double>(begin: 0, end: 1),
@@ -200,22 +217,13 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
                                                 color: getDayTextColor(day),
                                               ),
                                             ),
-                                            if (widget.daySlots != null &&
-                                                (widget.daySlots!
-                                                        .firstWhereOrNull(
-                                                          (d) =>
-                                                              DateUtils.dateOnly(d.date) ==
-                                                              DateUtils.dateOnly(day.dateTime),
-                                                        )
-                                                        ?.slots
-                                                        .isNotEmpty ??
-                                                    false))
+                                            if (hasIndicator(day.dateTime))
                                               Container(
                                                 width: 8,
                                                 height: 8,
                                                 margin: const EdgeInsets.only(top: 2),
                                                 decoration: BoxDecoration(
-                                                  color: theme.secondary,
+                                                  color: hasAvailableSlot(day.dateTime) ? theme.secondary : theme.error,
                                                   shape: BoxShape.circle,
                                                 ),
                                               )
@@ -260,16 +268,16 @@ class _ScheduleServicesDaySelectorState extends State<ScheduleServicesDaySelecto
 }
 
 class CalendarDay extends Equatable {
-  const CalendarDay({required this.dateTime, required this.selectable});
+  const CalendarDay({required this.dateTime, required this.highlighted});
 
   final DateTime dateTime;
-  final bool selectable;
+  final bool highlighted;
 
   @override
   String toString() {
-    return 'CalendarDay{dateTime: $dateTime, selectable: $selectable}';
+    return 'CalendarDay{dateTime: $dateTime, highlighted: $highlighted}';
   }
 
   @override
-  List<Object?> get props => [dateTime, selectable];
+  List<Object?> get props => [dateTime, highlighted];
 }

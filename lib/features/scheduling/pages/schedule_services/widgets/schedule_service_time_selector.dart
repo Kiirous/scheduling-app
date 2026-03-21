@@ -23,13 +23,16 @@ class ScheduleServiceTimeSelector extends AppStateless {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Horários disponíveis', style: theme.heading18Bold),
+                  Text(
+                    'Horários disponíveis para o dia ${DateFormat('dd/MM').format(state.selectedDay!)}',
+                    style: theme.heading18Bold,
+                  ),
                   Text('Selecione um horário para realizar o agendamento', style: theme.body13),
                 ],
               ),
             ),
             const SizedBox(height: 16),
-            if (state.selectedDaySlots != null)
+            if (state.selectedDaySlots != null && state.selectedDaySlots!.slots.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Center(
@@ -42,17 +45,25 @@ class ScheduleServiceTimeSelector extends AppStateless {
                           text: DateFormat('HH:mm').format(slot.startDate),
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                           textStyle: theme.body16.copyWith(
-                            color: slot.startDate == state.selectedDay ? theme.white : theme.primary,
+                            color: slot == state.selectedSlot ? theme.white : theme.primary,
                             fontWeight: FontWeight.w600,
                           ),
-                          color: slot.startDate == state.selectedDay ? theme.primary : theme.white,
+                          color: slot == state.selectedSlot ? theme.primary : theme.white,
 
                           onTap: () {
-                            context.read<ScheduleServicesCubit>().onDayChanged(slot.startDate);
+                            context.read<ScheduleServicesCubit>().onTimeChanged(slot);
                           },
                         ),
                     ],
                   ),
+                ),
+              )
+            else
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  'Nenhum horário disponível para este dia. Por favor, selecione outra data.',
+                  style: theme.body13,
                 ),
               ),
           ],
