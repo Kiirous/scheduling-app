@@ -60,4 +60,18 @@ class SchedulingDatasource {
       return const Failure(null);
     }
   }
+
+  Future<Result<void, Scheduling>> getScheduling({required String schedulingId}) async {
+    try {
+      final response = await _dio.post(
+        '/v1-get-schedule',
+        data: {
+          'scheduleId': schedulingId,
+        },
+      );
+      return Success(Scheduling.fromJson(response.data['result']));
+    } catch (e) {
+      return const Failure(null);
+    }
+  }
 }

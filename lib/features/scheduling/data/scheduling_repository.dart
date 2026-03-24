@@ -39,4 +39,8 @@ class SchedulingRepository {
       endDate: endDate,
     );
   }
+
+  Future<Result<void, Scheduling>> getScheduling({required String schedulingId}) {
+    return _datasource.getScheduling(schedulingId: schedulingId);
+  }
 }

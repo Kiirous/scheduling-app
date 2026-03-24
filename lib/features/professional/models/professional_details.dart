@@ -1,30 +1,25 @@
 import 'package:app_agendamento/features/professional/models/insurance.dart';
+import 'package:app_agendamento/features/professional/models/professional.dart';
 import 'package:app_agendamento/features/professional/models/service.dart';
 import 'package:app_agendamento/features/professional/models/specialty.dart';
 
-class ProfessionalDetails {
+class ProfessionalDetails extends Professional {
   const ProfessionalDetails({
-    required this.id,
-    required this.name,
-    this.picture,
-    required this.rating,
-    required this.ratingCount,
+    required super.id,
+    required super.name,
+    super.picture,
+    required super.rating,
+    required super.ratingCount,
     required this.address,
     required this.phone,
-    required this.crm,
+    required super.crm,
     required this.services,
     required this.specialties,
     required this.insurances,
   });
 
-  final String id;
-  final String name;
-  final String? picture;
-  final num rating;
-  final int ratingCount;
   final String address;
   final String phone;
-  final String crm;
   final List<Service> services;
   final List<Specialty> specialties;
   final List<Insurance> insurances;
