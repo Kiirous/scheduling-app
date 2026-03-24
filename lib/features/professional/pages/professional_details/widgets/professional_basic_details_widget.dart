@@ -16,7 +16,7 @@ class ProfessionalBasicDetailsWidget extends AppStateless {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProfessionalBasicInfoArea(professional: professional),
+          ProfessionalBasicInfoArea(professional: professional, enableTap: false),
           const SizedBox(height: 20),
           Text('Especialidades', style: t.body13Bold),
           const SizedBox(height: 10),

@@ -4,6 +4,7 @@ import 'package:app_agendamento/features/professional/widgets/professional_basic
 import 'package:app_agendamento/features/scheduling/pages/scheduling_details/scheduling_details_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class SchedulingDetailsPage extends StatefulWidget {
   const SchedulingDetailsPage({super.key, required this.schedulingId});
@@ -16,7 +17,6 @@ class SchedulingDetailsPage extends StatefulWidget {
 
 class _SchedulingDetailsPageState extends State<SchedulingDetailsPage> {
   late final SchedulingDetailsCubit cubit = SchedulingDetailsCubit(schedulingId: widget.schedulingId);
-
 
   @override
   void initState() {
@@ -44,7 +44,15 @@ class _SchedulingDetailsPageState extends State<SchedulingDetailsPage> {
                     children: [
                       AppCard(
                         child: Column(
-                          children: [ProfessionalBasicInfoArea(professional: state.scheduling!.professional)],
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            ProfessionalBasicInfoArea(professional: state.scheduling!.professional),
+                            const SizedBox(height: 24),
+                            Text(
+                              DateFormat('dd/MM/yyyy | HH:mm').format(state.scheduling!.startDate),
+                              textAlign: TextAlign.start,
+                            ),
+                          ],
                         ),
                       ),
                     ],
