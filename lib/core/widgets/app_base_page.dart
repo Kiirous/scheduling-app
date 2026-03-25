@@ -111,7 +111,7 @@ class _AppBasePageState extends State<AppBasePage> with SingleTickerProviderStat
                       children: [
                         AppIconButton(id: 'voltar', iconPath: 'assets/icons/back_button.svg', onPressed: context.pop),
                         Expanded(
-                          child: Text(widget.title, textAlign: TextAlign.center, style: t.body16Bold),
+                          child: Text(widget.title, textAlign: TextAlign.center, style: t.body16Bold, maxLines: 2, overflow: TextOverflow.ellipsis),
                         ),
                         const SizedBox(width: 48),
                       ],

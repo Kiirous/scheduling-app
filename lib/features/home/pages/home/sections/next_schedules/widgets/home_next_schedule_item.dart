@@ -5,7 +5,6 @@ import 'package:app_agendamento/core/widgets/app_chip.dart';
 import 'package:app_agendamento/features/scheduling/models/scheduling.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
@@ -17,7 +16,7 @@ class HomeNextScheduleItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppTheme t = context.watch();
+    final AppTheme theme = context.watch();
     return AppCard(
       onPressed: () {
         context.push(AppRoutes.schedulingDetails.fullPath(id: scheduling.id));
@@ -29,25 +28,27 @@ class HomeNextScheduleItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppChip(text: DateFormat('dd MMM HH:mm').format(scheduling.startDate)),
+                Row(
+                  children: [
+                    AppChip(text: DateFormat('dd MMM HH:mm').format(scheduling.startDate)),
+                    const Spacer(),
+                    if (scheduling.status == SchedulingStatus.canceled)
+                      AppChip(
+                        text: 'Cancelado',
+                        color: theme.error,
+                        textStyle: theme.label11Bold.copyWith(color: theme.red),
+                      ),
+                  ],
+                ),
                 Expanded(
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(scheduling.services.map((s) => s.name).join(' | '), style: t.body16Bold),
+                    child: Text(scheduling.services.map((s) => s.name).join(' | '), style: theme.body16Bold),
                   ),
                 ),
-                Text(scheduling.professional.name, style: t.body13Bold.copyWith(color: t.gray)),
+                Text(scheduling.professional.name, style: theme.body13Bold.copyWith(color: theme.gray)),
               ],
             ),
-          ),
-          Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(18),
-              color: t.primary.withValues(alpha: 0.18),
-            ),
-            child: Padding(padding: const EdgeInsets.all(8), child: SvgPicture.asset('assets/icons/map_pin.svg')),
           ),
         ],
       ),

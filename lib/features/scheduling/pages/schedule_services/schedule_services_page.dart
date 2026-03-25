@@ -42,7 +42,7 @@ class _ScheduleServicesPageState extends State<ScheduleServicesPage> implements 
           return AppBasePage(
             isLoading: state.loading,
             backgroundColor: theme.bg,
-            title: 'Agendar',
+            title: ['Agendar', if (state.professional != null) state.professional!.name].join(' '),
             bottomAction: AppElevatedButton(
               label: 'Agendar',
               id: 'agendar',
