@@ -46,7 +46,7 @@ class _ScheduleServicesPageState extends State<ScheduleServicesPage> implements 
             bottomAction: AppElevatedButton(
               label: 'Agendar',
               id: 'agendar',
-              onPressed: state.selectedSlot != null ? cubit.scheduleServices : null,
+              onPressed: state.selectedSlot != null && !state.loading ? cubit.scheduleServices : null,
             ),
             bodyPadding: EdgeInsets.zero,
             body: state.professional != null

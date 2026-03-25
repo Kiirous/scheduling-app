@@ -53,8 +53,8 @@ class _SchedulingsPageState extends State<SchedulingsPage> with AutomaticKeepAli
                         controller: _pageController,
                         physics: const NeverScrollableScrollPhysics(),
                         children: const [
-                          SchedulingsListArea(status: SchedulingStatus.future),
-                          SchedulingsListArea(status: SchedulingStatus.past),
+                          SchedulingsListArea(status: SchedulingType.future),
+                          SchedulingsListArea(status: SchedulingType.past),
                         ],
                       ),
                     ),

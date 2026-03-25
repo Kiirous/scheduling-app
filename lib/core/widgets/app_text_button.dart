@@ -8,11 +8,13 @@ class AppTextButton extends AppStateless {
     required this.label,
     this.onPressed,
     this.color,
+    required this.id,
   });
 
   final String label;
   final VoidCallback? onPressed;
   final Color? color;
+  final String id;
 
   @override
   Widget builder(BuildContext context, AppTheme theme) {
@@ -39,7 +41,10 @@ class AppTextButton extends AppStateless {
           const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
         ),
       ),
-      onPressed: onPressed,
+      onPressed: onPressed != null ? () {
+        onPressed!();
+        analytics.logButtonPressed(id);
+      } : null,
       child: Text(label),
     );
   }

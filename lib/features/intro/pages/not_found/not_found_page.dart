@@ -20,7 +20,7 @@ class NotFoundPage extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 32, left: 24, right: 24),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: AppTextButton(label: 'Voltar', onPressed: () => context.go(AppRoutes.home)),
+              child: AppTextButton(id: 'voltar', label: 'Voltar', onPressed: () => context.go(AppRoutes.home)),
             ),
           ),
         ],

@@ -62,6 +62,7 @@ class _AuthPageState extends State<AuthPage> {
             const AppDivider(text: 'ou'),
             const SizedBox(height: 8),
             AppTextButton(
+              id: 'entrar-como-visitante',
               label: 'Entrar como visitante',
               color: t.primary,
               onPressed: () => context.push(AppRoutes.home),

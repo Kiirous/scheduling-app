@@ -20,6 +20,7 @@ class AppAlertDialog extends AppStateless {
     return Dialog(
       insetPadding: const EdgeInsets.all(24),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      surfaceTintColor: theme.bg,
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -35,7 +36,7 @@ class AppAlertDialog extends AppStateless {
                 color: theme.black,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 24),
             Text(
               body,
               textAlign: TextAlign.center,
@@ -45,7 +46,7 @@ class AppAlertDialog extends AppStateless {
                 color: theme.black,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
             for(final item in actions) ...[
               item,
               if(item != actions.last) const SizedBox(height: 10),

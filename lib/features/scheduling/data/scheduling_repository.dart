@@ -43,4 +43,8 @@ class SchedulingRepository {
   Future<Result<void, Scheduling>> getScheduling({required String schedulingId}) {
     return _datasource.getScheduling(schedulingId: schedulingId);
   }
+
+  Future<Result<void, Scheduling>> cancelScheduling({required String schedulingId}) {
+    return _datasource.cancelScheduling(schedulingId: schedulingId);
+  }
 }

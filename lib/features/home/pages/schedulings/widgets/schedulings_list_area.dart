@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class SchedulingsListArea extends StatefulWidget {
   const SchedulingsListArea({super.key, required this.status});
 
-  final SchedulingStatus status;
+  final SchedulingType status;
 
   @override
   State<SchedulingsListArea> createState() => _SchedulingsListAreaState();

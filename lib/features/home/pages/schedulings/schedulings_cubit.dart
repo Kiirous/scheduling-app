@@ -9,21 +9,21 @@ import 'package:equatable/equatable.dart';
 
 part 'schedulings_state.dart';
 
-enum SchedulingStatus { future, past }
+enum SchedulingType { future, past }
 
 class SchedulingsCubit extends Cubit<SchedulingsState> {
   SchedulingsCubit({SchedulingRepository? repository, required this.status})
       : _repository = repository ?? getIt(),
         super(const SchedulingsState());
 
-  final SchedulingStatus status;
+  final SchedulingType status;
   final SchedulingRepository _repository;
 
   Future<void> loadSchedulings() async {
     if (state.isLoading && state.schedulings != null) return;
 
     emit(state.copyWith(isLoading: true));
-    final result = await _repository.getUserSchedules(state.page, status == SchedulingStatus.future);
+    final result = await _repository.getUserSchedules(state.page, status == SchedulingType.future);
     emit(switch (result) {
       Success(:final object) => state.copyWith(
         schedulings: state.page == 0 ? object : [...state.schedulings!, ...object],

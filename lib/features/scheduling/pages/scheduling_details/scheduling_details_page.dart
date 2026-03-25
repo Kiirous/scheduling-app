@@ -1,12 +1,18 @@
+import 'package:app_agendamento/core/route/app_routes.dart';
 import 'package:app_agendamento/core/theme/app_theme.dart';
+import 'package:app_agendamento/core/widgets/app_alert_dialog.dart';
 import 'package:app_agendamento/core/widgets/app_base_page.dart';
 import 'package:app_agendamento/core/widgets/app_card.dart';
+import 'package:app_agendamento/core/widgets/app_chip.dart';
 import 'package:app_agendamento/core/widgets/app_elevated_button.dart';
+import 'package:app_agendamento/core/widgets/app_text_button.dart';
 import 'package:app_agendamento/features/professional/widgets/professional_basic_info_area.dart';
+import 'package:app_agendamento/features/scheduling/models/scheduling.dart';
 import 'package:app_agendamento/features/scheduling/pages/scheduling_details/scheduling_details_cubit.dart';
 import 'package:app_agendamento/features/scheduling/widgets/services_detail_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class SchedulingDetailsPage extends StatefulWidget {
@@ -33,6 +39,29 @@ class _SchedulingDetailsPageState extends State<SchedulingDetailsPage> {
     super.dispose();
   }
 
+  Widget? bottomAction(Scheduling? scheduling) {
+    if (scheduling == null) {
+      return null;
+    } else if (scheduling.status == SchedulingStatus.active && scheduling.startDate.isAfter(DateTime.now())) {
+      return AppElevatedButton(
+        id: 'cancelar',
+        label: 'Cancelar',
+        onPressed: () async {
+          final cancel = await showCancelDialog();
+          if (cancel != null && cancel) cubit.cancelScheduling();
+        },
+      );
+    } else {
+      return AppElevatedButton(
+        id: 'novo-agendamento',
+        label: 'Novo agendamento',
+        onPressed: () async {
+          context.pushReplacement(AppRoutes.professionalScheduleServices.fullPath(id: scheduling.professional.id));
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final AppTheme theme = context.watch();
@@ -43,7 +72,7 @@ class _SchedulingDetailsPageState extends State<SchedulingDetailsPage> {
         builder: (_, state) {
           return AppBasePage(
             isLoading: state.isLoading,
-            bottomAction: AppElevatedButton(id: 'cancelar', label: 'Cancelar', onPressed: () {}),
+            bottomAction: bottomAction(state.scheduling),
             title: 'Agendamento',
             body: state.scheduling != null
                 ? Column(
@@ -54,7 +83,17 @@ class _SchedulingDetailsPageState extends State<SchedulingDetailsPage> {
                           children: [
                             ProfessionalBasicInfoArea(professional: state.scheduling!.professional),
                             const SizedBox(height: 24),
-                            Text('Detalhes', style: theme.heading18Bold),
+                            Row(
+                              children: [
+                                Expanded(child: Text('Detalhes', style: theme.heading18Bold)),
+                                if (state.scheduling!.status == SchedulingStatus.canceled)
+                                  AppChip(
+                                    text: 'Agendamento cancelado',
+                                    color: theme.error,
+                                    textStyle: theme.body13Bold.copyWith(color: theme.red),
+                                  ),
+                              ],
+                            ),
                             const SizedBox(height: 16),
                             Text('Data e Horário', style: theme.body13),
                             const SizedBox(height: 8),
@@ -108,6 +147,28 @@ class _SchedulingDetailsPageState extends State<SchedulingDetailsPage> {
                 : const SizedBox.shrink(),
           );
         },
+      ),
+    );
+  }
+
+  Future<bool?> showCancelDialog() {
+    return showDialog(
+      context: context,
+      builder: (_) => AppAlertDialog(
+        title: 'Cancelar agendamento?',
+        body: 'Você deseja cancelar o agendamento?',
+        actions: [
+          Row(
+            children: [
+              Expanded(
+                child: AppTextButton(id: 'nao', label: 'Não', onPressed: () => Navigator.of(context).pop(false)),
+              ),
+              Expanded(
+                child: AppElevatedButton(id: 'sim', label: 'Sim', onPressed: () => Navigator.of(context).pop(true)),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

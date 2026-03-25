@@ -98,6 +98,7 @@ class _OnboardingPageState extends State<OnboardingPage>
                     children: [
                       if (page > 0) ...[
                         AppTextButton(
+                          id: 'voltar',
                           label: 'Voltar',
                           onPressed: () {
                             pageController.animateToPage(
