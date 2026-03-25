@@ -1,6 +1,6 @@
 import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:app_agendamento/core/widgets/app_chip.dart';
-import 'package:app_agendamento/core/widgets/base/app_stateless.dart';
+import 'package:app_agendamento/core/widgets/base/app_state.dart';
 import 'package:app_agendamento/features/scheduling/pages/schedule_services/schedule_services_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

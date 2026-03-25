@@ -1,4 +1,4 @@
-import 'package:app_agendamento/core/widgets/base/app_stateless.dart';
+import 'package:app_agendamento/core/widgets/base/app_state.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/app_theme.dart';

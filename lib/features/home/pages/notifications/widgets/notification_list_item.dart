@@ -1,7 +1,7 @@
 import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:app_agendamento/core/widgets/app_card.dart';
 import 'package:app_agendamento/core/widgets/app_chip.dart';
-import 'package:app_agendamento/core/widgets/base/app_stateless.dart';
+import 'package:app_agendamento/core/widgets/base/app_state.dart';
 import 'package:app_agendamento/features/home/models/notification.dart';
 import 'package:app_agendamento/features/home/pages/notifications/notifications_page_cubit.dart';
 import 'package:flutter/material.dart' hide Notification;

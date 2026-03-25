@@ -1,7 +1,7 @@
 import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:app_agendamento/core/widgets/app_card.dart';
 import 'package:app_agendamento/core/widgets/app_check_box.dart';
-import 'package:app_agendamento/core/widgets/base/app_stateless.dart';
+import 'package:app_agendamento/core/widgets/base/app_state.dart';
 import 'package:app_agendamento/features/scheduling/pages/schedule_services/schedule_services_cubit.dart';
 import 'package:app_agendamento/features/scheduling/widgets/services_detail_item.dart';
 import 'package:flutter/material.dart';

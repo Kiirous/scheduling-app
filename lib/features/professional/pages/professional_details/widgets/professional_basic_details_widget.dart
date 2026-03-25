@@ -1,6 +1,6 @@
 import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:app_agendamento/core/widgets/app_card.dart';
-import 'package:app_agendamento/core/widgets/base/app_stateless.dart';
+import 'package:app_agendamento/core/widgets/base/app_state.dart';
 import 'package:app_agendamento/features/professional/models/professional_details.dart';
 import 'package:app_agendamento/features/professional/widgets/professional_basic_info_area.dart';
 import 'package:flutter/material.dart';

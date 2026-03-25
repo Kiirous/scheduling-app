@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:app_agendamento/core/widgets/app_card.dart';
+import 'package:app_agendamento/core/widgets/base/app_stateful.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -20,7 +20,7 @@ class AppBasePage extends StatefulWidget {
     this.isLoading = false,
     this.type = AppBasePageType.scrollable,
     this.bottomAction,
-    this.backgroundColor
+    this.backgroundColor,
   });
 
   final String title;
@@ -35,7 +35,7 @@ class AppBasePage extends StatefulWidget {
   State<AppBasePage> createState() => _AppBasePageState();
 }
 
-class _AppBasePageState extends State<AppBasePage> with SingleTickerProviderStateMixin {
+class _AppBasePageState extends AppState<AppBasePage> with SingleTickerProviderStateMixin {
   late final AnimationController controller;
 
   @override
@@ -58,8 +58,7 @@ class _AppBasePageState extends State<AppBasePage> with SingleTickerProviderStat
   }
 
   @override
-  Widget build(BuildContext context) {
-    final AppTheme t = context.watch();
+  Widget builder(BuildContext context, AppTheme theme) {
     return Scaffold(
       backgroundColor: widget.backgroundColor,
       body: GestureDetector(
@@ -89,7 +88,7 @@ class _AppBasePageState extends State<AppBasePage> with SingleTickerProviderStat
                       child: Container(
                         alignment: Alignment.center,
                         child: widget.isLoading
-                            ? LoadingAnimationWidget.stretchedDots(color: t.primary, size: 60)
+                            ? LoadingAnimationWidget.stretchedDots(color: theme.primary, size: 60)
                             : null,
                       ),
                     );
@@ -111,7 +110,13 @@ class _AppBasePageState extends State<AppBasePage> with SingleTickerProviderStat
                       children: [
                         AppIconButton(id: 'voltar', iconPath: 'assets/icons/back_button.svg', onPressed: context.pop),
                         Expanded(
-                          child: Text(widget.title, textAlign: TextAlign.center, style: t.body16Bold, maxLines: 2, overflow: TextOverflow.ellipsis),
+                          child: Text(
+                            widget.title,
+                            textAlign: TextAlign.center,
+                            style: theme.body16Bold,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                         const SizedBox(width: 48),
                       ],

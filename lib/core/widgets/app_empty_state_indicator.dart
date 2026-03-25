@@ -1,5 +1,5 @@
 import 'package:app_agendamento/core/theme/app_theme.dart';
-import 'package:app_agendamento/core/widgets/base/app_stateless.dart';
+import 'package:app_agendamento/core/widgets/base/app_state.dart';
 import 'package:flutter/material.dart';
 
 class AppEmptyStateIndicator extends AppStateless {
