@@ -3,9 +3,9 @@ import 'package:app_agendamento/core/widgets/app_card.dart';
 import 'package:app_agendamento/core/widgets/app_check_box.dart';
 import 'package:app_agendamento/core/widgets/base/app_stateless.dart';
 import 'package:app_agendamento/features/scheduling/pages/schedule_services/schedule_services_cubit.dart';
+import 'package:app_agendamento/features/scheduling/widgets/services_detail_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 class ScheduleServicesServicesSelector extends AppStateless {
   const ScheduleServicesServicesSelector({super.key});
@@ -52,21 +52,7 @@ class ScheduleServicesServicesSelector extends AppStateless {
                       ),
                       const SizedBox(width: 10),
                       Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text(service.name, style: theme.body16Bold, textAlign: TextAlign.start),
-                            Row(
-                              children: [
-                                Expanded(child: Text('Duração: ${service.duration} min', style: theme.body16)),
-                                Text(
-                                  NumberFormat.simpleCurrency(locale: 'pt-BR').format(service.price),
-                                  style: theme.heading18Bold,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                        child: ServicesDetailItem(service: service),
                       ),
                     ],
                   ),
