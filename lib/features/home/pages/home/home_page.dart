@@ -27,16 +27,20 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
             children: [
               const HomeNextScheduleSection(),
               const SizedBox(height: 32),
-              GoogleMap(
-                mapType: MapType.normal,
-                initialCameraPosition: const CameraPosition(
-                  target: LatLng(37.42796133580664, -122.085749655962),
-                  zoom: 14.4746,
+              AspectRatio(
+                aspectRatio: 1,
+                child: GoogleMap(
+                  mapType: MapType.normal,
+                  initialCameraPosition: const CameraPosition(
+                    target: LatLng(37.42796133580664, -122.085749655962),
+                    zoom: 14.4746,
+                  ),
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller = controller;
+                  },
                 ),
-                onMapCreated: (GoogleMapController controller) {
-                  _controller = controller;
-                },
               ),
+              const SizedBox(height: 100),
             ],
           ),
         ),
