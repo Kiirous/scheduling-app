@@ -54,4 +54,9 @@ class Location {
   final double longitude;
 
   LatLng toLatLng() => LatLng(latitude, longitude);
+
+  @override
+  String toString() {
+    return '$latitude;$longitude';
+  }
 }

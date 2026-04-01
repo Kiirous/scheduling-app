@@ -34,15 +34,17 @@ class _HomeMapSectionState extends AppState<HomeMapSection> {
         child: BlocBuilder<HomeMapCubit, HomeMapState>(
           builder: (context, state) {
             if (state.locationStatus == null || state.userLocation == null) {
-              return const AppLoadingIndicator();
+              return const Center(child: AppLoadingIndicator());
             } else if (state.locationStatus != AppLocationStatus.allowed) {
               return const Text('Localização não permitida');
             } else {
               return GoogleMap(
                 mapType: MapType.normal,
                 initialCameraPosition: CameraPosition(target: state.userLocation!.toLatLng(), zoom: 14.4746),
-                onMapCreated: (GoogleMapController controller) {
+                onMapCreated: (GoogleMapController controller) async {
                   _controller = controller;
+                  final region = await _controller!.getVisibleRegion();
+                  final midleLat = (region.northeast.latitude + region.southwest.latitude) / 2;
                 },
               );
             }
