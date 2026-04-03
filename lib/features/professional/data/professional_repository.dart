@@ -1,5 +1,7 @@
+import 'package:app_agendamento/core/device/app_location.dart';
 import 'package:app_agendamento/core/helpers/result.dart';
 import 'package:app_agendamento/features/professional/data/professional_datasource.dart';
+import 'package:app_agendamento/features/professional/models/professional.dart';
 import 'package:app_agendamento/features/professional/models/professional_details.dart';
 import 'package:app_agendamento/features/professional/models/rating.dart';
 
@@ -16,4 +18,7 @@ class ProfessionalRepository {
     required int page,
     required int limit,
   }) => _datasource.getProfessionalRatings(professionalId: professionalId, limit: limit, page: page);
+
+  Future<Result<void, List<Professional>>> getProfessionals({required Location center, required double radius}) =>
+      _datasource.getProfessionals(center: center, radius: radius);
 }

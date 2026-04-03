@@ -5,6 +5,7 @@ import 'package:app_agendamento/core/widgets/base/app_stateful.dart';
 import 'package:app_agendamento/features/home/pages/home/sections/home_map/home_map_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeMapSection extends StatefulWidget {
@@ -41,10 +42,22 @@ class _HomeMapSectionState extends AppState<HomeMapSection> {
               return GoogleMap(
                 mapType: MapType.normal,
                 initialCameraPosition: CameraPosition(target: state.userLocation!.toLatLng(), zoom: 14.4746),
+                markers: state.professionals?.map((p) => Marker(markerId: MarkerId(p.id))).toSet() ?? {},
                 onMapCreated: (GoogleMapController controller) async {
                   _controller = controller;
+                  await Future.delayed(const Duration(seconds: 1));
                   final region = await _controller!.getVisibleRegion();
-                  final midleLat = (region.northeast.latitude + region.southwest.latitude) / 2;
+                  final middleLat = (region.northeast.latitude + region.southwest.latitude) / 2;
+                  final middleLong = (region.northeast.longitude + region.southwest.longitude) / 2;
+                  final radius =
+                      Geolocator.distanceBetween(
+                        region.southwest.latitude,
+                        region.southwest.longitude,
+                        region.northeast.latitude,
+                        region.northeast.longitude,
+                      ) /
+                      2;
+                  cubit.loadProfessionals(Location(latitude: middleLat, longitude: middleLong), radius);
                 },
               );
             }

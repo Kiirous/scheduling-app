@@ -1,4 +1,6 @@
+import 'package:app_agendamento/core/device/app_location.dart';
 import 'package:app_agendamento/core/helpers/result.dart';
+import 'package:app_agendamento/features/professional/models/professional.dart';
 import 'package:app_agendamento/features/professional/models/professional_details.dart';
 import 'package:app_agendamento/features/professional/models/rating.dart';
 import 'package:dio/dio.dart';
@@ -28,6 +30,18 @@ class ProfessionalDatasource {
         data: {'professionalId': professionalId, 'page': page, 'limit': limit},
       );
       return Success(response.data['result'].map<Rating>((s) => Rating.fromJson(s)).toList());
+    } catch (e) {
+      return const Failure(null);
+    }
+  }
+
+  Future<Result<void, List<Professional>>> getProfessionals({required Location center, required double radius}) async {
+    try {
+      final response = await _dio.post(
+        '/v1-get-professionals',
+        data: {'lat': center.latitude, 'long': center.longitude, 'maxDistance': radius / 1000},
+      );
+      return Success(response.data['result'].map<Professional>((s) => Professional.fromJson(s)).toList());
     } catch (e) {
       return const Failure(null);
     }
