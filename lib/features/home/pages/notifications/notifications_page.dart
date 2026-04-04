@@ -3,11 +3,11 @@ import 'package:app_agendamento/core/theme/app_theme.dart';
 import 'package:app_agendamento/core/widgets/app_elevated_button.dart';
 import 'package:app_agendamento/core/widgets/app_session_observer.dart';
 import 'package:app_agendamento/core/widgets/app_simple_header.dart';
-import 'package:app_agendamento/core/widgets/base/app_stateful.dart';
 import 'package:app_agendamento/features/home/pages/notifications/notifications_page_cubit.dart';
 import 'package:app_agendamento/features/home/pages/notifications/widgets/notifications_list_area.dart';
 import 'package:app_agendamento/core/widgets/app_elevated_switch.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class NotificationsPage extends StatefulWidget {
@@ -17,13 +17,14 @@ class NotificationsPage extends StatefulWidget {
   State<NotificationsPage> createState() => _NotificationsPageState();
 }
 
-class _NotificationsPageState extends AppState<NotificationsPage> with AutomaticKeepAliveClientMixin {
+class _NotificationsPageState extends State<NotificationsPage> with AutomaticKeepAliveClientMixin {
   bool _showRead = false;
   final PageController _pageController = PageController();
 
   @override
-  Widget builder(BuildContext context, AppTheme theme) {
+  Widget build(BuildContext context) {
     super.build(context);
+    final AppTheme theme = context.watch();
     return Column(
       children: [
         const AppSimpleHeader(title: 'Notificações'),

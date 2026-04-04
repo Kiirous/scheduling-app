@@ -1,3 +1,5 @@
+import 'package:app_agendamento/core/device/app_location.dart';
+
 class Professional {
   const Professional({
     required this.id,
@@ -6,6 +8,7 @@ class Professional {
     this.picture,
     required this.rating,
     required this.ratingCount,
+    required this.location,
   });
 
   final String id;
@@ -14,6 +17,7 @@ class Professional {
   final String? picture;
   final num rating;
   final int ratingCount;
+  final Location location;
 
   factory Professional.fromJson(Map<String, dynamic> map) {
     return Professional(
@@ -23,6 +27,7 @@ class Professional {
       picture: map['picture'] as String,
       rating: map['rating'] as num,
       ratingCount: map['ratingCount'] as int,
+      location: Location.fromJson(map['location'] as Map<String, dynamic>),
     );
   }
 }

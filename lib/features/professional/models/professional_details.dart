@@ -1,3 +1,4 @@
+import 'package:app_agendamento/core/device/app_location.dart';
 import 'package:app_agendamento/features/professional/models/insurance.dart';
 import 'package:app_agendamento/features/professional/models/professional.dart';
 import 'package:app_agendamento/features/professional/models/service.dart';
@@ -16,6 +17,7 @@ class ProfessionalDetails extends Professional {
     required this.services,
     required this.specialties,
     required this.insurances,
+    required super.location,
   });
 
   final String address;
@@ -37,6 +39,7 @@ class ProfessionalDetails extends Professional {
       services: map['services'].map<Service>((s) => Service.fromJson(s)).toList(),
       specialties: map['specialties'].map<Specialty>((s) => Specialty.fromJson(s)).toList(),
       insurances: map['insurances'].map<Insurance>((s) => Insurance.fromJson(s)).toList(),
+      location: Location.fromJson(map['location'] as Map<String, dynamic>),
     );
   }
 }

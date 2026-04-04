@@ -42,22 +42,18 @@ class _HomeMapSectionState extends AppState<HomeMapSection> {
               return GoogleMap(
                 mapType: MapType.normal,
                 initialCameraPosition: CameraPosition(target: state.userLocation!.toLatLng(), zoom: 14.4746),
-                markers: state.professionals?.map((p) => Marker(markerId: MarkerId(p.id))).toSet() ?? {},
+                markers:
+                    state.professionals
+                        ?.map((p) => Marker(markerId: MarkerId(p.id), position: p.location.toLatLng()))
+                        .toSet() ??
+                    {},
                 onMapCreated: (GoogleMapController controller) async {
                   _controller = controller;
                   await Future.delayed(const Duration(seconds: 1));
-                  final region = await _controller!.getVisibleRegion();
-                  final middleLat = (region.northeast.latitude + region.southwest.latitude) / 2;
-                  final middleLong = (region.northeast.longitude + region.southwest.longitude) / 2;
-                  final radius =
-                      Geolocator.distanceBetween(
-                        region.southwest.latitude,
-                        region.southwest.longitude,
-                        region.northeast.latitude,
-                        region.northeast.longitude,
-                      ) /
-                      2;
-                  cubit.loadProfessionals(Location(latitude: middleLat, longitude: middleLong), radius);
+                  loadProfessionals();
+                },
+                onCameraIdle: () {
+                  loadProfessionals();
                 },
               );
             }
@@ -71,5 +67,20 @@ class _HomeMapSectionState extends AppState<HomeMapSection> {
   void dispose() {
     cubit.close();
     super.dispose();
+  }
+
+  Future<void> loadProfessionals() async {
+    final region = await _controller!.getVisibleRegion();
+    final middleLat = (region.northeast.latitude + region.southwest.latitude) / 2;
+    final middleLong = (region.northeast.longitude + region.southwest.longitude) / 2;
+    final radius =
+        Geolocator.distanceBetween(
+          region.southwest.latitude,
+          region.southwest.longitude,
+          region.northeast.latitude,
+          region.northeast.longitude,
+        ) /
+        2;
+    cubit.loadProfessionals(Location(latitude: middleLat, longitude: middleLong), radius);
   }
 }
